@@ -2,15 +2,16 @@
 /* Header */
 $page_title = 'Webprogramming Final assignment';
 $navigation = Array(
-    'active' => 'Home',
+    'active' => 'How To Play',
     'items' => Array(
+        'Home' => '/WP21/finalproject_webprog/index.php',
         'How To Play' => '/WP21/finalproject_webprog/game_rules.php'
         )
     );
 include __DIR__ . '/tpl/head.php';
 include __DIR__ . '/tpl/body_start.php';
 ?>
-<h1>WELCOME!</h1>
+<h1>These are the rules!</h1>
 <?php
 include __DIR__ . '/tpl/body_end.php';
 ?>

@@ -2,15 +2,18 @@
 /* Header */
 $page_title = 'Webprogramming Final assignment';
 $navigation = Array(
-    'active' => 'Home',
+    'active' => 'Game',
     'items' => Array(
+        'Home' => '/WP21/finalproject_webprog/index.php',
+        'Game' => '',
         'How To Play' => '/WP21/finalproject_webprog/game_rules.php'
         )
     );
 include __DIR__ . '/tpl/head.php';
 include __DIR__ . '/tpl/body_start.php';
 ?>
-<h1>WELCOME!</h1>
+<script type="application/javascript" src="scripts/game_mechanics.js"></script>
+<canvas id="game_canvas">Your browser does not support the game, try updating it or using another one, like Chrome</canvas>
 <?php
 include __DIR__ . '/tpl/body_end.php';
 ?>
