@@ -1,0 +1,112 @@
+.col-6-flex {
+    flex-grow: 6;
+}
+
+
+#home-header {
+    background-image: url("../images/home_page.jpg");
+    background-position: center;
+    background-size: cover;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    clip-path: polygon(0% 0%, 0% 76.97%, 28.45% 94.86%, 100% 72.94%, 100% 0%);
+}
+
+
+#home-header > h1{
+    color: white;
+    font-size: 7rem;
+    margin-top: 4rem;
+}
+
+.game-home-buttons {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: row;
+    
+
+}
+
+.game-home-button {
+    margin: 0 1.5rem;
+    border: none;
+    background-color: white;
+    color: black;
+    border-radius: 0.25rem;
+    padding: 1rem 2rem;
+    font-weight: bold;
+}
+
+.home-div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+.home-div > div {
+    margin: 1rem;
+    display: inline-block;
+}
+
+
+footer {
+    background-color: #7c9999;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+footer > div > div > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer > div > div > ul > li{
+    margin: 15px 0;
+    list-style-position: outside;
+}
+
+footer > div > div > ul > li > a {
+    text-decoration: none;
+    color: whitesmoke;
+    padding: 5px;
+    text-decoration: none;
+    margin: -5px;
+}
+
+footer > div >div > ul > li > a:hover {
+    background-color: #6b8686;
+    border-radius: 2px;
+}
+
+footer > div > div > p {
+    display: inline-block;
+    color: rgb(39, 39, 39);
+    /*! padding: 5px 5px 0 5px; */
+}
+
+.extra_info_footer {
+    color: rgb(214, 214, 214);
+}
+
+footer > div {
+    margin: 2.5%;
+    /*! padding: 7.5px; */
+    width: 95%;
+    justify-content: center;
+}
+
+.logo_rug {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.logo_rug > div > a > img {
+    width: 200px;
+    margin: auto;
+}
