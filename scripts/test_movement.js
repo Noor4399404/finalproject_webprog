@@ -1,6 +1,7 @@
 function firstButton(){
-    $('#numberOne').onclick(function () {
-        console.log('test');
+    $('#numberOne').click(function () {
+        $('#numberOne').removeClass('btn-primary');
+        $('#numberOne').addClass('btn-danger');
     });
 }
 

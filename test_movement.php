@@ -13,10 +13,8 @@ $navigation = Array(
 include __DIR__ . '/tpl/head.php';
 include __DIR__ . '/tpl/body_start.php';
 ?>
-
 <div class="col">
     <button type="submit" class="btn btn-primary" id="numberOne">1</button>
-</div>
 <div class="col">
     <button type="submit" class="btn btn-primary" id="numberTwo">2</button>
 </div>
