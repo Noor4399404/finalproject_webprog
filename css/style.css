@@ -1,3 +1,13 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Fresca&display=swap');
+
+body {
+    font-family: 'Fresca', sans-serif;
+}
+
+p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
+    font-size: 18px;
+} */
+
 .col-6-flex {
     flex-grow: 6;
 }

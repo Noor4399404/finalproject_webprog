@@ -1,5 +1,7 @@
 <?php
 /* Header */
+session_start();
+
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -86,7 +88,7 @@ if (isset($_POST["host-game-id"])) {
 
                 <?php if ($isHost) { ?>
                     <form id="start-game-form" class="d-none">
-                        <button id="join-game-name" class="btn btn-primary">Start Game!</button>
+                        <a href="./start_game_join_test.php" id="join-game-name" class="btn btn-primary">Start Game!</a>
                     </form>
                 <?php
                 }
@@ -155,7 +157,6 @@ if (isset($_POST["host-game-id"])) {
             console.log(response);
         })
     }
-
 
     window.setInterval(() => {
         getJoinedUsers();

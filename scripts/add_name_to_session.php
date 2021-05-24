@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $gameId = intval($_POST["gameId"]);
 $userId = intval($_POST["userId"]);
@@ -27,6 +28,9 @@ foreach ($activeGameSessions as $activeGameSession) {
         $activeGameSessions[$indexGameSession] = $editedGameSession;
     }
 }
+
+$_SESSION["gameId"] = $gameId;
+$_SESSION["userId"] = $userId; 
 
 $writableData = json_encode($activeGameSessions);
 $json_file = fopen('../data/active_sessions.json', 'w'); 
