@@ -21,7 +21,6 @@ function p_print($array){
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="application/javascript" src="scripts/test_movement.js"></script>
 </head>
 <body>
 <header>
