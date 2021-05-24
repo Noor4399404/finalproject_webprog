@@ -8,10 +8,6 @@ $isHost = $_POST["isHost"];
 $activeGameSessionsFile =  file_get_contents('../data/active_sessions.json', 'r');
 $activeGameSessions = json_decode($activeGameSessionsFile, true);
 
-$userIdName = array();
-array_push($userIdName, $userId);
-array_push($userIdName, $userName);
-
 $userObject = array(
     "id" => $userId,
     "userName" => $userName,
@@ -36,9 +32,6 @@ $writableData = json_encode($activeGameSessions);
 $json_file = fopen('../data/active_sessions.json', 'w'); 
 fwrite($json_file, $writableData); 
 fclose($json_file);
-
-// $newFILE = json_encode("hoi");
-// file_put_contents('../data/active_sessions.json', $newFILE);
 
 $answer = json_encode($activeGameSessions);
 echo $answer;

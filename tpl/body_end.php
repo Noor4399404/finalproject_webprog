@@ -27,7 +27,7 @@
             </div>
             <div class="row logo_rug">
                 <div class="col-4">
-                    <a href="https://www.rug.nl/"><img src="../images/rug_logo.png"></a>
+                    <a href="https://www.rug.nl/"><img src="./images/rug_logo.png"></a>
                 </div>
             </div>
         </footer>

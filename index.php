@@ -17,7 +17,7 @@ include __DIR__ . '/tpl/body_start.php';
 
 
 <div id="home-header">
-    <h1>Scotland Yard!</h1>
+    <h1 >Scotland Yard!</h1>
 
     <div class="game-home-buttons">
         <form action="./join_game_test.php" method="POST">
@@ -61,7 +61,9 @@ include __DIR__ . '/tpl/body_start.php';
         $("#host-game-code-input").remove();
         $("#start-game-button").remove();
 
-        $("#join-game-code-input").removeClass("d-none");
+        $("#join-game-code-input").removeClass("d-none").addClass("d-inline-block");
+
+
     });
 </script>
 
