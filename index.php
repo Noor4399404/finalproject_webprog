@@ -1,4 +1,5 @@
 <?php
+session_start();
 /* Header */
 $page_title = 'Webprogramming Final assignment';
 $navigation = array(
@@ -18,7 +19,14 @@ include __DIR__ . '/tpl/body_start.php';
     <h1>Scotland Yard!</h1>
 
     <div class="game-home-buttons">
-        <button class="game-home-button">Host game</button>
+        <form action="./join_game_test.php" method="POST">
+
+            <input id="host-game-code-input" type="hidden" value="" name="host-game-id">
+            <button type="submit" id="start-game-button" class="game-home-button">Host game</button>
+            
+            <input id="join-game-code-input" class="form-control join-game-text-input-home d-none" placeholder="#game id" type="text" value="" name="join-game-id">
+            <button type="submit" id="join-game-button" class="game-home-button">Join game</button>
+        </form>
 
         <button class="game-home-button">Join game</button>
     </div>
@@ -39,7 +47,23 @@ include __DIR__ . '/tpl/body_start.php';
 
 
 
+<script>
+    $("#start-game-button").click(function(event) {
+        var randomGameId = Math.floor(Math.random() * 100000) + 10000;
+        $("#join-game-code-input").remove()
+        console.log(randomGameId);
+        $(this).prev().attr("value", String(randomGameId));
 
+    });
+
+    $("#join-game-button").one("click", function(event) {
+        event.preventDefault();
+        $("#host-game-code-input").remove();
+        $("#start-game-button").remove();
+
+        $("#join-game-code-input").removeClass("d-none");
+    });
+</script>
 
 
 <?php
