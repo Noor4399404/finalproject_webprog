@@ -16,10 +16,10 @@ $navigation = array(
 include __DIR__ . '/tpl/head.php';
 include __DIR__ . '/tpl/body_start.php';
 
-$isAdmin = false;
+$isHost = false;
 
 if (isset($_POST["host-game-id"])) {
-    $isAdmin = true;
+    $isHost = true;
     $found_session_id = true;
     $gameId = intval($_POST["host-game-id"]);
 
@@ -73,7 +73,7 @@ echo $message;
 if ($found_session_id) {
 ?>
     <form id="join-game-form">
-        <input type="hidden" id="is-admin" name="game-id" value="<?php echo $isAdmin;?>">
+        <input type="hidden" id="is-host" name="game-id" value="<?php echo $isHost;?>">
         <input type="hidden" id="game-id" name="game-id" value="<?php echo $gameId;?>">
         <input type="text" class="form-control mb-2" placeholder="Your name" id="user-name-input" name="user-name-input">
         <button id="join-game-name" class="btn btn-primary">Join Game!</button>
@@ -101,7 +101,7 @@ if ($found_session_id) {
                 gameId: $("#game-id").val(),
                 userId: randomUserId,
                 userName: $("#user-name-input").val(),
-                isAdmin: $("#is-admin").val()
+                isHost: $("#is-host").val()
             });
             request.then((response) => {
                 $("#join-game-form").addClass("d-none");

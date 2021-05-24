@@ -3,7 +3,7 @@
 $gameId = intval($_POST["gameId"]);
 $userId = intval($_POST["userId"]);
 $userName = $_POST["userName"];
-$isAdmin = $_POST["isAdmin"];
+$isHost = $_POST["isHost"];
 
 $activeGameSessionsFile =  file_get_contents('../data/active_sessions.json', 'r');
 $activeGameSessions = json_decode($activeGameSessionsFile, true);
@@ -15,7 +15,7 @@ array_push($userIdName, $userName);
 $userObject = array(
     "id" => $userId,
     "userName" => $userName,
-    "isAdmin" => $isAdmin
+    "isHost" => $isHost
 );
 
 foreach ($activeGameSessions as $activeGameSession) {
