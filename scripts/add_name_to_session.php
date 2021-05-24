@@ -14,7 +14,8 @@ array_push($userIdName, $userName);
 
 $userObject = array(
     "id" => $userId,
-    "userName" => $userName
+    "userName" => $userName,
+    "isAdmin" => $isAdmin
 );
 
 foreach ($activeGameSessions as $activeGameSession) {
@@ -24,8 +25,7 @@ foreach ($activeGameSessions as $activeGameSession) {
 
         $editedGameSession = [
             "id" => $gameId,
-            "users" => $arrayUsers,
-            "isAdmin" => $isAdmin
+            "users" => $arrayUsers
         ];
         $indexGameSession = array_search($activeGameSession ,$activeGameSessions);
         $activeGameSessions[$indexGameSession] = $editedGameSession;
