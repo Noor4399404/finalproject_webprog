@@ -30,7 +30,8 @@ if (isset($_POST["host-game-id"])) {
 
     $gameSession = [
         "id" => $gameId,
-        "users" => array()
+        "users" => array(),
+        "gameStarted" => false
     ];
 
     array_push($activeGameSessions, $gameSession);
@@ -87,8 +88,9 @@ if (isset($_POST["host-game-id"])) {
                 </form>
 
                 <?php if ($isHost) { ?>
-                    <form id="start-game-form" class="d-none">
-                        <a href="./start_game_join_test.php" id="join-game-name" class="btn btn-primary">Start Game!</a>
+                    <form action="./start_game_join_test.php" method="POST" id="start-game-form" class="d-none">
+                        <input type="hidden" name="is-host" value="<?php echo $isHost; ?>">
+                        <button href="./start_game_join_test.php" id="start-game" class="btn btn-primary">Start Game!</button>
                     </form>
                 <?php
                 }
@@ -111,7 +113,7 @@ if (isset($_POST["host-game-id"])) {
 
 </div>
 
-
+<a href="./start_game_join_test.php">hoi</a>
 
 
 <script>
@@ -146,25 +148,29 @@ if (isset($_POST["host-game-id"])) {
         }
     }
 
-    function getJoinedUsers() {
+    function getGameInformation() {
         let gameId = $("#game-id").val()
         let request = $.post("./scripts/get_joined_users.php", {
             gameId: $("#game-id").val(),
         });
         request.then(response => JSON.parse(response))
         .then((response) => {
-            displayJoinedUsers(response);
+            if (response.gameStarted === true) {
+                window.location.href = "./start_game_join_test.php"
+            }
+            displayJoinedUsers(response.users);
             console.log(response);
         })
     }
 
+
+
     window.setInterval(() => {
-        getJoinedUsers();
+        getGameInformation();
     }, 3000);
+
+
     joinGame();
-
-
-
 </script>
 
 <?php

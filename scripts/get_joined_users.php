@@ -7,10 +7,10 @@ $activeGameSessions = json_decode($activeGameSessionsFile, true);
 
 foreach ($activeGameSessions as $activeGameSession) {
     if ($activeGameSession["id"] === $gameId) {
-        $arrayUsers = $activeGameSession["users"];
+        $currentGameInfo = $activeGameSession;
     }
 }
 
-$answer = json_encode($arrayUsers);
+$answer = json_encode($currentGameInfo);
 echo $answer;
 ?>
