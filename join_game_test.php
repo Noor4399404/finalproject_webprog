@@ -39,7 +39,7 @@ if (isset($_POST["host-game-id"])) {
     file_put_contents('data/active_sessions.json', $activeGameSessionsFile);
 
     $message = "You have created session #$gameId";
-} else if (isset($_POST["join-game-id"])) {
+} else if (isset($_POST["join-game-id"]) && $_POST["join-game-id"] != 0) {
     $gameId = intval($_POST["join-game-id"]);
 
 
@@ -69,29 +69,30 @@ if (isset($_POST["host-game-id"])) {
 
 
 <div class="container mt-3 mb-5">
-    <h1>You can join a game</h1>
+
+    <?php
+    if ($found_session_id) {
+    ?>
+        <h1>You can join a game</h1>
 
 
-    <div class="row wp-row d-flex mt-4">
-        <div class="d-flex flex-column mb-4 col-md-12">
-            <div id="game-id-card" class="card my-3">
-                <div class="card-body">
-                    <h3 class="text-center m-0">#<?php echo $gameId; ?></h3>
+        <div class="row wp-row d-flex mt-4">
+            <div class="d-flex flex-column mb-4 col-md-12">
+                <div id="game-id-card" class="card my-3">
+                    <div class="card-body">
+                        <h3 class="text-center m-0">#<?php echo $gameId; ?></h3>
+                    </div>
                 </div>
+
+                <div>
+                    <p id="copy-game-id-info" class="text-muted">Click the game ID to copy it to your clipboard and easily share the code with friends so they can join this session.</p>
+                </div>
+
             </div>
 
-            <div>
-                <p id="copy-game-id-info" class="text-muted">Click the game ID to copy it to your clipboard and easily share the code with friends.</p>
-            </div>
+            <div class="col-md-6 mb-3">
+                <h3 class="mb-3">Enter your name to join</h3>
 
-            <p class="text-muted">Share the code above with your friends so they can join this session.</p>
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <h3 class="mb-3">Enter your name to join</h3>
-            <?php
-            if ($found_session_id) {
-            ?>
 
                 <form id="join-game-form">
                     <input type="hidden" id="is-host" name="game-id" value="<?php echo $isHost; ?>">
@@ -105,27 +106,34 @@ if (isset($_POST["host-game-id"])) {
                         <input type="hidden" name="is-host" value="<?php echo $isHost; ?>">
                         <button href="./start_game_join_test.php" id="start-game" class="btn btn-primary">Start Game!</button>
                     </form>
-                <?php
+
+           
+
+        <?php
                 } else {
-                    ?> <p class="text-muted mt-3">Join here and wait for the host to start the game.</p> <?php
+        ?> <p class="text-muted mt-3">Join here and wait for the host to start the game.</p>
+         </div>
+
+            <div class="col-md-6 mb-3">
+                <h3 class="mb-3">Joined users</h3>
+                <ul class="list-group" id="list-joined-users">
+
+                </ul>
+            </div>
+
+        <?php
                 }
             } else {
                 echo $message;
-                ?>
-                <p>Go <a href="./index.php">home</a> to start or join a game</p>
-            <?php
+        ?>
+        <p>Go <a href="./index.php">home</a> to start or join a game</p>
+    <?php
             }
-            ?>
+    ?>
+
+
+
         </div>
-        <div class="col-md-6 mb-3">
-            <h3 class="mb-3">Joined users</h3>
-            <ul class="list-group" id="list-joined-users">
-
-            </ul>
-        </div>
-
-
-    </div>
 
 </div>
 

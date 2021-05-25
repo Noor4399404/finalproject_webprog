@@ -13,6 +13,9 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
 }
 
 
+
+
+/* Here starts css for HOMEPAGE */
 #home-header {
     background-image: url("../images/home_page.jpg");
     background-position: center;
@@ -36,8 +39,6 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     margin-top: 5rem;
     display: flex;
     flex-direction: row;
-    
-
 }
 
 .game-home-button {
@@ -48,6 +49,10 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     border-radius: 0.25rem;
     padding: 1rem 2rem;
     font-weight: bold;
+}
+
+#join-game-code-input {
+    width: max-content;
 }
 
 .home-div {
@@ -62,6 +67,12 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     display: inline-block;
 }
 
+
+
+
+
+
+/* here starts the css for the FOOTER */
 #rug-logo-footer {
     filter: invert(80%);
 }
@@ -71,6 +82,10 @@ footer ul {
     list-style-type: none;
 }
 
+
+
+
+/* here starts the css for SOMETHING ELSE I DONT KNOW WHAT */
 /* .row {
     display: flex;
     flex-direction: column;

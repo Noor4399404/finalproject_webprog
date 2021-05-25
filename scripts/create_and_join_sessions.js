@@ -58,7 +58,7 @@ function startGame() {
 function startHostingGame() {
     // function used on homepage: it will create a random number, which will become the game ID.  
     $("#start-game-button").click(function () {
-        var randomGameId = Math.floor(Math.random() * 100000) + 10000;
+        var randomGameId = Math.floor(Math.random() * 900000) + 100000;
         $("#join-game-code-input").remove()
         console.log(randomGameId);
         $(this).prev().attr("value", String(randomGameId));
