@@ -27,4 +27,6 @@ if (isset($_POST['call_now'])) {
     // Return JSON
     header('Content-Type: application/json');
     echo json_encode($export_data);
+
+    die();
 }
