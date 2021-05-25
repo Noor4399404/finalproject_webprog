@@ -66,6 +66,25 @@ function startHostingGame() {
     });
 }
 
+function clickToCopy (clickElementID, messageElementID) {
+    $(clickElementID).click(function() {
+        let valueClickElement = $(this).text();
+        valueClickElement = valueClickElement.replace(/ /g,'').replace("#", "");
+
+        const el = document.createElement('textarea');
+        el.value = valueClickElement;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        // This was copied completely from another website
+        
+        $(messageElementID).removeClass("text-muted").addClass("text-success");
+        $(messageElementID).text("The game ID has been copied to your clipboard.");
+    });
+
+}
+
 function startJoiningGame() {
     // function used on homepage: show an input element for someone to enter the game ID.
     $("#join-game-button").one("click", function(event) {
@@ -82,7 +101,13 @@ $(function() {
     console.log(windowLocation);
 
     switch (windowLocation) {
+        case "":
+            $("#container-div").removeClass("container");
+            startHostingGame();
+            startJoiningGame();
+            break;
         case "index.php":
+            $("#container-div").removeClass("container");
             startHostingGame();
             startJoiningGame();
             break;
@@ -92,6 +117,7 @@ $(function() {
                 getGameInformation();
             }, 3000);
             joinGame();
+            clickToCopy("#game-id-card", "#copy-game-id-info");
             break;
 
         case "start_game_join_test.php":

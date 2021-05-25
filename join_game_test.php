@@ -73,17 +73,30 @@ if (isset($_POST["host-game-id"])) {
 
 
     <div class="row wp-row d-flex mt-4">
-        <div class="col-md-6">
-            <h3>Enter your name to join</h3>
-            <?php
-            echo $message;
+        <div class="d-flex flex-column mb-4 col-md-12">
+            <div id="game-id-card" class="card my-3">
+                <div class="card-body">
+                    <h3 class="text-center m-0">#<?php echo $gameId; ?></h3>
+                </div>
+            </div>
 
+            <div>
+                <p id="copy-game-id-info" class="text-muted">Click the game ID to copy it to your clipboard and easily share the code with friends.</p>
+            </div>
+
+            <p class="text-muted">Share the code above with your friends so they can join this session.</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <h3 class="mb-3">Enter your name to join</h3>
+            <?php
             if ($found_session_id) {
             ?>
+
                 <form id="join-game-form">
                     <input type="hidden" id="is-host" name="game-id" value="<?php echo $isHost; ?>">
                     <input type="hidden" id="game-id" name="game-id" value="<?php echo $gameId; ?>">
-                    <input type="text" class="form-control mb-2" placeholder="Your name" id="user-name-input" name="user-name-input">
+                    <input type="text" class="form-control mb-3" placeholder="Your name" id="user-name-input" name="user-name-input">
                     <button id="join-game-name" class="btn btn-primary">Join Game!</button>
                 </form>
 
@@ -93,16 +106,19 @@ if (isset($_POST["host-game-id"])) {
                         <button href="./start_game_join_test.php" id="start-game" class="btn btn-primary">Start Game!</button>
                     </form>
                 <?php
+                } else {
+                    ?> <p class="text-muted mt-3">Join here and wait for the host to start the game.</p> <?php
                 }
             } else {
+                echo $message;
                 ?>
                 <p>Go <a href="./index.php">home</a> to start or join a game</p>
             <?php
             }
             ?>
         </div>
-        <div class="col-md-6">
-            <h3>Joined users</h3>
+        <div class="col-md-6 mb-3">
+            <h3 class="mb-3">Joined users</h3>
             <ul class="list-group" id="list-joined-users">
 
             </ul>

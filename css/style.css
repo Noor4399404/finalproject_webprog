@@ -62,69 +62,20 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     display: inline-block;
 }
 
-
-footer {
-    background-color: #7c9999;
-    padding: 15px;
-    font-size: 14px;
-    font-weight: bold;
+#rug-logo-footer {
+    filter: invert(80%);
 }
 
-footer > div > div > ul {
-    list-style-type: none;
-    margin: 0;
+footer ul {
     padding: 0;
+    list-style-type: none;
 }
 
-footer > div > div > ul > li{
-    margin: 15px 0;
-    list-style-position: outside;
-}
-
-footer > div > div > ul > li > a {
-    text-decoration: none;
-    color: whitesmoke;
-    padding: 5px;
-    text-decoration: none;
-    margin: -5px;
-}
-
-footer > div >div > ul > li > a:hover {
-    background-color: #6b8686;
-    border-radius: 2px;
-}
-
-footer > div > div > p {
-    display: inline-block;
-    color: rgb(39, 39, 39);
-    /*! padding: 5px 5px 0 5px; */
-}
-
-.extra_info_footer {
-    color: rgb(214, 214, 214);
-}
-
-footer > div {
-    margin: 2.5%;
-    /*! padding: 7.5px; */
-    width: 95%;
-    justify-content: center;
-}
-
-.logo_rug {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.logo_rug > div > a > img {
-    width: 200px;
-    margin: auto;
-}
-
-.row {
+/* .row {
     display: flex;
     flex-direction: column;
-}
+} */
+
 #movement_table {
     display: none;
     width: 50%;

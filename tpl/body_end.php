@@ -1,35 +1,27 @@
         </div>
-        <footer>
-            <div class="row">
-                <div class="col-4 get_files">
-                    <p>Get your scripts and subtitles here:</p>
-                    <ul>
-                        <li><a href="https://www.opensubtitles.com/en">OpenSubtitles <span class="extra_info_footer">- subtitles</span></a></li>
-                        <li><a href="https://imsdb.com/">IMSDb <span class="extra_info_footer">- movie scripts</span></a></li>
-                    </ul>
-                 </div>
-                <div class="col-4 used_modules">
-                    <p>The used modules:</p>
-                    <ul>
-                        <li><a href="https://flask.palletsprojects.com/en/1.1.x/">Flask <span class="extra_info_footer">- web development</span></a></li>
-                        <li><a href="https://docs.python.org/3/library/re.html">Regular Expressions <span class="extra_info_footer">- text editing</span></a></li>
-                        <li><a href="https://www.nltk.org/">NLTK <span class="extra_info_footer">- natural language toolkit</span></a></li>
-                        <li><a href="https://docs.python.org/3/library/difflib.html">Difflib <span class="extra_info_footer">- comparing sequences</span></a></li>
-                    </ul>
+        <footer class="row wp-row p-3 d-flex flex-row bg-light mx-0" style="width: 100vw;">
+                <div class="col-md-4">
+                    <a href="https://www.rug.nl/?lang=en">
+                        <img class=" mt-3 p-3" id="rug-logo-footer" width="100%" src="./images/rug_logo.png">
+                    </a>
                 </div>
-                <div class="col-4 other_information">
-                    <p>Other information:</p>
-                    <ul>
-                        <li><a href="https://github.com/bbjoverbeek/Error_Group_name_not_found">GitHub <span class="extra_info_footer">- our repository</span></a></li>
-                        <li><a href="https://www.rug.nl/">RUG <span class="extra_info_footer">- university</span></a></li>
-                    </ul>
+                <div class="col-md-8 row d-flex flex-row wp-row justify-content-*-around">
+                    <div class="col-md-6 mt-3 p-3">
+                        <p>Used modules</p>
+                        <ul>
+                            <li class="my-1"><a href=""> <span class="text-muted">- </span></a></li>
+                            <li class="my-1"><a href=""> <span class="text-muted">-  </span></a></li>
+                            <li class="my-1"><a href=""> <span class="text-muted">-  </span></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 mt-3 p-3">
+                        <p>Useful links</p>
+                        <ul>
+                            <li class="my-1"><a href="https://github.com/Noor4399404/finalproject_webprog">Github <span class="text-muted">- the code</span></a></li>
+                            <li class="my-1"><a href="https://www.rug.nl/?lang=en">Groningen University <span class="text-muted">- university</span></a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="row logo_rug">
-                <div class="col-4">
-                    <a href="https://www.rug.nl/"><img src="./images/rug_logo.png"></a>
-                </div>
-            </div>
-        </footer>
+            </footer>
     </body>
 </html>
