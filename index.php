@@ -26,7 +26,7 @@ include __DIR__ . '/tpl/body_start.php';
             <button type="submit" id="start-game-button" class="game-home-button">Host game</button>
 
             <input id="join-game-code-input" class="form-control join-game-text-input-home d-none" placeholder="#game id" type="text" value="" name="join-game-id">
-            <button type="submit" id="join-game-button" class="game-home-button">Join game</button>
+            <button type="submit" id="join-game-button" class="enter-game-id-button game-home-button">Join game</button>
         </form>
 
     </div>

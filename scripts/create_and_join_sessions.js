@@ -1,8 +1,8 @@
 function joinGame() {
-    $("#join-game-name").click(function(event) {
+    $("#join-game-name").click(function (event) {
         event.preventDefault();
         var randomUserId = Math.floor(Math.random() * 10000000);
-        console.log($("#game-id").val(), );
+        console.log($("#game-id").val(),);
         let request = $.post("./scripts/add_name_to_session.php", {
             gameId: $("#game-id").val(),
             userId: randomUserId,
@@ -34,13 +34,13 @@ function getGameInformation() {
         gameId: $("#game-id").val(),
     });
     request.then(response => JSON.parse(response))
-    .then((response) => {
-        if (response.gameStarted === true) {
-            window.location.href = "./start_game_join_test.php"
-        }
-        displayJoinedUsers(response.users);
-        console.log(response);
-    })
+        .then((response) => {
+            if (response.gameStarted === true) {
+                window.location.href = "./start_game_join_test.php"
+            }
+            displayJoinedUsers(response.users);
+            console.log(response);
+        })
 }
 
 function startGame() {
@@ -57,19 +57,19 @@ function startGame() {
 
 function startHostingGame() {
     // function used on homepage: it will create a random number, which will become the game ID.  
-    $("#start-game-button").click(function() {
+    $("#start-game-button").click(function () {
         var randomGameId = Math.floor(Math.random() * 100000) + 10000;
         $("#join-game-code-input").remove()
         console.log(randomGameId);
         $(this).prev().attr("value", String(randomGameId));
-    
+
     });
 }
 
-function clickToCopy (clickElementID, messageElementID) {
-    $(clickElementID).click(function() {
+function clickToCopy(clickElementID, messageElementID) {
+    $(clickElementID).click(function () {
         let valueClickElement = $(this).text();
-        valueClickElement = valueClickElement.replace(/ /g,'').replace("#", "");
+        valueClickElement = valueClickElement.replace(/ /g, '').replace("#", "");
 
         const el = document.createElement('textarea');
         el.value = valueClickElement;
@@ -78,7 +78,7 @@ function clickToCopy (clickElementID, messageElementID) {
         document.execCommand('copy');
         document.body.removeChild(el);
         // This was copied completely from another website
-        
+
         $(messageElementID).removeClass("text-muted").addClass("text-success");
         $(messageElementID).text("The game ID has been copied to your clipboard.");
     });
@@ -87,29 +87,57 @@ function clickToCopy (clickElementID, messageElementID) {
 
 function startJoiningGame() {
     // function used on homepage: show an input element for someone to enter the game ID.
-    $("#join-game-button").one("click", function(event) {
-        event.preventDefault();
-        $("#host-game-code-input").remove();
-        $("#start-game-button").remove();
-        $("#join-game-code-input").removeClass("d-none").addClass("d-inline-block");
+    $("#join-game-button").click(function(event) {
+        console.log("hoi");
+        if ($("#join-game-button").hasClass("enter-game-id-button")) {
+            event.stopPropagation();
+            event.stopImmediatePropagation()
+            event.preventDefault();
+            $("#join-game-button").removeClass("enter-game-id-button");
+            $("#host-game-code-input").hide();
+            $("#start-game-button").hide();
+            $("#join-game-code-input").removeClass("d-none").addClass("d-inline-block");
+        } else {
+            $("#host-game-code-input").remove();
+            $("#start-game-button").remove();
+        }
     });
 }
 
-$(function() {
+
+function stopJoiningGame() {
+    $("#home-header").click(function(event) {
+        console.log("hoi");
+        if (!$("#join-game-button").hasClass("enter-game-id-button") && event.target !== document.getElementById("join-game-code-input") && event.target !== document.getElementById("join-game-button")) {
+            event.stopPropagation();
+            event.stopImmediatePropagation()
+            $("#join-game-button").addClass("enter-game-id-button");
+            $("#host-game-code-input").show();
+            $("#start-game-button").show();
+            $("#join-game-code-input").addClass("d-none").removeClass("d-inline-block");
+        }
+    });
+}
+
+function homeFunctions() {
+    $("#container-div").removeClass("container");
+    startHostingGame();
+    startJoiningGame();
+    stopJoiningGame();
+}
+
+
+$(function () {
     let windowLocation = $(location).attr("pathname");
     windowLocation = windowLocation.split("/").pop()
     console.log(windowLocation);
 
     switch (windowLocation) {
         case "":
-            $("#container-div").removeClass("container");
-            startHostingGame();
-            startJoiningGame();
+            homeFunctions();
             break;
         case "index.php":
-            $("#container-div").removeClass("container");
-            startHostingGame();
-            startJoiningGame();
+            homeFunctions();
             break;
 
         case "join_game_test.php":
