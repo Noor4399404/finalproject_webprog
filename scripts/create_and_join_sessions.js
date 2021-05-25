@@ -44,6 +44,7 @@ function getGameInformation() {
 }
 
 function startGame() {
+    // function on the gamepage: game started is changed to true, so other players will join as well.
     let request = $.post("./scripts/start_game_session.php", {
         gameId: $("#gameId").val(),
         isHost: $("#isHost").val()
@@ -55,7 +56,8 @@ function startGame() {
 }
 
 function startHostingGame() {
-    $("#start-game-button").click(function(event) {
+    // function used on homepage: it will create a random number, which will become the game ID.  
+    $("#start-game-button").click(function() {
         var randomGameId = Math.floor(Math.random() * 100000) + 10000;
         $("#join-game-code-input").remove()
         console.log(randomGameId);
@@ -65,6 +67,7 @@ function startHostingGame() {
 }
 
 function startJoiningGame() {
+    // function used on homepage: show an input element for someone to enter the game ID.
     $("#join-game-button").one("click", function(event) {
         event.preventDefault();
         $("#host-game-code-input").remove();
@@ -74,8 +77,6 @@ function startJoiningGame() {
 }
 
 $(function() {
-
-
     let windowLocation = $(location).attr("pathname");
     windowLocation = windowLocation.split("/").pop()
     console.log(windowLocation);
