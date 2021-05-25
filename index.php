@@ -12,7 +12,7 @@ $navigation = array(
 include __DIR__ . '/tpl/head.php';
 include __DIR__ . '/tpl/body_start.php';
 ?>
-
+<script src="./scripts/create_and_join_sessions.js"></script>
 
 
 
@@ -40,32 +40,6 @@ include __DIR__ . '/tpl/body_start.php';
         <p>Playing games is more fun with friends and this site makes playing the game with friends easy. You can invite friends when hosting the game. When one of your friends already hosted a game, you can join their game by entering the code they are given.</p>
     </div>
 </div>
-
-
-
-
-
-
-
-<script>
-    $("#start-game-button").click(function(event) {
-        var randomGameId = Math.floor(Math.random() * 100000) + 10000;
-        $("#join-game-code-input").remove()
-        console.log(randomGameId);
-        $(this).prev().attr("value", String(randomGameId));
-
-    });
-
-    $("#join-game-button").one("click", function(event) {
-        event.preventDefault();
-        $("#host-game-code-input").remove();
-        $("#start-game-button").remove();
-
-        $("#join-game-code-input").removeClass("d-none").addClass("d-inline-block");
-
-
-    });
-</script>
 
 
 <?php

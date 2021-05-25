@@ -63,11 +63,11 @@ if (isset($_POST["host-game-id"])) {
     $message = "no game id found";
     $found_session_id = false;
 }
-
-
-
-
 ?>
+
+<script src="./scripts/create_and_join_sessions.js"></script>
+
+
 <div class="container mt-3 mb-5">
     <h1>You can join a game</h1>
 
@@ -112,66 +112,6 @@ if (isset($_POST["host-game-id"])) {
     </div>
 
 </div>
-
-<a href="./start_game_join_test.php">hoi</a>
-
-
-<script>
-    function joinGame() {
-        $("#join-game-name").click(function(event) {
-            event.preventDefault();
-            var randomUserId = Math.floor(Math.random() * 10000000);
-            console.log($("#game-id").val(), );
-            let request = $.post("./scripts/add_name_to_session.php", {
-                gameId: $("#game-id").val(),
-                userId: randomUserId,
-                userName: $("#user-name-input").val(),
-                isHost: $("#is-host").val()
-            });
-            request.then((response) => {
-                $("#join-game-form").addClass("d-none");
-                $("#start-game-form").removeClass("d-none");
-            })
-        });
-    }
-
-    var addedUsers = [];
-
-    function displayJoinedUsers(usersJSON) {
-        for (user of usersJSON) {
-            let userName = user.userName;
-            if (userName && !addedUsers.includes(user.id)) {
-                addedUsers.push(user.id)
-                let listItem = $('<li class="list-group-item"></li>').text(userName);
-                $("#list-joined-users").append(listItem);
-            }
-        }
-    }
-
-    function getGameInformation() {
-        let gameId = $("#game-id").val()
-        let request = $.post("./scripts/get_joined_users.php", {
-            gameId: $("#game-id").val(),
-        });
-        request.then(response => JSON.parse(response))
-        .then((response) => {
-            if (response.gameStarted === true) {
-                window.location.href = "./start_game_join_test.php"
-            }
-            displayJoinedUsers(response.users);
-            console.log(response);
-        })
-    }
-
-
-
-    window.setInterval(() => {
-        getGameInformation();
-    }, 3000);
-
-
-    joinGame();
-</script>
 
 <?php
 include __DIR__ . '/tpl/body_end.php';

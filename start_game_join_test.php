@@ -13,9 +13,10 @@ include __DIR__ . '/tpl/head.php';
 include __DIR__ . '/tpl/body_start.php';
 
 $isHost = $_POST["is-host"];
-
-
 ?>
+
+<script src="./scripts/create_and_join_sessions.js"></script>
+
 
 <form>
     <input type="hidden" name="isHost" id="isHost" value='<?php echo $_SESSION["isHost"]; ?>'>
@@ -23,22 +24,6 @@ $isHost = $_POST["is-host"];
     <input type="hidden" name="userId" id="userId" value='<?php echo $_SESSION["userId"]; ?>'>
 </form>
 
-
-<script>
-    function startGame() {
-        let request = $.post("./scripts/start_game_session.php", {
-            gameId: $("#gameId").val(),
-            isHost: $("#isHost").val()
-        });
-        request.then((response) => {
-            console.log(response);
-            console.log("Other players are starting now as well");
-        })
-    }
-    $(function() {
-        startGame();
-    })
-</script>
 
 
 <?php
