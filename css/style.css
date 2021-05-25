@@ -120,3 +120,12 @@ footer > div {
     width: 200px;
     margin: auto;
 }
+
+.row {
+    display: flex;
+    flex-direction: column;
+}
+#movement_table {
+    display: none;
+    width: 50%;
+}
