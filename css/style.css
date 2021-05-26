@@ -129,3 +129,7 @@ footer > div {
     display: none;
     width: 50%;
 }
+
+h5 {
+    display: block;
+}

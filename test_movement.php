@@ -71,7 +71,7 @@ include __DIR__ . '/tpl/body_start.php';
             <tbody>
                 <tr>
                     <?php
-                    if (isset($_POST['submit'])) {
+                    if (isset($_POST["submit"])) {
 
                     $json_file = file_get_contents("data/possible_moves.json");
                     $buttons = json_decode($json_file, true);

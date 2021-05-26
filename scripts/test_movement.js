@@ -15,12 +15,14 @@ function firstButton() {
 }
 
 function show_table() {
-    $('.btn').on('click', function(){
+    $('input[type="submit"]').click(function() {
+        console.log('test');
         $('#movement_table').show();
-        //$('input.btn-warning').addClass('btn-primary');
-        //$('input.btn-warning').removeClass('btn-warning');
-        //$(this).removeClass('btn-primary');
-        //$(this).addClass('btn-warning');
+        $('input.btn-warning').addClass('btn-primary');
+        $('input.btn-warning').removeClass('btn-warning');
+        $(this).removeClass('btn-primary');
+        $(this).addClass('btn-warning');
+        return false
     });
 }
 
