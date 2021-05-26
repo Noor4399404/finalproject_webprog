@@ -24,6 +24,13 @@ h1{
 }
 body{
     background-color: #09080d;
+    color: lightgrey;
+}
+.card-body,.form-control, .list-group-item{
+    background-color: #3c3438;
+    border-color: #92a8d1;
+    color: white;
+    border: none;
 }
 
 p{
