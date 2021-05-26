@@ -12,18 +12,23 @@ $message = array();
 foreach ($activeGameSessions as $key => $activeGameSession) {
     if ($activeGameSession["id"] === $gameId) {
         array_push($message, "found game session");
+        array_push($message, $activeGameSession["id"]);
+
 
         foreach ($activeGameSession["users"] as $keySecond => $user) {
             if ($user["id"] == $deleteUserId) {
                 array_push($message, "user is almost goneeeeee");
-                $indexUserDeleted = $key;
+                $indexUserDeleted = $keySecond;
+                array_push($message, $indexUserDeleted);
             } else if ($user["id"] == $userId) {
                 $isHost = $user["isHost"];
             }
         }
         if ($isHost) {
             array_push($message, "user is goneeeeee");
-            array_splice($activeGameSessions[$key]["users"], $activeGameSessions[$key]["users"][$indexUserDeleted], 1);
+            array_push($message, [$key, $indexUserDeleted, $activeGameSessions[$key]["users"]]);
+
+            array_splice($activeGameSessions[$key]["users"], $indexUserDeleted, 1);
         }
     }
 }

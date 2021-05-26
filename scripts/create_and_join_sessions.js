@@ -31,13 +31,17 @@ function joinGame() {
     });
 }
 
+var addedUsers = Array()
+
 function displayJoinedUsers(usersJSON) {
+    let joinedUserIds = Array()
     for (user of usersJSON) {
         let userName = user.userName;
         let userId = user.id;
+        joinedUserIds.push(userId);
         if (userName && !addedUsers.includes(user.id)) {
             addedUsers.push(user.id)            
-            let listItem = $(`<li class="list-group-item" role="alert"></li>`).text(userName);
+            let listItem = $(`<li id="list-item-joined-user-${userId}" class="list-group-item" role="alert"></li>`).text(userName);
             
             if (user.id == sessionStorage.getItem("userId")) {
                 let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("you");
@@ -53,6 +57,13 @@ function displayJoinedUsers(usersJSON) {
             } 
 
             $("#list-joined-users").append(listItem);
+        }
+        
+    }
+
+    for (addedUserId of addedUsers) {
+        if (!joinedUserIds.includes(addedUserId)) {
+            $(`#list-item-joined-user-${addedUserId}`).remove();
         }
     }
 }
@@ -71,8 +82,6 @@ function deleteUser() {
         })
     })
 }
-
-var addedUsers = Array()
 
 function getGameInformation() {
     let request = $.post("./scripts/get_joined_users.php", {
