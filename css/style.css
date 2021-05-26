@@ -8,6 +8,14 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     font-size: 18px;
 } */
 
+
+:root {
+    --yellow-accent: #ffeab1;
+    --red-accent: #fd353c;
+    --main-background: #09080d;
+    --second-background: #3c3438;
+}
+
 .col-6-flex {
     flex-grow: 6;
 }

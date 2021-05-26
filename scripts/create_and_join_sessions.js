@@ -186,9 +186,6 @@ function addIdToPage(elementId, sortId) {
 }
 
 
-
-
-
 $(function () {
     let windowLocation = $(location).attr("pathname");
     windowLocation = windowLocation.split("/").pop()
