@@ -36,6 +36,23 @@ body{
     border: none;
 }
 
+.delete-user-button {
+    border-radius: 50%;
+    height: 24px;
+    max-width: 24px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: #dc3545;
+    margin: auto 0;
+    align-items: center;
+}
+
+.delete-user-button > svg {
+    height: 16px;
+    width: 16px;
+}
+
 #movement_table .table {
     color: lightgrey;
 }
