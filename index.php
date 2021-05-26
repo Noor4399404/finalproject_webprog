@@ -17,7 +17,7 @@ include __DIR__ . '/tpl/body_start.php';
 
 
 <div id="home-header">
-    <h1 >Scotland Yard!</h1>
+    <h1>Scotland Yard!</h1>
 
     <div class="game-home-buttons">
         <form action="./join_game_test.php" method="POST">
@@ -26,20 +26,23 @@ include __DIR__ . '/tpl/body_start.php';
             <button type="submit" id="start-game-button" class="game-home-button">Host game</button>
 
             <input id="join-game-code-input" class="form-control join-game-text-input-home d-none" placeholder="#game id" type="text" value="" name="join-game-id">
-            <button type="submit" id="join-game-button" class="game-home-button">Join game</button>
+            <button type="submit" id="join-game-button" class="enter-game-id-button game-home-button">Join game</button>
         </form>
 
     </div>
 </div>
 
-<div class="home-div">
-    <div class="col-6-flex">
-        <p>Do you wanna know how to play the game. Look at our guide to see the rules, some tips and the best way to beat your friends. You can find our guide <a href="./game_rules.php">here</a>. It will also be available during all of the game.</p>
-    </div>
-    <div class="col-6-flex">
-        <p>Playing games is more fun with friends and this site makes playing the game with friends easy. You can invite friends when hosting the game. When one of your friends already hosted a game, you can join their game by entering the code they are given.</p>
+<div class="container">
+    <div class="row wp-row">
+        <div class="col-md-6">
+            <p>Do you wanna know how to play the game. Look at our guide to see the rules, some tips and the best way to beat your friends. You can find our guide <a href="./game_rules.php">here</a>. It will also be available during all of the game.</p>
+        </div>
+        <div class="col-md-6">
+            <p>Playing games is more fun with friends and this site makes playing the game with friends easy. You can invite friends when hosting the game. When one of your friends already hosted a game, you can join their game by entering the code they are given.</p>
+        </div>
     </div>
 </div>
+
 
 
 <?php

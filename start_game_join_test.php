@@ -24,7 +24,32 @@ $isHost = $_POST["is-host"];
     <input type="hidden" name="userId" id="userId" value='<?php echo $_SESSION["userId"]; ?>'>
 </form>
 
+<?php echo $_SESSION["isHost"]; ?> <br>
 
+<div id="print-ids">
+
+</div>
+
+<button id="end-game-button" class="btn btn-danger">End game</button>
+
+<script>
+    $(function() {
+        let gameId = sessionStorage.getItem("gameId");
+        let userId = sessionStorage.getItem("userId");
+        $("#print-ids").html(`${gameId}<br>${userId}`);
+
+        $("#end-game-button").click(function() {
+            let request = $.post("./scripts/end_game_session.php", {
+                gameId: sessionStorage.getItem("gameId"),
+                isHost: $("#is-host").val()
+            })
+            request.then((response) => {
+                window.location.href = "./index.php";
+            })
+        })
+
+    });
+</script>
 
 <?php
 include __DIR__ . '/tpl/body_end.php';
