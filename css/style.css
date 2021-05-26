@@ -19,7 +19,9 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
 .col-6-flex {
     flex-grow: 6;
 }
-
+h1{
+    text-shadow: 2px 2px 4px #000000;
+}
 body{
     background-color: #09080d;
 }
