@@ -11,7 +11,7 @@ $page_title = 'Webprogramming Final assignment';
 $navigation = array(
     'active' => 'test join',
     'items' => array(
-        'Join Game' => '/WP21/finalproject_webprog/join_game_test.php',
+        'test join' => '/WP21/finalproject_webprog/join_game_test.php',
         'Home' => '/WP21/finalproject_webprog/index.php',
         'How To Play' => '/WP21/finalproject_webprog/game_rules.php'
     )
@@ -90,7 +90,7 @@ if (isset($_POST["host-game-id"])) {
     <?php
     if ($found_session_id) {
     ?>
-        <h1>You can join a game</h1>
+        <h1>You can Host a game</h1>
         <div class="row wp-row d-flex mt-4">
             <div class="d-flex flex-column mb-4 col-md-12">
                 <div id="game-id-card" class="card my-3">
