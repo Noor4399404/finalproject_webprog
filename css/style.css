@@ -20,7 +20,29 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     flex-grow: 6;
 }
 
+body{
+    background-color: #09080d;
+}
 
+p{
+    color: lightgray;
+}
+#navbar {
+    background-color: #778695;
+    color: white;
+}
+a {
+    color: #CE2F2BFF;
+}
+a:hover {
+    color: #AA2720FF;
+}
+#footer {
+    background-color: #ABB7B8;
+}
+.footer_title{
+    color: darkslategray;
+}
 /* Here starts css for HOMEPAGE */
 #home-header {
     background-image: url("../images/home_page.jpg");
@@ -50,11 +72,13 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
 .game-home-button {
     margin: 0 1.5rem;
     border: none;
-    background-color: white;
-    color: black;
+    background-color: #538989FF;
+    color: floralwhite;
+    text-shadow: 2px 2px 4px #000000;
     border-radius: 0.25rem;
     padding: 1rem 2rem;
     font-weight: bold;
+    box-shadow: 5px 5px 5px 5px #000000;
 }
 
 #join-game-code-input {
