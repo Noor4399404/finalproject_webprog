@@ -26,6 +26,9 @@ body{
     background-color: #09080d;
     color: lightgrey;
 }
+#join-game-code-input{
+    border: 2px solid white;
+}
 .card-body,.form-control, .list-group-item{
     background-color: #3c3438;
     border-color: #92a8d1;
