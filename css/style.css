@@ -1,0 +1,109 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Fresca&display=swap');
+
+body {
+    font-family: 'Fresca', sans-serif;
+}
+
+p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
+    font-size: 18px;
+} */
+
+
+:root {
+    --yellow-accent: #ffeab1;
+    --red-accent: #fd353c;
+    --main-background: #09080d;
+    --second-background: #3c3438;
+}
+
+.col-6-flex {
+    flex-grow: 6;
+}
+
+
+
+
+/* Here starts css for HOMEPAGE */
+#home-header {
+    background-image: url("../images/home_page.jpg");
+    background-position: center;
+    background-size: cover;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    clip-path: polygon(0% 0%, 0% 76.97%, 28.45% 94.86%, 100% 72.94%, 100% 0%);
+}
+
+
+#home-header > h1{
+    color: #ffeab1;
+    font-size: 7rem;
+    margin-top: 4rem;
+}
+
+.game-home-buttons {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.game-home-button {
+    margin: 0 1.5rem;
+    border: none;
+    background-color: white;
+    color: black;
+    border-radius: 0.25rem;
+    padding: 1rem 2rem;
+    font-weight: bold;
+}
+
+#join-game-code-input {
+    width: max-content;
+}
+
+.home-div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+.home-div > div {
+    margin: 1rem;
+    display: inline-block;
+}
+
+
+
+
+
+
+/* here starts the css for the FOOTER */
+#rug-logo-footer {
+    filter: invert(80%);
+}
+
+footer ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+
+
+
+/* here starts the css for SOMETHING ELSE I DONT KNOW WHAT */
+/* .row {
+    display: flex;
+    flex-direction: column;
+} */
+
+#movement_table {
+    display: none;
+    width: 50%;
+}
+
+h5 {
+    display: block;
+}
