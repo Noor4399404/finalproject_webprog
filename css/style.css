@@ -36,6 +36,9 @@ body{
     border: none;
 }
 
+#movement_table .table {
+    color: lightgrey;
+}
 p{
     color: lightgray;
 }
