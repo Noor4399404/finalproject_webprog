@@ -89,7 +89,7 @@ if (isset($_POST["host-game-id"])) {
     <?php
     if ($found_session_id) {
     ?>
-        <h1>You can join a game</h1>
+        <h1>You can Host a game</h1>
         <div class="row wp-row d-flex mt-4">
             <div class="d-flex flex-column mb-4 col-md-12">
                 <div id="game-id-card" class="card my-3">
