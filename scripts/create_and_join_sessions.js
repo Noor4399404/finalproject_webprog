@@ -1,19 +1,36 @@
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
-        var randomUserId = Math.floor(Math.random() * 10000000);
+        let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
+        let gameId = $("#game-id").val()
         console.log($("#game-id").val(),);
         let request = $.post("./scripts/add_name_to_session.php", {
-            gameId: $("#game-id").val(),
+            gameId: gameId,
             userId: randomUserId,
             userName: $("#user-name-input").val(),
             isHost: $("#is-host").val()
         });
         request.then((response) => {
+            sessionStorage.setItem("userId", randomUserId)
+            sessionStorage.setItem("gameId", gameId)
             $("#join-game-form").addClass("d-none");
             $("#start-game-form").removeClass("d-none");
         })
     });
+}
+
+function addIdToPage(elementId, sortId) {
+    switch (sortId) {
+        case "game":
+            let gameId = sessionStorage.getItem("gameId");
+            $(`#${elementId}`).val(gameId);
+            break;
+
+        case "user":
+            let userId = sessionStorage.getItem("userId");
+            $(`#${elementId}`).val(userId);
+            break;
+    }
 }
 
 var addedUsers = [];
@@ -22,8 +39,16 @@ function displayJoinedUsers(usersJSON) {
     for (user of usersJSON) {
         let userName = user.userName;
         if (userName && !addedUsers.includes(user.id)) {
-            addedUsers.push(user.id)
-            let listItem = $('<li class="list-group-item"></li>').text(userName);
+            addedUsers.push(user.id)            
+            let listItem = $(`<li class="list-group-item" role="alert"></li>`).text(userName);
+
+            if (user.id == sessionStorage.getItem("userId")) {
+                let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("you");
+                listItem.append(badgeElement)
+            } else if (user.isHost) {
+                let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("host");
+                listItem.append(badgeElement)
+            }
             $("#list-joined-users").append(listItem);
         }
     }
@@ -31,7 +56,7 @@ function displayJoinedUsers(usersJSON) {
 
 function getGameInformation() {
     let request = $.post("./scripts/get_joined_users.php", {
-        gameId: $("#game-id").val(),
+        gameId: sessionStorage.getItem("gameId"),
     });
     request.then(response => JSON.parse(response))
         .then((response) => {
@@ -46,7 +71,7 @@ function getGameInformation() {
 function startGame() {
     // function on the gamepage: game started is changed to true, so other players will join as well.
     let request = $.post("./scripts/start_game_session.php", {
-        gameId: $("#gameId").val(),
+        gameId: sessionStorage.getItem("gameId"),
         isHost: $("#isHost").val()
     });
     request.then((response) => {
@@ -88,7 +113,6 @@ function clickToCopy(clickElementID, messageElementID) {
 function startJoiningGame() {
     // function used on homepage: show an input element for someone to enter the game ID.
     $("#join-game-button").click(function(event) {
-        console.log("hoi");
         if ($("#join-game-button").hasClass("enter-game-id-button")) {
             event.stopPropagation();
             event.stopImmediatePropagation()
@@ -107,7 +131,6 @@ function startJoiningGame() {
 
 function stopJoiningGame() {
     $("#home-header").click(function(event) {
-        console.log("hoi");
         if (!$("#join-game-button").hasClass("enter-game-id-button") && event.target !== document.getElementById("join-game-code-input") && event.target !== document.getElementById("join-game-button")) {
             event.stopPropagation();
             event.stopImmediatePropagation()
@@ -144,6 +167,9 @@ $(function () {
             window.setInterval(() => {
                 getGameInformation();
             }, 3000);
+
+            sessionStorage.setItem("gameId", $("#game-id").val())
+
             joinGame();
             clickToCopy("#game-id-card", "#copy-game-id-info");
             break;
