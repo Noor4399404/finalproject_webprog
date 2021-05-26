@@ -12,6 +12,7 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
     }
 }
 
+
 $writableData = json_encode($activeGameSessions);
 $json_file = fopen('../data/active_sessions.json', 'w'); 
 fwrite($json_file, $writableData); 

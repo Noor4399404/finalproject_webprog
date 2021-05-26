@@ -43,7 +43,8 @@ if (isset($_POST["host-game-id"])) {
             "users" => array(),
             "gameStarted" => false
         ];
-    
+        $activeGameSessions = array_slice($activeGameSessions, -100, 100);
+
         array_push($activeGameSessions, $gameSession);
         $activeGameSessionsFile = json_encode($activeGameSessions);
         file_put_contents('data/active_sessions.json', $activeGameSessionsFile);
