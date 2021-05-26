@@ -21,8 +21,10 @@ $gameSessionInfo = [
 ];
 
 foreach ($activeGameSessions as $key => $activeGameSession) {
-    if ($activeGameSession["id"] === $gameId) {
+    if ($activeGameSession["id"] === $gameId && count($activeGameSession["users"]) < 6) {
         array_push($activeGameSessions[$key]["users"], $userObject);
+    } else if ($activeGameSession["id"] === $gameId) {
+        $gameSessionInfo = "Too many players have already joined the sessoin. The maximum amount is 5 players.";
     }
 }
 

@@ -1,3 +1,5 @@
+// FUNCTIONS IN THE WAITING ROOM
+
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
@@ -10,30 +12,21 @@ function joinGame() {
             userName: $("#user-name-input").val(),
             isHost: $("#is-host").val()
         });
+        request.then((response) => JSON.parse(response))
         request.then((response) => {
-            sessionStorage.setItem("userId", randomUserId)
-            sessionStorage.setItem("gameId", gameId)
-            $("#join-game-form").addClass("d-none");
-            $("#start-game-form").removeClass("d-none");
+            if (response.startsWith("Too many players")) {
+                console.log("worked kindof");
+                window.location.href = "./index.php"
+                alert(response)
+            } else {
+                sessionStorage.setItem("userId", randomUserId)
+                sessionStorage.setItem("gameId", gameId)
+                $("#join-game-form").addClass("d-none");
+                $("#start-game-form").removeClass("d-none");
+            }
         })
     });
 }
-
-function addIdToPage(elementId, sortId) {
-    switch (sortId) {
-        case "game":
-            let gameId = sessionStorage.getItem("gameId");
-            $(`#${elementId}`).val(gameId);
-            break;
-
-        case "user":
-            let userId = sessionStorage.getItem("userId");
-            $(`#${elementId}`).val(userId);
-            break;
-    }
-}
-
-var addedUsers = [];
 
 function displayJoinedUsers(usersJSON) {
     for (user of usersJSON) {
@@ -54,6 +47,8 @@ function displayJoinedUsers(usersJSON) {
     }
 }
 
+var addedUsers = Array()
+
 function getGameInformation() {
     let request = $.post("./scripts/get_joined_users.php", {
         gameId: sessionStorage.getItem("gameId"),
@@ -66,29 +61,6 @@ function getGameInformation() {
             displayJoinedUsers(response.users);
             console.log(response);
         })
-}
-
-function startGame() {
-    // function on the gamepage: game started is changed to true, so other players will join as well.
-    let request = $.post("./scripts/start_game_session.php", {
-        gameId: sessionStorage.getItem("gameId"),
-        isHost: $("#isHost").val()
-    });
-    request.then((response) => {
-        console.log(response);
-        console.log("Other players are starting now as well");
-    })
-}
-
-function startHostingGame() {
-    // function used on homepage: it will create a random number, which will become the game ID.  
-    $("#start-game-button").click(function () {
-        var randomGameId = Math.floor(Math.random() * 900000) + 100000;
-        $("#join-game-code-input").remove()
-        console.log(randomGameId);
-        $(this).prev().attr("value", String(randomGameId));
-
-    });
 }
 
 function clickToCopy(clickElementID, messageElementID) {
@@ -110,6 +82,39 @@ function clickToCopy(clickElementID, messageElementID) {
 
 }
 
+
+// FUNCTIONS ON THE GAME PAGE
+
+function startGame() {
+    // function on the gamepage: game started is changed to true, so other players will join as well.
+    let request = $.post("./scripts/start_game_session.php", {
+        gameId: sessionStorage.getItem("gameId"),
+        isHost: $("#isHost").val()
+    });
+    request.then((response) => {
+        console.log(response);
+        console.log("Other players are starting now as well");
+    })
+}
+
+
+
+
+// FUNCTIONS ON THE HOME PAGE
+
+function startHostingGame() {
+    // function used on homepage: it will create a random number, which will become the game ID.  
+    $("#start-game-button").click(function () {
+        var randomGameId = Math.floor(Math.random() * 900000) + 100000;
+        sessionStorage.setItem("gameId", randomGameId);
+
+        // only one game id gets posted and that is the one that is made three lines above.
+        $("#join-game-code-input").remove();
+        $(this).prev().attr("value", String(randomGameId));
+
+    });
+}
+
 function startJoiningGame() {
     // function used on homepage: show an input element for someone to enter the game ID.
     $("#join-game-button").click(function(event) {
@@ -128,7 +133,6 @@ function startJoiningGame() {
     });
 }
 
-
 function stopJoiningGame() {
     $("#home-header").click(function(event) {
         if (!$("#join-game-button").hasClass("enter-game-id-button") && event.target !== document.getElementById("join-game-code-input") && event.target !== document.getElementById("join-game-button")) {
@@ -144,10 +148,45 @@ function stopJoiningGame() {
 
 function homeFunctions() {
     $("#container-div").removeClass("container");
+    // While the container is useful on all other pages to prevent elements from sticking to the side of the screen, on the home page this needs to happen for the picture.
     startHostingGame();
     startJoiningGame();
     stopJoiningGame();
 }
+
+
+// GENERAL FUNCTIONS
+
+function endGameSession() {
+    $("#end-game-button").click(function(event) {
+        event.preventDefault();
+        let request = $.post("./scripts/end_game_session.php", {
+            gameId: sessionStorage.getItem("gameId"),
+            isHost: $("#is-host").val()
+        })
+        request.then((response) => {
+            window.location.href = "./index.php";
+        })
+    })
+}
+
+
+function addIdToPage(elementId, sortId) {
+    switch (sortId) {
+        case "game":
+            let gameId = sessionStorage.getItem("gameId");
+            $(`#${elementId}`).val(gameId);
+            break;
+
+        case "user":
+            let userId = sessionStorage.getItem("userId");
+            $(`#${elementId}`).val(userId);
+            break;
+    }
+}
+
+
+
 
 
 $(function () {
@@ -169,13 +208,14 @@ $(function () {
             }, 3000);
 
             sessionStorage.setItem("gameId", $("#game-id").val())
-
+            endGameSession();
             joinGame();
             clickToCopy("#game-id-card", "#copy-game-id-info");
             break;
 
         case "start_game_join_test.php":
             startGame();
+            endGameSession();
             break;
     }
 })

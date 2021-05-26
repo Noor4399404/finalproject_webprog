@@ -38,15 +38,9 @@ $isHost = $_POST["is-host"];
         let userId = sessionStorage.getItem("userId");
         $("#print-ids").html(`${gameId}<br>${userId}`);
 
-        $("#end-game-button").click(function() {
-            let request = $.post("./scripts/end_game_session.php", {
-                gameId: sessionStorage.getItem("gameId"),
-                isHost: $("#is-host").val()
-            })
-            request.then((response) => {
-                window.location.href = "./index.php";
-            })
-        })
+
+        
+
 
     });
 </script>
