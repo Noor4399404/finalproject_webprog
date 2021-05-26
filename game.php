@@ -10,10 +10,14 @@ $navigation = Array(
         )
     );
 include __DIR__ . '/tpl/head.php';
-include __DIR__ . '/tpl/body_start.php';
+
+$json_file = file_get_contents("data/trigger_locations.json");
+
 ?>
-<script type="application/javascript" src="scripts/game_mechanics.js"></script>
-<canvas id="game_canvas">Your browser does not support the game, try updating it or using another one, like Chrome</canvas>
+<div class="container-fluid">
+
+    <script type="text/javascript" src="scripts/game_mechanics.js"></script>
+    <canvas id="gameCanvas">Your browser does not support the game, try updating it or using another one, like Chrome</canvas>
 <?php
 include __DIR__ . '/tpl/body_end.php';
 ?>
