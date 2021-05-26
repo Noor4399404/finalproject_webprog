@@ -12,9 +12,9 @@ function joinGame() {
             userName: $("#user-name-input").val(),
             isHost: $("#is-host").val()
         });
-        request.then((response) => JSON.parse(response))
+        // request.then((response) => JSON.parse(response))
         request.then((response) => {
-            if (response.startsWith("Too many players")) {
+            if (response.tooManyPlayers) {
                 console.log("worked kindof");
                 window.location.href = "./index.php"
                 alert(response)
