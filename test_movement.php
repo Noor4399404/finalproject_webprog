@@ -19,36 +19,36 @@ include __DIR__ . '/tpl/body_start.php';
 <div class="row">
     <div class="col">
         <h5>Select your active button:</h5>
-        <form action="test_movement.php" method="POST">
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberOne" value="1">
+        <form id="testform">
+            <div class="col btn btn-primary" id="1">
+                1
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberTwo" value="2">
+            <div class="col btn btn-primary" id="2">
+                2
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberThree" value="3">
+            <div class="col btn btn-primary" id="3">
+                3
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberFour" value="4">
+            <div class="col btn btn-primary" id="4">
+                4
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberFive" value="5">
+            <div class="col btn btn-primary" id="5">
+                5
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberSix" value="6">
+            <div class="col btn btn-primary" id="6">
+                6
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberSeven" value="7">
+            <div class="col btn btn-primary" id="7">
+                7
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberEight" value="8">
+            <div class="col btn btn-primary" id="8">
+                8
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberNine" value="9">
+            <div class="col btn btn-primary" id="9">
+                9
             </div>
-            <div class="col">
-                <input type="submit" name="submit" class="btn btn-primary" id="numberTen" value="10">
+            <div class="col btn btn-primary" id="10">
+                10
             </div>
         </form>
     </div>
@@ -70,30 +70,9 @@ include __DIR__ . '/tpl/body_start.php';
             </thead>
             <tbody>
                 <tr>
-                    <?php
-                    if (isset($_POST["submit"])) {
-
-                    $json_file = file_get_contents("data/possible_moves.json");
-                    $buttons = json_decode($json_file, true);
-
-                    $active_button = $_POST['submit'];
-                    foreach ($buttons as $key => $value){
-                        if ($active_button == $key) {
-                            $taxi_value = $value["tax"];
-                            $bus_value = $value["bus"];
-                            if ($bus_value == " ") {
-                                $bus_value = "No Moves!";
-                            }
-                            $und_value = $value["und"];
-                            if ($und_value == " ") {
-                                $und_value = "No Moves!";
-                            }
-                            echo "<td>$taxi_value</td>";
-                            echo "<td>$bus_value</td>";
-                            echo "<td>$und_value</td>";
-                            }
-                        }
-                    }?>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
