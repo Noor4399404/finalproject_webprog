@@ -73,24 +73,60 @@ body{
     margin: auto 0;
     align-items: center;
 }
+.instructions{
+    background-color: #697580;
+    margin: 40px;
+    padding: 20px;
+    border-radius: 10px;
+}
 .active_page{
     background-color: #65727FFF;
     border-radius: 10px;
     margin: auto;
 }
 .tip{
-    background-color: #e74c51;
+    background-color: darkgray;
     border-radius: 10px;
     color: black;
     text-align: center;
     margin-top: 5px;
-    font-size: 18px;
+    padding: 3px;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid darkgray;
 }
 .delete-user-button > svg {
     height: 16px;
     width: 16px;
 }
+.button_row{
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+}
+.button_row a{
+    text-decoration: none;
+}
+#go-to-game-button{
+    display: flex;
+    text-decoration: none;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #e03b40;
+    color: white;
+    padding: 10px;
+    horiz-align: center;
+    border: 2px solid darkgray;
 
+}
+#go-to-game-button:hover{
+    text-decoration: none;
+    background-color: #fd353c;
+
+}
 #movement_table .table {
     color: lightgrey;
 }
