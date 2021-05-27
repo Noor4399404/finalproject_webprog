@@ -73,7 +73,11 @@ body{
     margin: auto 0;
     align-items: center;
 }
-
+.active_page{
+    background-color: #65727FFF;
+    border-radius: 10px;
+    margin: auto;
+}
 .delete-user-button > svg {
     height: 16px;
     width: 16px;
