@@ -85,7 +85,7 @@ footer ul {
 
 
 
-/* here starts the css for SOMETHING ELSE I DONT KNOW WHAT */
+/* here starts the css for test movement! */
 /* .row {
     display: flex;
     flex-direction: column;
@@ -93,6 +93,10 @@ footer ul {
 
 #movement_table {
     display: none;
+    width: 50%;
+}
+
+#testform {
     width: 50%;
 }
 
