@@ -8,13 +8,99 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     font-size: 18px;
 } */
 
+
+:root {
+    --yellow-accent: #f5e7c2;
+    --red-dark-accent: #e74c51;
+    --red-accent: #fd353c;
+    --main-background: #09080d;
+    --second-background: #3c3438;
+    --green-accent: #538989FF;
+    --green-dark-accent: rgb(75, 116, 116);
+
+}
+
+.btn-danger {
+    background-color: var(--red-dark-accent);
+}
+
+.button-green-primary {
+    background-color: var(--green-accent);
+    color: white;
+    border: 1px solid var(--green-dark-accent);
+}
+
+.button-green-primary:hover {
+    color: white;
+    background-color: var(--green-dark-accent);
+    border-color:  var(--green-accent);
+}
+
+.button-green-primary:active {
+    color: white;
+    background-color: var(--green-dark-accent);
+    border-color:  var(--green-accent);
+}
+
 .col-6-flex {
     flex-grow: 6;
 }
+h1{
+    text-shadow: 2px 2px 4px #000000;
+}
+body{
+    background-color: #09080d;
+    color: lightgrey;
+}
+#join-game-code-input{
+    border: 2px solid white;
+}
+.card-body,.form-control, .list-group-item{
+    background-color: #3c3438;
+    border-color: #92a8d1;
+    color: white;
+    border: none;
+}
 
+.delete-user-button {
+    border-radius: 50%;
+    height: 24px;
+    max-width: 24px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: var(--red-dark-accent);
+    margin: auto 0;
+    align-items: center;
+}
 
+.delete-user-button > svg {
+    height: 16px;
+    width: 16px;
+}
 
-
+#movement_table .table {
+    color: lightgrey;
+}
+p{
+    color: lightgray;
+}
+#navbar {
+    background-color: #778695;
+    color: white;
+}
+a {
+    color: #CE2F2BFF;
+}
+a:hover {
+    color: #AA2720FF;
+}
+#footer {
+    background-color: #ABB7B8;
+}
+.footer_title{
+    color: darkslategray;
+}
 /* Here starts css for HOMEPAGE */
 #home-header {
     background-image: url("../images/home_page.jpg");
@@ -30,8 +116,9 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
 
 
 #home-header > h1{
-    color: white;
+    color: #ffeab1;
     font-size: 7rem;
+    font-weight: 800;
     margin-top: 4rem;
 }
 
@@ -44,8 +131,9 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
 .game-home-button {
     margin: 0 1.5rem;
     border: none;
-    background-color: white;
-    color: black;
+    background-color: var(--green-accent);
+
+    color: floralwhite;
     border-radius: 0.25rem;
     padding: 1rem 2rem;
     font-weight: bold;

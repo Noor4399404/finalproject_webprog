@@ -5,6 +5,7 @@ $page_title = 'Webprogramming Final assignment';
 $navigation = array(
     'active' => 'Home',
     'items' => array(
+        'Home' => '/WP21/finalproject_webprog/start_game_join_test.php',
         'How To Play' => '/WP21/finalproject_webprog/game_rules.php',
         'Test_movement' => '/WP21/finalproject_webprog/test_movement.php'
     )
@@ -38,15 +39,9 @@ $isHost = $_POST["is-host"];
         let userId = sessionStorage.getItem("userId");
         $("#print-ids").html(`${gameId}<br>${userId}`);
 
-        $("#end-game-button").click(function() {
-            let request = $.post("./scripts/end_game_session.php", {
-                gameId: sessionStorage.getItem("gameId"),
-                isHost: $("#is-host").val()
-            })
-            request.then((response) => {
-                window.location.href = "./index.php";
-            })
-        })
+
+        
+
 
     });
 </script>

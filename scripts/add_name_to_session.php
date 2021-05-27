@@ -17,12 +17,15 @@ $userObject = array(
 
 $gameSessionInfo = [
     "userId" => $userId,
-    "gameId" => $gameId
+    "gameId" => $gameId,
+    "tooManyPlayers" => false
 ];
 
 foreach ($activeGameSessions as $key => $activeGameSession) {
-    if ($activeGameSession["id"] === $gameId) {
+    if ($activeGameSession["id"] === $gameId && count($activeGameSession["users"]) < 5) {
         array_push($activeGameSessions[$key]["users"], $userObject);
+    } else if ($activeGameSession["id"] === $gameId) {
+        $gameSessionInfo["tooManyPlayers"] = true;
     }
 }
 
@@ -35,5 +38,6 @@ fwrite($json_file, $writableData);
 fclose($json_file);
 
 $answer = json_encode($gameSessionInfo);
+header("Content-Type: application/json");
 echo $answer;
 ?>
