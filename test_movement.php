@@ -50,6 +50,12 @@ include __DIR__ . '/tpl/body_start.php';
             <div class="col btn btn-primary" id="10">
                 10
             </div>
+            <div class="col btn btn-primary" id="42">
+                42
+            </div>
+            <div class="col btn btn-primary" id="46">
+                46
+            </div>
         </form>
     </div>
     <div class="col" id="movement_table">
