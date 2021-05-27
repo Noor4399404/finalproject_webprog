@@ -39,7 +39,7 @@ function p_print($array)
                         <?php foreach ($navigation['items'] as $title => $url) {
                             if ($title == $active) { ?>
                                 <li class="nav-item active">
-                                    <a class="nav-link text-light" href="<?= $url ?>"><?= $title ?></a>
+                                    <a class="nav-link text-light active_page" href="<?= $url ?>"><?= $title ?></a>
                                 </li>
                             <?php } else { ?>
                                 <li class="nav-item">
