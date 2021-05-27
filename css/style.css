@@ -84,6 +84,7 @@ body{
     color: black;
     text-align: center;
     margin-top: 5px;
+    font-size: 18px;
 }
 .delete-user-button > svg {
     height: 16px;
