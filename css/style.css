@@ -78,6 +78,13 @@ body{
     border-radius: 10px;
     margin: auto;
 }
+.tip{
+    background-color: #e74c51;
+    border-radius: 10px;
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+}
 .delete-user-button > svg {
     height: 16px;
     width: 16px;
