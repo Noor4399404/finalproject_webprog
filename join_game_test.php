@@ -11,7 +11,7 @@ $page_title = 'Webprogramming Final assignment';
 $navigation = array(
     'active' => 'test join',
     'items' => array(
-        'Join Game' => '/WP21/finalproject_webprog/join_game_test.php',
+        'test join' => '/WP21/finalproject_webprog/join_game_test.php',
         'Home' => '/WP21/finalproject_webprog/index.php',
         'How To Play' => '/WP21/finalproject_webprog/game_rules.php'
     )
@@ -44,7 +44,8 @@ if (isset($_POST["host-game-id"])) {
             "users" => array(),
             "gameStarted" => false
         ];
-    
+        $activeGameSessions = array_slice($activeGameSessions, -100, 100);
+
         array_push($activeGameSessions, $gameSession);
         $activeGameSessionsFile = json_encode($activeGameSessions);
         file_put_contents('data/active_sessions.json', $activeGameSessionsFile);
@@ -89,7 +90,7 @@ if (isset($_POST["host-game-id"])) {
     <?php
     if ($found_session_id) {
     ?>
-        <h1>You can join a game</h1>
+        <h1>You can Host a game</h1>
         <div class="row wp-row d-flex mt-4">
             <div class="d-flex flex-column mb-4 col-md-12">
                 <div id="game-id-card" class="card my-3">
@@ -108,7 +109,7 @@ if (isset($_POST["host-game-id"])) {
                     <input type="hidden" id="is-host" name="game-id" value="<?php echo $isHost; ?>">
                     <input type="hidden" id="game-id" name="game-id" value="<?php echo $gameId; ?>">
                     <input type="text" class="form-control mb-3" placeholder="Your name" id="user-name-input" name="user-name-input">
-                    <button id="join-game-name" class="btn btn-primary">Join Game!</button>
+                    <button id="join-game-name" class="btn button-green-primary">Join Game!</button>
                     <?php if ($isHost) { ?>
                     <button id="end-game-button" class="btn btn-danger">End game</button>
                     <?php } ?>
@@ -119,7 +120,7 @@ if (isset($_POST["host-game-id"])) {
                 <?php if ($isHost) { ?>
                     <form action="./start_game_join_test.php" method="POST" id="start-game-form" class="d-none">
                         <input type="hidden" name="is-host" value="<?php echo $isHost; ?>">
-                        <button href="./start_game_join_test.php" id="start-game" class="btn btn-primary">Start Game!</button>
+                        <button href="./start_game_join_test.php" id="start-game" class="btn button-green-primary">Start Game!</button>
                         <button id="end-game-button" class="btn btn-danger">End game</button>
                     </form>
                 <?php

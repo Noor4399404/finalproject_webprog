@@ -30,3 +30,32 @@ if (isset($_POST['call_now'])) {
 
     die();
 }
+
+
+if (isset($_POST["submit"])) {
+    echo("<script>console.log('PHP: " . $_POST["submit"] . "');</script>");
+
+    $json_file = file_get_contents("data/possible_moves.json");
+    $buttons = json_decode($json_file, true);
+
+    $active_button = $_POST['submit'];
+    foreach ($buttons as $key => $value) {
+        if ($active_button == $key) {
+            $tax_value = $value["tax"];
+            if ($tax_value == " ") {
+                $tax_value = "No Moves!";
+            }
+            $bus_value = $value["bus"];
+            if ($bus_value == " ") {
+                $bus_value = "No Moves!";
+            }
+            $und_value = $value["und"];
+            if ($und_value == " ") {
+                $und_value = "No Moves!";
+            }
+            echo "<td>$tax_value</td>";
+            echo "<td>$bus_value</td>";
+            echo "<td>$und_value</td>";
+        }
+    }
+} ?>

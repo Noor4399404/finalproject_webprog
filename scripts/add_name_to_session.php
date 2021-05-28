@@ -17,14 +17,15 @@ $userObject = array(
 
 $gameSessionInfo = [
     "userId" => $userId,
-    "gameId" => $gameId
+    "gameId" => $gameId,
+    "tooManyPlayers" => false
 ];
 
 foreach ($activeGameSessions as $key => $activeGameSession) {
-    if ($activeGameSession["id"] === $gameId && count($activeGameSession["users"]) < 6) {
+    if ($activeGameSession["id"] === $gameId && count($activeGameSession["users"]) < 5) {
         array_push($activeGameSessions[$key]["users"], $userObject);
     } else if ($activeGameSession["id"] === $gameId) {
-        $gameSessionInfo = "Too many players have already joined the sessoin. The maximum amount is 5 players.";
+        $gameSessionInfo["tooManyPlayers"] = true;
     }
 }
 
@@ -37,5 +38,6 @@ fwrite($json_file, $writableData);
 fclose($json_file);
 
 $answer = json_encode($gameSessionInfo);
+header("Content-Type: application/json");
 echo $answer;
 ?>

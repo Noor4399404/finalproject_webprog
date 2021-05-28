@@ -1,5 +1,7 @@
 // FUNCTIONS IN THE WAITING ROOM
 
+var joinedGame = false
+
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
@@ -12,42 +14,74 @@ function joinGame() {
             userName: $("#user-name-input").val(),
             isHost: $("#is-host").val()
         });
-        request.then((response) => JSON.parse(response))
         request.then((response) => {
-            if (response.startsWith("Too many players")) {
+            if (response.tooManyPlayers) {
                 console.log("worked kindof");
                 window.location.href = "./index.php"
                 alert(response)
             } else {
+                joinedGame = true;
                 sessionStorage.setItem("userId", randomUserId)
                 sessionStorage.setItem("gameId", gameId)
                 $("#join-game-form").addClass("d-none");
                 $("#start-game-form").removeClass("d-none");
+                return true
             }
         })
     });
 }
 
+var addedUsers = Array()
+
 function displayJoinedUsers(usersJSON) {
+    let joinedUserIds = Array()
     for (user of usersJSON) {
         let userName = user.userName;
+        let userId = user.id;
+        joinedUserIds.push(userId);
         if (userName && !addedUsers.includes(user.id)) {
             addedUsers.push(user.id)            
-            let listItem = $(`<li class="list-group-item" role="alert"></li>`).text(userName);
-
+            let listItem = $(`<li id="list-item-joined-user-${userId}" class="list-group-item" role="alert"></li>`).text(userName);
+            
             if (user.id == sessionStorage.getItem("userId")) {
                 let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("you");
                 listItem.append(badgeElement)
             } else if (user.isHost) {
                 let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("host");
-                listItem.append(badgeElement)
-            }
+                listItem.append(badgeElement);
+            }  
+
+            if ($("#is-host").val() == 1) {
+                let deleteButton = $(`<button id="delete-user-button-${userId}" class="delete-user-button float-right"></button>`).html('<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+                listItem.append(deleteButton);
+            } 
+
             $("#list-joined-users").append(listItem);
+        }
+        
+    }
+
+    for (addedUserId of addedUsers) {
+        if (!joinedUserIds.includes(addedUserId)) {
+            $(`#list-item-joined-user-${addedUserId}`).remove();
         }
     }
 }
 
-var addedUsers = Array()
+function deleteUser() {
+    $(document).on('click', '.delete-user-button', function(event) {
+        let deletedUserId = Number($(this).attr("id").replace("delete-user-button", "")) * -1;
+        // for some reason the id becomes negative ... 
+        let request = $.post("./scripts/delete_user.php", {
+            gameId: sessionStorage.getItem("gameId"),
+            userId: sessionStorage.getItem("userId"),
+            deleteUserId: deletedUserId
+        })
+        request.then((response) => {
+            console.log(response);
+        })
+    })
+}
 
 function getGameInformation() {
     let request = $.post("./scripts/get_joined_users.php", {
@@ -146,15 +180,6 @@ function stopJoiningGame() {
     });
 }
 
-function homeFunctions() {
-    $("#container-div").removeClass("container");
-    // While the container is useful on all other pages to prevent elements from sticking to the side of the screen, on the home page this needs to happen for the picture.
-    startHostingGame();
-    startJoiningGame();
-    stopJoiningGame();
-}
-
-
 // GENERAL FUNCTIONS
 
 function endGameSession() {
@@ -185,6 +210,34 @@ function addIdToPage(elementId, sortId) {
     }
 }
 
+// PAGE FUNCTIONS
+
+function homeFunctions() {
+    $("#container-div").removeClass("container");
+    // While the container is useful on all other pages to prevent elements from sticking to the side of the screen, on the home page this needs to happen for the picture.
+    startHostingGame();
+    startJoiningGame();
+    stopJoiningGame();
+}
+
+function waitingPageFunctions() {
+    sessionStorage.setItem("gameId", $("#game-id").val())
+    window.setInterval(() => {
+        if (joinedGame) {
+            getGameInformation();
+        }
+    }, 3000);
+    endGameSession();
+    joinGame();
+    deleteUser();
+    clickToCopy("#game-id-card", "#copy-game-id-info");
+}
+
+function gamePageSessionFunctions() {
+    startGame();
+    endGameSession();
+}
+
 
 $(function () {
     let windowLocation = $(location).attr("pathname");
@@ -200,19 +253,11 @@ $(function () {
             break;
 
         case "join_game_test.php":
-            window.setInterval(() => {
-                getGameInformation();
-            }, 3000);
-
-            sessionStorage.setItem("gameId", $("#game-id").val())
-            endGameSession();
-            joinGame();
-            clickToCopy("#game-id-card", "#copy-game-id-info");
+            waitingPageFunctions();
             break;
 
         case "start_game_join_test.php":
-            startGame();
-            endGameSession();
+            gamePageSessionFunctions();
             break;
     }
 })

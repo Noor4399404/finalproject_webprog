@@ -14,19 +14,79 @@ function firstButton() {
     });
 }
 
-function show_table() {
-    $('input[type="submit"]').click(function() {
-        console.log('test');
-        $('#movement_table').show();
-        $('input.btn-warning').addClass('btn-primary');
-        $('input.btn-warning').removeClass('btn-warning');
+function edit_table() {
+    let button = $.post("./test_movement.php", {call_now: "True"});
+    $('.btn').click(function () {
+        $('.btn-warning').addClass('btn-primary');
+        $('.btn-warning').removeClass('btn-warning');
         $(this).removeClass('btn-primary');
         $(this).addClass('btn-warning');
-        return false
-    });
+        let active_button = $(this).attr('id');
+        $('#movement_table').show();
+        $.getJSON("data/possible_moves.json", function (data) {
+            for(let key in data) {
+                if (active_button === key) {
+                    let table_row = $('tr')[1];
+                    let tax_moves = data[active_button]['tax'];
+                    if (tax_moves === " ") {
+                        tax_moves = "No moves!";
+                    }
+                    let bus_moves = data[active_button]['bus'];
+                    if (bus_moves === " ") {
+                        bus_moves = "No moves!";
+                    }
+                    let und_moves = data[active_button]['und'];
+                    if (und_moves === " ") {
+                        und_moves = "No moves!";
+                    }
+                    table_row.innerHTML = '<td>' + tax_moves + '</td><td>' + bus_moves + '</td><td>' + und_moves + '</td>';
+                    possible_moves(data, active_button);
+                }
+            }
+        })
+    })
+}
+
+function possible_moves(data, key) {
+    $('.btn-success').addClass('btn-primary');
+    $('.btn-success').removeClass('btn-success');
+    $(this).addClass('btn-success');
+    $('.btn-primary').each(function() {
+        let current_button = $(this);
+        let value = $(this).attr('id');
+        let tax_moves = data[key]['tax'].split(" ");
+        $.each(tax_moves, function (i) {
+            tax_moves[i] = parseInt(tax_moves[i]);
+            tax_moves[i] = tax_moves[i].toString();
+            if (value.trim() === tax_moves[i].trim()) {
+                $(current_button).removeClass('btn-primary');
+                $(current_button).addClass('btn-success');
+            }
+        })
+        let bus_moves = data[key]['bus'].split(" ");
+        $.each(bus_moves, function (i) {
+            bus_moves[i] = parseInt(bus_moves[i]);
+            bus_moves[i] = bus_moves[i].toString();
+            if (value.trim() === bus_moves[i].trim()) {
+                $(current_button).removeClass('btn-primary');
+                $(current_button).addClass('btn-success');
+            }
+        })
+        let und_moves = data[key]['und'].split(" ");
+        $.each(und_moves, function (i) {
+            und_moves[i] = parseInt(und_moves[i]);
+            und_moves[i] = und_moves[i].toString();
+            if (value.trim() === und_moves[i].trim()) {
+                $(current_button).removeClass('btn-primary');
+                $(current_button).addClass('btn-success');
+            }
+        })
+    })
 }
 
 $(function() {
-    //firstButton();
-    show_table();
+    edit_table();
+    window.setInterval(function () {
+        edit_table();
+    }, 100);
 });
