@@ -85,11 +85,8 @@ function possible_moves(data, key) {
 }
 
 $(function() {
-    //firstButton();
     edit_table();
-    //possible_moves();
     window.setInterval(function () {
         edit_table();
-        //possible_moves();
     }, 100);
 });
