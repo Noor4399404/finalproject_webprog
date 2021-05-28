@@ -106,7 +106,7 @@ class Game {
                         this.mouseY < bottomBoundary &&
                         this.mouseY > topBoundary) {
 
-                        return location;
+                        return (parseInt(location) + 1);
                     }
                 }
             }
@@ -189,7 +189,7 @@ $(function() {
         //game.triggerHelper();
 
         var trigger = game.ScanForTrigger();
-        //console.log(trigger);
+        console.log(trigger);
 
     });
 
@@ -200,29 +200,3 @@ $(function() {
     });
 
 });
-
-
-/*function resize_game(){
-
-    var canvas = document.getElementById("game_canvas");
-    var ctx = canvas.getContext("2d");
-
-    var canvas_width = window.innerWidth * 0.97;
-    var canvas_height = window.innerHeight * 0.90;
-
-    let ratio = 1024 / 776; // Change to pixels of image
-    
-    if (canvas_height < canvas_width / ratio){
-        canvas_width = canvas_height * ratio;
-    } else {
-        canvas_height = canvas_width / ratio;
-    }
-
-    canvas.width = canvas_width;
-    canvas.height = canvas_height;
-
-    set_background();
-
-    make_triggers(canvas, ctx);
-
-} */
