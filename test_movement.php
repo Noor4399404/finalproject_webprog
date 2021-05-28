@@ -50,8 +50,8 @@ include __DIR__ . '/tpl/body_start.php';
             <div class="col btn btn-primary" id="10">
                 10
             </div>
-            <div class="col btn btn-primary" id="42">
-                42
+            <div class="col btn btn-primary" id="11">
+                11
             </div>
             <div class="col btn btn-primary" id="46">
                 46
