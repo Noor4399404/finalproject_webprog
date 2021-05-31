@@ -1,3 +1,5 @@
+// noinspection JSJQueryEfficiency
+
 function firstButton() {
     $('button').each(function () {
         if ($(this).hasClass('active')) {
@@ -14,36 +16,49 @@ function firstButton() {
     });
 }
 
-function edit_table() {
-    let button = $.post("./test_movement.php", {call_now: "True"});
-    $('.btn').click(function () {
-        $('.btn-warning').addClass('btn-primary');
-        $('.btn-warning').removeClass('btn-warning');
-        $(this).removeClass('btn-primary');
-        $(this).addClass('btn-warning');
-        let active_button = $(this).attr('id');
-        $('#movement_table').show();
-        $.getJSON("data/possible_moves.json", function (data) {
-            for(let key in data) {
-                if (active_button === key) {
-                    let table_row = $('tr')[1];
-                    let tax_moves = data[active_button]['tax'];
-                    if (tax_moves === " ") {
-                        tax_moves = "No moves!";
-                    }
-                    let bus_moves = data[active_button]['bus'];
-                    if (bus_moves === " ") {
-                        bus_moves = "No moves!";
-                    }
-                    let und_moves = data[active_button]['und'];
-                    if (und_moves === " ") {
-                        und_moves = "No moves!";
-                    }
-                    table_row.innerHTML = '<td>' + tax_moves + '</td><td>' + bus_moves + '</td><td>' + und_moves + '</td>';
-                    possible_moves(data, active_button);
-                }
-            }
+function edit_table(roundCounter) {
+    $('#movement_table').show();
+    let total_players = 1;
+    if (roundCounter === 0) {
+        $('#1').removeClass('btn-primary');
+        $('#1').addClass('btn-warning');
+        let active_button = $('#1');
+        active_button = active_button.attr('id');
+        change_table(active_button);
+    }
+    else {
+        $('.btn-success').click(function () {
+            $('.btn-warning').addClass('btn-primary');
+            $('.btn-warning').removeClass('btn-warning');
+            $(this).removeClass('btn-primary');
+            $(this).addClass('btn-warning');
+            let active_button = $(this).attr('id');
+            change_table(active_button);
         })
+    }
+}
+
+function change_table(active_button) {
+    $.getJSON("data/possible_moves.json", function (data) {
+        for(let key in data) {
+            if (active_button === key) {
+                let table_row = $('tr')[1];
+                let tax_moves = data[active_button]['tax'];
+                if (tax_moves === " ") {
+                    tax_moves = "No moves!";
+                }
+                let bus_moves = data[active_button]['bus'];
+                if (bus_moves === " ") {
+                    bus_moves = "No moves!";
+                }
+                let und_moves = data[active_button]['und'];
+                if (und_moves === " ") {
+                    und_moves = "No moves!";
+                }
+                table_row.innerHTML = '<td>' + tax_moves + '</td><td>' + bus_moves + '</td><td>' + und_moves + '</td>';
+                possible_moves(data, active_button);
+            }
+        }
     })
 }
 
@@ -85,8 +100,10 @@ function possible_moves(data, key) {
 }
 
 $(function() {
-    edit_table();
+    let roundCounter = 0;
+    edit_table(roundCounter);
     window.setInterval(function () {
-        edit_table();
+        roundCounter += 1
+        edit_table(roundCounter);
     }, 100);
 });

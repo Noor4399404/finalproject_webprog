@@ -241,3 +241,7 @@ footer ul {
 h5 {
     display: block;
 }
+
+.btn-primary:hover {
+    cursor: pointer;
+}

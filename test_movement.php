@@ -2,10 +2,10 @@
 /* Header */
 $page_title = 'Webprogramming Final assignment';
 $navigation = Array(
-    'active' => 'Game',
+    'active' => 'Test_movement',
     'items' => Array(
         'Home' => '/WP21/finalproject_webprog/index.php',
-        'Game' => '',
+        'Game' => '/WP21/finalproject_webprog/game.php',
         'How To Play' => '/WP21/finalproject_webprog/game_rules.php',
         'Test_movement' => '/WP21/finalproject_webprog/test_movement.php'
     )
@@ -50,11 +50,26 @@ include __DIR__ . '/tpl/body_start.php';
             <div class="col btn btn-primary" id="10">
                 10
             </div>
-            <div class="col btn btn-primary" id="11">
-                11
+            <div class="col btn btn-primary" id="13">
+                13
             </div>
-            <div class="col btn btn-primary" id="46">
-                46
+            <div class="col btn btn-primary" id="26">
+                26
+            </div>
+            <div class="col btn btn-primary" id="29">
+                29
+            </div>
+            <div class="col btn btn-primary" id="34">
+                34
+            </div>
+            <div class="col btn btn-primary" id="50">
+                50
+            </div>
+            <div class="col btn btn-primary" id="53">
+                53
+            </div>
+            <div class="col btn btn-primary" id="94">
+                94
             </div>
         </form>
     </div>
