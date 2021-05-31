@@ -1,17 +1,15 @@
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
-
 class Game {
     
-    constructor() {
+    constructor(detectiveAmount) {
 
         this.canvas = document.getElementById("gameCanvas");
         this.ctx = this.canvas.getContext("2d");
         
-        this.backgroundSRC = "./images/game_board.jpg";
+        this.backgroundSRC = "./images/gameBoard_medRes.JPG";
 
         this.canvas.width =  window.innerWidth * 0.97;
         this.canvas.height = window.innerHeight * 0.90;
-        this.ratio = 1024 / 776; // Change to pixels of image
+        this.ratio = 4312 / 3256; // Change to pixels of image
 
         if (this.canvas.height < this.canvas.width / this.ratio){
             this.canvas.width = this.canvas.height * this.ratio;
@@ -26,9 +24,11 @@ class Game {
             "y": this.canvas.height * 0.025
         };
 
-        this.clickSense = 3;
-        
-        //set up players
+        this.clickSense = this.canvas.width * 0.004;
+
+        this.startingPositions = [13, 26, 29, 34, 50, 53, 94, 103, 112, 117, 132, 138, 141, 155, 174, 197, 198];
+
+        //game.setupPlayers(detectiveAmount);
 
     }
 
@@ -50,6 +50,20 @@ class Game {
         }
     }
 
+    setupPlayers(detectiveAmount) {
+
+        detectives = [];
+
+        for (var i = 0; i < detectiveAmount; i++) {
+            startingPosition = 0;
+            //detectives.push(new Detective());
+        }
+
+
+        //misterX = new MisterX()
+        
+    }
+
     getMousePosition(event) {
 
         //sets mouseX and mouseY to most recent click
@@ -58,7 +72,7 @@ class Game {
         this.mouseX = event.clientX - rect.left;
         this.mouseY = event.clientY - rect.top;
 
-        console.log("X: " + this.mouseX + "\tY: " + this.mouseY);
+        //console.log("X: " + this.mouseX + "\tY: " + this.mouseY);
         
     }
 
@@ -68,6 +82,11 @@ class Game {
 
     }
 
+    getPossibleMoves(possibleMoves) {
+
+        this.possibleMoves = possibleMoves;
+
+    }
 
     resize() {
 
@@ -83,6 +102,13 @@ class Game {
         }
 
         this.setBackground();
+
+        this.clickSense = this.canvas.width * 0.004;
+
+        this.triggerSize = {
+            "x": this.canvas.width * 0.015,
+            "y": this.canvas.height * 0.025
+        };
     
     }
 
@@ -94,20 +120,17 @@ class Game {
             //console.log(location_list[location]);
             for (let coordinate in location_list[location]){
 
-                if (location_list[location][coordinate]["y"] !== 0.97) {
+                const topBoundary = (location_list[location][coordinate]["y"] * this.canvas.height) - this.clickSense;
+                const bottomBoundary = (location_list[location][coordinate]["y"] * this.canvas.height) + this.triggerSize["y"] + this.clickSense;
+                const leftBoundary = (location_list[location][coordinate]["x"] * this.canvas.width) - this.clickSense;
+                const rightBoundary = (location_list[location][coordinate]["x"] * this.canvas.width) + this.triggerSize["x"] + this.clickSense;
 
-                    const topBoundary = (location_list[location][coordinate]["y"] * this.canvas.height) - this.clickSense;
-                    const bottomBoundary = (location_list[location][coordinate]["y"] * this.canvas.height) + this.triggerSize["y"] + this.clickSense;
-                    const leftBoundary = (location_list[location][coordinate]["x"] * this.canvas.width) - this.clickSense;
-                    const rightBoundary = (location_list[location][coordinate]["x"] * this.canvas.width) + this.triggerSize["x"] + this.clickSense;
+                if (this.mouseX > leftBoundary && 
+                    this.mouseX < rightBoundary &&
+                    this.mouseY < bottomBoundary &&
+                    this.mouseY > topBoundary) {
 
-                    if (this.mouseX > leftBoundary && 
-                        this.mouseX < rightBoundary &&
-                        this.mouseY < bottomBoundary &&
-                        this.mouseY > topBoundary) {
-
-                        return (parseInt(location) + 1);
-                    }
+                    return (parseInt(location) + 1);
                 }
             }
         }
@@ -115,7 +138,7 @@ class Game {
 
     showTriggers() {
 
-        //higlights the triggers for dev purposes
+        //higlights all placed triggers for dev purposes
 
         const location_list = Object.entries(this.triggerLocations);
 
@@ -141,13 +164,13 @@ class Game {
 
         //help get trigger locations    
         //click in the middle and if the square is correct, copy the console coordinates to the json file
-        // 	"":{"x": ,"y": },
 
         const topLeft = {
             "x": (this.mouseX - (this.triggerSize["x"]/2)) / this.canvas.width,
             "y": (this.mouseY - (this.triggerSize["y"]/2)) / this.canvas.height
         }
 
+        //draws a square where clicked
         this.ctx.beginPath();
         this.ctx.rect(
             topLeft["x"] * this.canvas.width, topLeft["y"] * this.canvas.height, 
@@ -158,7 +181,39 @@ class Game {
         this.ctx.stroke();
 
         console.log(topLeft);
+        
+        //copy the coordinates to the clipboard
+        var textArea = document.createElement("textarea");
+        textArea.value = '{"x": ' + topLeft["x"] + ', "y": ' + topLeft["y"] + '},';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
 
+    }
+
+}
+
+
+class Detective {
+
+    constructor(startingPosition) {
+
+        this.startingPosition = startingPosition;
+
+    }
+
+    movePlayer() {
+
+    }
+
+}
+
+
+class MisterX extends Detective {
+
+    constructor(startingPosition) {
+        
     }
 
 }
@@ -168,30 +223,40 @@ $(function() {
 
     const canvas = document.getElementById("gameCanvas");
 
-    var game = new Game();
+    var game = new Game(3);
 
     //gets trigger locations from json file
     var request = $.post("scripts/get_triggers.php", {call_now: "True"});
     request.done(function (data) {
         game.getTriggers(data);
+        
+        //Shows the clickable areas on the game board 
+        /*
         setTimeout(function(){
             game.showTriggers();
         }, 100);
+        */
         
     });
 
+    var request = $.post("scripts/get_possible_moves.php", {call_now: "True"});
+    request.done(function (data) {
+        game.getPossibleMoves(data);
+    });
 
 
     canvas.addEventListener("click", function(event){
         
         game.getMousePosition(event);
 
+        //The following copies the location of where you clicked in trigger_locations.json format
         //game.triggerHelper();
 
         var trigger = game.ScanForTrigger();
         console.log(trigger);
 
     });
+
 
     window.addEventListener("resize", function(){
 
