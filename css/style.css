@@ -16,7 +16,7 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     --main-background: #09080d;
     --second-background: #3c3438;
     --green-accent: #538989FF;
-    --green-dark-accent: rgb(75, 116, 116);
+    --green-dark-accent: rgb(71, 101, 101);
 
 }
 
@@ -35,7 +35,9 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     background-color: var(--green-dark-accent);
     border-color:  var(--green-accent);
 }
-
+p{
+    color: lightgray;
+}
 .button-green-primary:active {
     color: white;
     background-color: var(--green-dark-accent);
@@ -76,10 +78,26 @@ body{
     align-items: center;
 }
 .instructions{
-    background-color: #697580;
+    background-color: whitesmoke;
     margin: 40px;
+    color: var(--green-dark-accent);
     padding: 20px;
     border-radius: 10px;
+}
+.instructions p{
+    color: var(--green-dark-accent);
+}
+.instructions h2{
+    font-size: 37px;
+}
+.instructions .misterX{
+    background-color: #3c3438;
+    color: floralwhite;
+    padding: 10px;
+    border-radius: 10px;
+}
+.instructions .misterX p{
+    color: floralwhite;
 }
 .active_page{
     background-color: #65727FFF;
@@ -87,15 +105,13 @@ body{
     margin: auto;
 }
 .tip{
-    background-color: darkgray;
+    background-color: #C4D4D4FF;
     border-radius: 10px;
-    color: black;
     text-align: center;
     margin-top: 5px;
     padding: 3px;
     font-weight: bold;
     font-size: 16px;
-    border: 2px solid darkgray;
 }
 .delete-user-button > svg {
     height: 16px;
@@ -132,9 +148,7 @@ body{
 #movement_table .table {
     color: lightgrey;
 }
-p{
-    color: lightgray;
-}
+
 #navbar {
     background-color: #778695;
     color: white;
