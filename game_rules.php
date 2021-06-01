@@ -28,7 +28,7 @@ include __DIR__ . '/tpl/body_start.php';
     <p>If a detective manages to get to the same place as the invisible "Mister X" , then "Mister X" must show himself and the detectives  win. However, if "Mister X" manages to remain undetected until the detectives have used  all their tickets and thus all their moves, "Mister X" has won.
         <br> A start position is randomly given to you.</> <br>
 
-    <h3>Preparation</h3>
+    <h3>Preparation</h3><br>
     <p>Each detective receives 10 taxi tickets, 8 bus tickets and 4 underground tickets. Mister X receives as many black tickets as detectives participate in the game and 4 taxi tickets, 3 bus tickets and 3 underground tickets.</p>
 
     <p class="tip"> Tip: To play the role of Mister X you need nerves of steel,
@@ -36,7 +36,7 @@ include __DIR__ . '/tpl/body_start.php';
 
 
 
-    <h3>Transportation</h3><br>
+    <Br><h3>Transportation</h3><br>
     <p>Every move is a ride on the bus, the underground or the famous london taxi. For such a ride, a matching ticket must be handed to Mister X. The traffic lines drawn on the game board correspond in color to the tickets. Each point is a stop for one or more means of transport. The colors of the stops indicate which means of transport may stop there.</p>
 
     <p class="tip"> Tip: The numbers of the stations on the game board
@@ -48,7 +48,7 @@ include __DIR__ . '/tpl/body_start.php';
                  width="175"
                  height="200"
             />
-            <figcaption>This station is a bus, taxi and underground station.<i>Game: Scotland Yard</i></figcaption>
+            <figcaption>This station is a bus, taxi and underground station. <i>Game: Scotland Yard</i></figcaption>
         </figure></div>
     <p>The bus (turquoise) only drives from stations with a turquoise semi-circle; a bus will take you a little further than the taxi (along the bus line).<br>
 
@@ -59,12 +59,12 @@ include __DIR__ . '/tpl/body_start.php';
         All playing pieces can only be moved to unoccupied stations. If there are no unoccupied stations for Mister X to travel to, he has lost the game. Mister X also loses if a detective moves to the station where Mister X is located.
         When a player is standing on a 'number' all possible moves light up.</p><br>
     <div class="misterX">
-    </b><h3> Mister X</h3>
+    </b><h3> Mister X</h3><br>
     <p>Mister X always makes the first move. This is not visible to the detectives. The means of transport is visible to the detectives.
-        Mister X has several special moves:
-        <Br><b>Appearing</b>, The location of "Mister X"  is shown regularly: the third, eighth, thirteenth, eighteenth and the last move.
-        <br><b>Double move</b>, Mister X has two double cards. When playing such a card, he can choose a combination of two different means of transport. This double card is counted as two individual moves and he will also gives two tickets. If mister X must appear in the first move, he must show up there. With the second move, he immediately disappears again.
-        <Br><b>Black tickets</b>, Mister X may use his black tickets every time it is his turn instead of the normal tickets (also with a double move).
+        Mister X has several special moves:<br>
+        <Br><b>Appearing</b>, The location of "Mister X"  is shown regularly: the third, eighth, thirteenth, eighteenth and the last move.<br>
+        <br><b>Double move</b>, Mister X has two double cards. When playing such a card, he can choose a combination of two different means of transport. This double card is counted as two individual moves and he will also gives two tickets. If mister X must appear in the first move, he must show up there. With the second move, he immediately disappears again.<Br>
+        <Br><b>Black tickets</b>, Mister X may use his black tickets every time it is his turn instead of the normal tickets (also with a double move).<br>
         The black ticket applies to every means of transport and therefore means a black day for the detectives, because when using the card they do not receive any information about the means of transport that Mister X used. The black ticket is also the only ticket that can be used to travel by boat.</p></div>
 </div>
 <div class="button_row">

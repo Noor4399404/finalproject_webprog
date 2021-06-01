@@ -82,7 +82,9 @@ body{
     margin: 40px;
     color: var(--green-dark-accent);
     padding: 20px;
-    border-radius: 10px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #ABB7B8;
 }
 .instructions p{
     color: var(--green-dark-accent);
@@ -133,16 +135,16 @@ body{
     margin-right: auto;
     margin-bottom: 20px;
     border-radius: 10px;
-    background-color: #e03b40;
+    background-color: #a0b6b8;
     color: white;
     padding: 10px;
     horiz-align: center;
-    border: 2px solid darkgray;
+    border: 2px solid #77979a;
 
 }
 #go-to-game-button:hover{
     text-decoration: none;
-    background-color: #fd353c;
+    background-color: #77979a;
 
 }
 #movement_table .table {
