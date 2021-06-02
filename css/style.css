@@ -120,6 +120,44 @@ body{
     height: 16px;
     width: 16px;
 }
+
+/* .host-action-button {
+    
+} */
+
+.delete-user-button {
+    margin-left: 0.5rem;
+    border-radius: 50%;
+    height: 24px;
+    max-width: 24px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: var(--red-dark-accent);
+    align-items: center;
+}
+
+.mister-X-button {
+    margin-left: auto;
+    border-radius: 50%;
+    height: 24px;
+    max-width: 24px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: var(--yellow-accent);
+    align-items: center;
+}
+
+.mister-X-button > img {
+    height: 80%;
+    width: 80%;
+}
+
+.name-joined-users-label {
+    overflow-x: scroll;
+}
+
 .button_row{
     position: relative;
     text-align: center;

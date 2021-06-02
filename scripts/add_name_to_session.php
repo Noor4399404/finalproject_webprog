@@ -12,7 +12,8 @@ $activeGameSessions = json_decode($activeGameSessionsFile, true);
 $userObject = array(
     "id" => $userId,
     "userName" => $userName,
-    "isHost" => $isHost
+    "isHost" => $isHost,
+    "isMisterX" => false
 );
 
 $gameSessionInfo = [

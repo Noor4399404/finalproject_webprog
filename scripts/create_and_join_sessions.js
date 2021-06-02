@@ -40,20 +40,28 @@ function displayJoinedUsers(usersJSON) {
         let userId = user.id;
         joinedUserIds.push(userId);
         if (userName && !addedUsers.includes(user.id)) {
-            addedUsers.push(user.id)            
-            let listItem = $(`<li id="list-item-joined-user-${userId}" class="list-group-item" role="alert"></li>`).text(userName);
+            addedUsers.push(user.id)     
+            let listItemText = $('<div class="name-joined-users-label"></div>').text(userName);
+            let listItem = $(`<li id="list-item-joined-user-${userId}" class="list-group-item d-flex" role="alert"></li>`).append(listItemText)
             
             if (user.id == sessionStorage.getItem("userId")) {
-                let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("you");
-                listItem.append(badgeElement)
+                let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("you");
+                listItemText.append(badgeElement)
             } else if (user.isHost) {
-                let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("host");
-                listItem.append(badgeElement);
+                let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("host");
+                listItemText.append(badgeElement);
             }  
 
             if ($("#is-host").val() == 1) {
-                let deleteButton = $(`<button id="delete-user-button-${userId}" class="delete-user-button float-right"></button>`).html('<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
-                listItem.append(deleteButton);
+                if (userId != sessionStorage.getItem("userId")) {
+                    let misterXButton = $(`<button id="mister-X-button-${userId}" class="mister-X-button host-action-button"></button>`).html('<img src="./images/icons/spy.png" alt="mister X">');
+                    let deleteButton = $(`<button id="delete-user-button-${userId}" class="delete-user-button host-action-button"></button>`).html('<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+                    listItem.append(misterXButton).append(deleteButton);
+                } else {
+                    let misterXButton = $(`<button id="mister-X-button-${userId}" class="mister-X-button host-action-button"></button>`).html('<img src="./images/icons/spy.png" alt="mister X">');
+                    listItem.append(misterXButton);
+
+                }
             } 
 
             $("#list-joined-users").append(listItem);
@@ -68,20 +76,6 @@ function displayJoinedUsers(usersJSON) {
     }
 }
 
-function deleteUser() {
-    $(document).on('click', '.delete-user-button', function(event) {
-        
-        let request = $.post("./scripts/delete_user.php", {
-            gameId: sessionStorage.getItem("gameId"),
-            userId: sessionStorage.getItem("userId"),
-            deleteUserId: deletedUserId
-        })
-        request.then((response) => {
-            console.log(response);
-        })
-    })
-}
-
 
 function hostActions(action) {
     let classNameButton = "";
@@ -90,13 +84,14 @@ function hostActions(action) {
             classNameButton = ".delete-user-button"
             break;
         case "appointX":
-            classNameButton = ".appointX-user-button"
+            classNameButton = ".mister-X-button"
     }
 
     $(document).on('click', classNameButton, function(event) {
         let userId = Number($(this).parent().attr("id").replace("list-item-joined-user", "")) * -1;
         // for some reason the id becomes negative ... 
-        let request = $.post("./scripts/delete_user.php", {
+        console.log("does work");
+        let request = $.post("./scripts/host_actions.php", {
             gameId: sessionStorage.getItem("gameId"),
             hostUserId: sessionStorage.getItem("userId"),
             action: action,
@@ -257,7 +252,8 @@ function waitingPageFunctions() {
     }, 3000);
     endGameSession();
     joinGame();
-    deleteUser();
+    hostActions("delete");
+    hostActions("appointX");
     clickToCopy("#game-id-card", "#copy-game-id-info");
 }
 
