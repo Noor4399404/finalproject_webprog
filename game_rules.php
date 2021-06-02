@@ -29,7 +29,22 @@ include __DIR__ . '/tpl/body_start.php';
         <br> A start position is randomly given to you.</> <br>
 
     <h3>Preparation</h3><br>
-    <p>Each detective receives 10 taxi tickets, 8 bus tickets and 4 underground tickets. Mister X receives as many black tickets as detectives participate in the game and 4 taxi tickets, 3 bus tickets and 3 underground tickets.</p>
+    <p>Each detective receives:
+    <ul>
+        <li>10 taxi tickets</li>
+        <li>8 bus tickets</li>
+        <li>4 underground tickets</li>
+    </ul>
+    Mister X receives:
+    <ul>
+        <li>as many black tickets as detectives participate in the game</li>
+        <li>4 taxi tickets</li>
+        <li>3 bus tickets</li>
+        <li>3 underground tickets</li>
+        <li>2 double tickets</li>
+    </ul></p>
+
+    Every time a detective uses a ticket, this ticket is given to Mister X.
 
     <p class="tip"> Tip: To play the role of Mister X you need nerves of steel,
         so it's best if the most experienced player gives it his best shot.</p>
@@ -42,17 +57,35 @@ include __DIR__ . '/tpl/body_start.php';
     <p class="tip"> Tip: The numbers of the stations on the game board
         are arranged from left to right to make it easier to find your starting positions.</p><br>
     <div class="one_piece">    <figure>
+            <img src="images/taxi_station.jpg"
+                 alt="A station on the Scotland Yard game board."
+                 title="Scotland Yard Station"
+                 width="175"
+                 height="200"
+            />
+            <figcaption><i>Station 1</i></figcaption>
+        </figure></div>
+    <div class="one_piece">    <figure>
+            <img src="images/bus_station.jpg"
+                 alt="A station on the Scotland Yard game board."
+                 title="Scotland Yard Station"
+                 width="175"
+                 height="200"
+            />
+            <figcaption><i>Station 2</i></figcaption>
+        </figure></div>
+    <div class="one_piece">    <figure>
             <img src="images/one_piece.jpg"
                  alt="A station on the Scotland Yard game board."
                  title="Scotland Yard Station"
                  width="175"
                  height="200"
             />
-            <figcaption>This station is a bus, taxi and underground station. <i>Game: Scotland Yard</i></figcaption>
+            <figcaption><i>Station 3</i></figcaption>
         </figure></div>
-    <p>The bus (turquoise) only drives from stations with a turquoise semi-circle; a bus will take you a little further than the taxi (along the bus line).<br>
+    <p>Every station is a taxi station (<i>station 1</i>). The bus  only drives from stations with a turquoise semi-circle (<i>station 2</i>). A bus will take you a little further than the taxi (along the bus line).<br>
 
-        The underground (red) travels along the red line and covers the furthest distances the quickest. However, there are only a few underground stations (stations with a red inner rectangle) on the map.<br>
+        The underground travels along the red line and covers the furthest distances the quickest. However, there are only a few underground stations (<i>station 3</i>) on the map.<br>
 
         A player uses a ticket with the corresponding color and moves his playing piece to the next station. You can move back along the same route on your next turn.<br>
 
@@ -66,6 +99,12 @@ include __DIR__ . '/tpl/body_start.php';
         <br><b>Double move</b>, Mister X has two double cards. When playing such a card, he can choose a combination of two different means of transport. This double card is counted as two individual moves and he will also gives two tickets. If mister X must appear in the first move, he must show up there. With the second move, he immediately disappears again.<Br>
         <Br><b>Black tickets</b>, Mister X may use his black tickets every time it is his turn instead of the normal tickets (also with a double move).<br>
         The black ticket applies to every means of transport and therefore means a black day for the detectives, because when using the card they do not receive any information about the means of transport that Mister X used. The black ticket is also the only ticket that can be used to travel by boat.</p></div>
+    <div>
+        still want to add: <br>
+        - explain chat function <br>
+        - explain submit button <br>
+        -
+    </div>
 </div>
 <div class="button_row">
     <a href="/WP21/finalproject_webprog/index.php"><button type="submit" id="go-to-game-button" class=" ready-game-button">I'm ready to play!</button></a>
