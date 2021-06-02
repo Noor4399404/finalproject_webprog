@@ -261,3 +261,20 @@ h5 {
 .btn-primary:hover {
     cursor: pointer;
 }
+
+#moves_table th, #mrxtable th {
+    color: lightgrey;
+}
+
+#moves_table td, #mrxtable td {
+    color: white;
+}
+
+#mrxdiv {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+#vehiclebuttons {
+    border: 5px #92a8d1;
+}
