@@ -1,6 +1,6 @@
 class Game {
     
-    constructor(detectiveAmount) {
+    constructor() {
 
         this.canvas = document.getElementById("gameCanvas");
         this.ctx = this.canvas.getContext("2d");
@@ -27,8 +27,9 @@ class Game {
         this.clickSense = this.canvas.width * 0.004;
 
         this.startingPositions = [13, 26, 29, 34, 50, 53, 94, 103, 112, 117, 132, 138, 141, 155, 174, 197, 198];
+        this.startingPositions = this.startingPositions.sort(() => Math.random() - 0.5)
 
-        //game.setupPlayers(detectiveAmount);
+        this.sessionID = 950737;//window.sessionStorage.getItem("gameId");
 
     }
 
@@ -50,18 +51,35 @@ class Game {
         }
     }
 
-    setupPlayers(detectiveAmount) {
 
-        detectives = [];
+    getHost() {
 
-        for (var i = 0; i < detectiveAmount; i++) {
-            startingPosition = 0;
-            //detectives.push(new Detective());
+        const userId = 1234567;//window.sessionStorage.getItem("userId");
+
+        for (var user in this.sessionData["users"]) {
+            if (this.sessionData["users"][user]["id"] == userId){
+                if (this.sessionData["users"][user]["isHost"] == "1"){
+                    this.isHost = true;
+                    console.log("you are the host")
+                } else {
+                    this.isHost = false;
+                    console.log("you are not the host")
+                }
+            }
         }
+    }
 
 
-        //misterX = new MisterX()
-        
+    setupPlayers() {
+
+        if (this.isHost){
+            this.detectiveAmount = Object.keys(this.sessionData["users"]).length - 1;
+            for (var user in this.sessionData["users"]) {
+                if (this.sessionData["users"][user]["isMisterX"] == '1'){
+                    this.misterX = new MisterX();
+                }
+            }
+        }
     }
 
     getMousePosition(event) {
@@ -85,6 +103,18 @@ class Game {
     getPossibleMoves(possibleMoves) {
 
         this.possibleMoves = possibleMoves;
+
+    }
+
+    getSessionData(sessionData) {
+
+        for (var session in sessionData){
+            if (this.sessionID == sessionData[session]["id"]){
+                this.sessionData = sessionData[session];
+            }
+        }
+
+        console.log(this.sessionData);
 
     }
 
@@ -112,7 +142,7 @@ class Game {
     
     }
 
-    ScanForTrigger() {
+    scanForTrigger() {
 
         const location_list = Object.entries(this.triggerLocations);
 
@@ -195,35 +225,74 @@ class Game {
 }
 
 
-class Detective {
+class Player {
 
-    constructor(startingPosition) {
+    constructor() {
 
-        this.startingPosition = startingPosition;
+        this.location = game.startingPositions.pop();
 
     }
 
-    movePlayer() {
+    movePlayerImage() {
 
     }
 
 }
 
+class Detective extends Player {
 
-class MisterX extends Detective {
+    constructor() {
 
-    constructor(startingPosition) {
+        this.cardAmount = {
+            "tax": 10,
+            "bus": 8,
+            "und": 4
+        };
+
+    }
+
+    checkForMisterX(){
+
+    }
+
+
+}
+
+
+class MisterX extends Player {
+
+    constructor() {
+        super();
+
+    this.cardAmount = {
+        "tax": 4,
+        "bus": 3,
+        "und": 3,
+        "blck": game.detectiveAmount,
+        "2x": 2
+    };
+
+    this.previousLocation
+
         
     }
+
 
 }
 
 
 $(function() {
 
-    const canvas = document.getElementById("gameCanvas");
+    var game = new Game();
 
-    var game = new Game(3);
+    var request = $.post("scripts/get_sessions.php", {call_now: "True"});
+    request.done(function (data) {
+            game.getSessionData(data);
+            game.getHost();
+            game.setupPlayers();
+    });
+
+    const canvas = document.getElementById("gameCanvas");
 
     //gets trigger locations from json file
     var request = $.post("scripts/get_triggers.php", {call_now: "True"});
@@ -249,19 +318,19 @@ $(function() {
         
         game.getMousePosition(event);
 
+        game.getStartingPosition();
+
         //The following copies the location of where you clicked in trigger_locations.json format
         //game.triggerHelper();
 
-        var trigger = game.ScanForTrigger();
+        var trigger = game.scanForTrigger();
         console.log(trigger);
 
     });
 
 
     window.addEventListener("resize", function(){
-
         game.resize();
-
     });
 
 });
