@@ -20,8 +20,7 @@ function edit_table(roundCounter) {
     $('#movement_table').show();
     let total_players = 1;
     if (roundCounter === 0) {
-        $('#1').removeClass('btn-primary');
-        $('#1').addClass('btn-warning');
+        $('#1').removeClass('btn-primary').addClass('btn-warning');
         let active_button = $('#1');
         active_button = active_button.attr('id');
         change_table(active_button);
