@@ -96,7 +96,8 @@ body{
     background-color: #3c3438;
     color: floralwhite;
     padding: 10px;
-    border-radius: 10px;
+    width: 100%;
+    border-radius: 12px;
 }
 .instructions .misterX p{
     color: floralwhite;
@@ -135,7 +136,7 @@ body{
     margin-right: auto;
     margin-bottom: 20px;
     border-radius: 10px;
-    background-color: #a0b6b8;
+    background-color: #77979a;
     color: white;
     padding: 10px;
     horiz-align: center;
@@ -144,13 +145,17 @@ body{
 }
 #go-to-game-button:hover{
     text-decoration: none;
-    background-color: #77979a;
+    background-color: #568b90;
 
 }
 #movement_table .table {
     color: lightgrey;
 }
-
+.one_piece {
+    float: left;
+    margin-left: 70px;
+    margin-right: 75px;
+}
 #navbar {
     background-color: #778695;
     color: white;
