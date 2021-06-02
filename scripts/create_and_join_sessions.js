@@ -70,8 +70,7 @@ function displayJoinedUsers(usersJSON) {
 
 function deleteUser() {
     $(document).on('click', '.delete-user-button', function(event) {
-        let deletedUserId = Number($(this).attr("id").replace("delete-user-button", "")) * -1;
-        // for some reason the id becomes negative ... 
+        
         let request = $.post("./scripts/delete_user.php", {
             gameId: sessionStorage.getItem("gameId"),
             userId: sessionStorage.getItem("userId"),
@@ -82,6 +81,35 @@ function deleteUser() {
         })
     })
 }
+
+
+function hostActions(action) {
+    let classNameButton = "";
+    switch (action) {
+        case "delete":
+            classNameButton = ".delete-user-button"
+            break;
+        case "appointX":
+            classNameButton = ".appointX-user-button"
+    }
+
+    $(document).on('click', classNameButton, function(event) {
+        let userId = Number($(this).parent().attr("id").replace("list-item-joined-user", "")) * -1;
+        // for some reason the id becomes negative ... 
+        let request = $.post("./scripts/delete_user.php", {
+            gameId: sessionStorage.getItem("gameId"),
+            hostUserId: sessionStorage.getItem("userId"),
+            action: action,
+            editedUserId: userId
+        })
+        request.then((response) => {
+            console.log(response);
+        })
+    });
+}
+
+
+// the javascript for hostActions is finished, the php needs to be changed though
 
 function getGameInformation() {
     let request = $.post("./scripts/get_joined_users.php", {
