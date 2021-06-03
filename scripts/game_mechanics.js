@@ -7,8 +7,8 @@ class Game {
         
         this.backgroundSRC = "./images/gameBoard_medRes.JPG";
 
-        this.canvas.width =  window.innerWidth * 0.97;
-        this.canvas.height = window.innerHeight * 0.90;
+        this.canvas.width =  window.innerWidth * 0.97 * window.devicePixelRatio;
+        this.canvas.height = window.innerHeight * 0.90 * window.devicePixelRatio;
         this.ratio = 4312 / 3256; // Change to pixels of image
 
         if (this.canvas.height < this.canvas.width / this.ratio){
@@ -16,6 +16,11 @@ class Game {
         } else {
             this.canvas.height = this.canvas.width / this.ratio;
         }
+
+        this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+        this.canvas.style.width = (this.canvas.width / devicePixelRatio) + "px";
+        this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
 
         this.setBackground();
 
@@ -44,8 +49,8 @@ class Game {
         background.onload = function() {
             ctx.drawImage(
                 background, 0, 0, 
-                canvas.width,
-                canvas.height);
+                canvas.width / window.devicePixelRatio,
+                canvas.height / window.devicePixelRatio);
         }
     }
 
@@ -99,8 +104,8 @@ class Game {
         //sets mouseX and mouseY to most recent click
 
         var rect = this.canvas.getBoundingClientRect();
-        this.mouseX = event.clientX - rect.left;
-        this.mouseY = event.clientY - rect.top;
+        this.mouseX = event.clientX * devicePixelRatio - rect.left * devicePixelRatio;
+        this.mouseY = event.clientY * devicePixelRatio - rect.top * devicePixelRatio;
 
         //console.log("X: " + this.mouseX + "\tY: " + this.mouseY);
         
@@ -129,14 +134,19 @@ class Game {
 
         //makes sure the game looks correct with window resize
 
-        this.canvas.width =  window.innerWidth * 0.97;
-        this.canvas.height = window.innerHeight * 0.90;
+        this.canvas.width =  window.innerWidth * 0.97 * devicePixelRatio;
+        this.canvas.height = window.innerHeight * 0.90 * devicePixelRatio;
 
         if (this.canvas.height < this.canvas.width / this.ratio){
             this.canvas.width = this.canvas.height * this.ratio;
         } else {
             this.canvas.height = this.canvas.width / this.ratio;
         }
+
+        this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+        this.canvas.style.width = (this.canvas.width / devicePixelRatio) + "px";
+        this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
 
         this.setBackground();
 
