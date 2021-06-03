@@ -16,8 +16,8 @@ $json_file = file_get_contents("data/trigger_locations.json");
 
 ?>
 
-<div class="d-flex flex-row" id="gamebody">
-    <div class="d-flex col-md-8 p-0">
+<div class="d-flex" id="gamebody">
+    <div class="d-flex col-md-8 p-0 canvas-div">
         <script type="text/javascript" src="scripts/game_mechanics.js"></script>
         <canvas id="gameCanvas">Your browser does not support the game, try updating it or using another one, like Chrome</canvas>
     </div>

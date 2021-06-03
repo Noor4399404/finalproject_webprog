@@ -291,6 +291,10 @@ footer ul {
     flex-direction: column;
 } */
 
+#gamebody {
+    flex-direction: row;
+}
+
 #movement_table {
     display: none;
     width: 50%;
@@ -382,3 +386,12 @@ table td > p {
 }
 
 
+@media (max-width: 768px) {
+    #gamebody {
+        flex-direction: column;
+    }
+    .canvas-div {
+        
+        justify-content: center;
+    }
+}
