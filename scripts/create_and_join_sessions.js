@@ -5,7 +5,10 @@ var joinedGame = false
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
-        let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
+        // let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
+        let randomUserId = 1000000;
+
+        console.log(randomUserId);
         let gameId = $("#game-id").val()
         console.log($("#game-id").val(),);
         let request = $.post("./scripts/add_name_to_session.php", {
@@ -18,10 +21,10 @@ function joinGame() {
             if (response.tooManyPlayers) {
                 console.log("worked kindof");
                 window.location.href = "./index.php"
-                alert(response)
+                alert("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .")
             } else {
                 joinedGame = true;
-                sessionStorage.setItem("userId", randomUserId)
+                sessionStorage.setItem("userId", response.userId)
                 sessionStorage.setItem("gameId", gameId)
                 $("#join-game-form").addClass("d-none");
                 $("#start-game-form").removeClass("d-none");

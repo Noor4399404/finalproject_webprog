@@ -26,8 +26,10 @@ if (isset($_POST["host-game-id"])) {
     $found_session_id = true;
     $gameId = intval($_POST["host-game-id"]);
 
+
     $activeGameSessionsFile =  file_get_contents('data/active_sessions.json', 'r');
     $activeGameSessions = json_decode($activeGameSessionsFile, true);
+
 
     $newGameId = true;
 
