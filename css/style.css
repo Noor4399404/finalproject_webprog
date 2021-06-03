@@ -120,6 +120,47 @@ body{
     height: 16px;
     width: 16px;
 }
+
+.host-action-buttons {
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: max-content;
+    
+}
+
+.delete-user-button {
+    margin-left: 0.5rem;
+    border-radius: 50%;
+    height: 24px;
+    max-width: 24px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: var(--red-dark-accent);
+    align-items: center;
+}
+
+.mister-X-button {
+    border-radius: 50%;
+    height: 24px;
+    max-width: 24px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: var(--yellow-accent);
+    align-items: center;
+}
+
+.mister-X-button > img {
+    height: 80%;
+    width: 80%;
+}
+
+.name-joined-users-label {
+    overflow-x: scroll;
+}
+
 .button_row{
     position: relative;
     text-align: center;
@@ -266,3 +307,78 @@ h5 {
 .btn-primary:hover {
     cursor: pointer;
 }
+
+#moves_table th, #mrxtable th {
+    color: lightgrey;
+}
+
+#moves_table td, #mrxtable td {
+    color: white;
+}
+
+#mrxdiv {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.table {
+    font-size: 14px;
+}
+
+table td > p {
+    margin: 0;
+}
+.table td, .table th {
+    padding: 0.5rem 0.5rem;
+    text-align: center;
+}
+
+.vehicle_buttons {
+    border: none;
+    border-radius: 21px;
+    padding: 0;
+    min-width: 30%;
+    height: 42px;
+}
+
+.vehicle_info_div {
+    height: 24px;
+    min-width: max-content;
+    width: 100%;
+    padding: 0.25rem 0.25rem;
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.vehicle_info_div > p {
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    color: white;
+
+}
+
+.vehicle_info_div > svg{
+    height: 20px;
+    width: 20px;
+}
+
+.vehicle_button_div {
+    height: 42px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 21px;
+}
+.vehicle_button_div > svg{
+    height: 36px;
+    width: 36px;
+}
+
+.vehicle_button_div > p {
+    font-size: 24px;
+}
+
+

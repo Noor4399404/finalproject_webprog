@@ -5,7 +5,10 @@ var joinedGame = false
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
-        let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
+        // let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
+        let randomUserId = 1000000;
+
+        console.log(randomUserId);
         let gameId = $("#game-id").val()
         console.log($("#game-id").val(),);
         let request = $.post("./scripts/add_name_to_session.php", {
@@ -18,10 +21,10 @@ function joinGame() {
             if (response.tooManyPlayers) {
                 console.log("worked kindof");
                 window.location.href = "./index.php"
-                alert(response)
+                alert("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .")
             } else {
                 joinedGame = true;
-                sessionStorage.setItem("userId", randomUserId)
+                sessionStorage.setItem("userId", response.userId)
                 sessionStorage.setItem("gameId", gameId)
                 $("#join-game-form").addClass("d-none");
                 $("#start-game-form").removeClass("d-none");
@@ -32,6 +35,7 @@ function joinGame() {
 }
 
 var addedUsers = Array()
+var misterXAdded = false;
 
 function displayJoinedUsers(usersJSON) {
     let joinedUserIds = Array()
@@ -39,24 +43,40 @@ function displayJoinedUsers(usersJSON) {
         let userName = user.userName;
         let userId = user.id;
         joinedUserIds.push(userId);
+
         if (userName && !addedUsers.includes(user.id)) {
-            addedUsers.push(user.id)            
-            let listItem = $(`<li id="list-item-joined-user-${userId}" class="list-group-item" role="alert"></li>`).text(userName);
-            
+            addedUsers.push(user.id)     
+            let listItemText = $(`<div id="joined-user-info-${userId}" class="name-joined-users-label"></div>`).text(userName);
+            let listItem = $(`<li id="list-item-joined-user-${userId}" class="list-group-item d-flex" role="alert"></li>`).append(listItemText)
             if (user.id == sessionStorage.getItem("userId")) {
-                let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("you");
-                listItem.append(badgeElement)
+                let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("you");
+                listItemText.append(badgeElement)
             } else if (user.isHost) {
-                let badgeElement = $(`<span class="badge ml-2 text-white bg-secondary"></span>`).text("host");
-                listItem.append(badgeElement);
+                let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("host");
+                listItemText.append(badgeElement);
             }  
 
             if ($("#is-host").val() == 1) {
-                let deleteButton = $(`<button id="delete-user-button-${userId}" class="delete-user-button float-right"></button>`).html('<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
-                listItem.append(deleteButton);
+                let hostActionButtons = $(`<div id="host-action-buttons-${userId}" class="host-action-buttons"></button>`)
+                listItem.append(hostActionButtons)
+                if (!misterXAdded) {
+                    let misterXButton = $(`<button id="mister-X-button-${userId}" class="mister-X-button host-action-button"></button>`).html('<img src="./images/icons/spy.png" alt="mister X">');
+                    hostActionButtons.append(misterXButton)
+                }
+                if (userId != sessionStorage.getItem("userId")) {
+                    let deleteButton = $(`<button id="delete-user-button-${userId}" class="delete-user-button host-action-button"></button>`).html('<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+                    hostActionButtons.append(deleteButton);
+                } 
             } 
 
             $("#list-joined-users").append(listItem);
+        }
+
+        if (user.isMisterX && !misterXAdded) {
+            let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("mister X");
+            $(`#joined-user-info-${userId}`).append(badgeElement);
+            misterXAdded = true
+            console.log("hoi");
         }
         
     }
@@ -68,20 +88,42 @@ function displayJoinedUsers(usersJSON) {
     }
 }
 
-function deleteUser() {
-    $(document).on('click', '.delete-user-button', function(event) {
-        let deletedUserId = Number($(this).attr("id").replace("delete-user-button", "")) * -1;
+
+function hostActions(action) {
+    let classNameButton = "";
+    switch (action) {
+        case "delete":
+            classNameButton = ".delete-user-button"
+            break;
+        case "appointX":
+            classNameButton = ".mister-X-button"
+            if (misterXAdded) {
+                return
+            }
+            break
+    }
+
+    $(document).on('click', classNameButton, function(event) {
+        let userId = Number($(this).parent().parent().attr("id").replace("list-item-joined-user", "")) * -1;
         // for some reason the id becomes negative ... 
-        let request = $.post("./scripts/delete_user.php", {
+        console.log("does work");
+        let request = $.post("./scripts/host_actions.php", {
             gameId: sessionStorage.getItem("gameId"),
-            userId: sessionStorage.getItem("userId"),
-            deleteUserId: deletedUserId
+            hostUserId: sessionStorage.getItem("userId"),
+            action: action,
+            editedUserId: userId
         })
         request.then((response) => {
+            if (action == "appointX") {
+                $(".mister-X-button").fadeOut()
+            }
             console.log(response);
         })
-    })
+    });
 }
+
+
+// the javascript for hostActions is finished, the php needs to be changed though
 
 function getGameInformation() {
     let request = $.post("./scripts/get_joined_users.php", {
@@ -229,7 +271,8 @@ function waitingPageFunctions() {
     }, 3000);
     endGameSession();
     joinGame();
-    deleteUser();
+    hostActions("delete");
+    hostActions("appointX");
     clickToCopy("#game-id-card", "#copy-game-id-info");
 }
 

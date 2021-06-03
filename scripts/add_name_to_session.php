@@ -12,7 +12,8 @@ $activeGameSessions = json_decode($activeGameSessionsFile, true);
 $userObject = array(
     "id" => $userId,
     "userName" => $userName,
-    "isHost" => $isHost
+    "isHost" => $isHost,
+    "isMisterX" => false
 );
 
 $gameSessionInfo = [
@@ -23,6 +24,15 @@ $gameSessionInfo = [
 
 foreach ($activeGameSessions as $key => $activeGameSession) {
     if ($activeGameSession["id"] === $gameId && count($activeGameSession["users"]) < 5) {
+        $userIds = [];
+        foreach ($activeGameSessions[$key]["users"] as $secondKey => $user) {
+            array_push($userIds, $user["id"]);
+        }
+        while (in_array($userId, $userIds)) {
+            $userId = mt_rand(1000000, 9999999);
+            $userObject["id"] = $userId;
+            $gameSessionInfo["userId"] = $userId;
+        }
         array_push($activeGameSessions[$key]["users"], $userObject);
     } else if ($activeGameSession["id"] === $gameId) {
         $gameSessionInfo["tooManyPlayers"] = true;
