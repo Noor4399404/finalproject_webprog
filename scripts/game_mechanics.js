@@ -29,8 +29,6 @@ class Game {
         this.startingPositions = [13, 26, 29, 34, 50, 53, 94, 103, 112, 117, 132, 138, 141, 155, 174, 197, 198];
         this.startingPositions = this.startingPositions.sort(() => Math.random() - 0.5)
 
-        this.sessionID = 950737;//window.sessionStorage.getItem("gameId");
-
     }
 
     setBackground() {
@@ -74,11 +72,25 @@ class Game {
 
         if (this.isHost){
             this.detectiveAmount = Object.keys(this.sessionData["users"]).length - 1;
+            this.detectives = [];
             for (var user in this.sessionData["users"]) {
                 if (this.sessionData["users"][user]["isMisterX"] == '1'){
-                    this.misterX = new MisterX();
+                    this.misterX = new MisterX(
+                        this,
+                        this.sessionData["users"][user]["id"],
+                        this.sessionData["users"][user]["username"]
+                        );
+                } else {
+                    this.detectives.push(new Detective(
+                        this,
+                        this.sessionData["users"][user]["id"],
+                        this.sessionData["users"][user]["username"],
+                        this.sessionData["users"][user]["isHost"]
+                    ));
                 }
             }
+            console.log(this.misterX);
+            console.log(this.detectives);
         }
     }
 
@@ -108,12 +120,7 @@ class Game {
 
     getSessionData(sessionData) {
 
-        for (var session in sessionData){
-            if (this.sessionID == sessionData[session]["id"]){
-                this.sessionData = sessionData[session];
-            }
-        }
-
+        this.sessionData = JSON.parse(sessionData);
         console.log(this.sessionData);
 
     }
@@ -227,21 +234,91 @@ class Game {
 
 class Player {
 
-    constructor() {
+    constructor(game, playerId, username, isHost) {
 
+        this.id = playerId;
+        this.username = username;
+        this.isHost = isHost;
         this.location = game.startingPositions.pop();
+        this.previousLocation = 0;
 
     }
+
+    updateData() {
+
+        var request = $.post("scripts/edit_session.php", {
+            call_now: "True",
+            gameId: sessionStorage.getItem("gameId"),
+            playerId: this.id,
+            cardAmount: this.cardAmount,
+            myTurn: this.myTurn,
+            hasMoved: this.hasMoved,
+            location: this.location,
+            previousLocation: this.previousLocation
+
+        });
+        request.done(function (data) {
+             console.log(data)   
+        });
+
+    }
+
+    /*
+
+[
+    {
+        "id": 9876543,
+        "users": [
+            {
+                "id": 1234567,
+                "userName": "oscar",
+                "isHost": "1",
+                "isMisterX": "",
+                "cardAmount":{"tax":""},
+                "myTurn": true,
+                "hasMoved": false,
+                "location": "startinglocation"
+            },
+            {
+                "id": 2345678,
+                "userName": "bjorn",
+                "isHost": "",
+                "isMisterX": ""
+            },
+            {
+                "id": 2398498,
+                "userName": "noor",
+                "isHost": "",
+                "isMisterX": "1"
+            },
+            {
+                "id": 9872348,
+                "userName": "dennis",
+                "isHost": "",
+                "isMisterX": ""
+            }
+
+        ],
+        "gameStarted": true
+    }
+]
+
+    */
 
     movePlayerImage() {
 
+
+
     }
+
+
 
 }
 
 class Detective extends Player {
 
-    constructor() {
+    constructor(game, playerId, username, isHost) {
+        super(game, playerId, username, isHost);
 
         this.cardAmount = {
             "tax": 10,
@@ -249,34 +326,39 @@ class Detective extends Player {
             "und": 4
         };
 
+        this.myTurn = false;
+        this.hasMoved = false;
+
+        this.updateData();
+
     }
 
     checkForMisterX(){
 
     }
 
-
 }
 
 
 class MisterX extends Player {
 
-    constructor() {
-        super();
+    constructor(game, playerId, username, isHost) {
+        super(game, playerId, username, isHost);
 
-    this.cardAmount = {
-        "tax": 4,
-        "bus": 3,
-        "und": 3,
-        "blck": game.detectiveAmount,
-        "2x": 2
-    };
+        this.cardAmount = {
+            "tax": 4,
+            "bus": 3,
+            "und": 3,
+            "blck": game.detectiveAmount,
+            "2x": 2
+        };
 
-    this.previousLocation
+        this.myTurn = true;
+        this.hasMoved = false;
 
+        this.updateData();
         
     }
-
 
 }
 
@@ -284,13 +366,17 @@ class MisterX extends Player {
 $(function() {
 
     var game = new Game();
-
-    var request = $.post("scripts/get_sessions.php", {call_now: "True"});
+    
+    var request = $.post("scripts/get_session.php", {
+        call_now: "True",
+        gameId: sessionStorage.getItem("gameId")
+    });
     request.done(function (data) {
             game.getSessionData(data);
             game.getHost();
             game.setupPlayers();
     });
+    
 
     const canvas = document.getElementById("gameCanvas");
 
@@ -317,8 +403,6 @@ $(function() {
     canvas.addEventListener("click", function(event){
         
         game.getMousePosition(event);
-
-        game.getStartingPosition();
 
         //The following copies the location of where you clicked in trigger_locations.json format
         //game.triggerHelper();
