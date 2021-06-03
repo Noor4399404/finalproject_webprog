@@ -121,9 +121,13 @@ body{
     width: 16px;
 }
 
-/* .host-action-button {
+.host-action-buttons {
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: max-content;
     
-} */
+}
 
 .delete-user-button {
     margin-left: 0.5rem;
@@ -138,7 +142,6 @@ body{
 }
 
 .mister-X-button {
-    margin-left: auto;
     border-radius: 50%;
     height: 24px;
     max-width: 24px;

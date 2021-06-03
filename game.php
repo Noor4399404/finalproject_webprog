@@ -72,10 +72,10 @@ $json_file = file_get_contents("data/trigger_locations.json");
                     <input type="button" class="btn btn-warning btn-block" value="Taxi: 10">
                 </div>
                 <div class="d-flex flex-column m-3">
-                    <input type="button" class="btn btn-danger btn-block" value="Bus: 8">
+                    <input type="button" class="btn btn-info btn-block" value="Bus: 8">
                 </div>
                 <div class="d-flex flex-column m-3">
-                    <input type="button" class="btn btn-dark btn-block" value="Underground: 4">
+                    <input type="button" class="btn btn-danger btn-block" value="Underground: 4">
                 </div>
             </div>
             <div class="d-flex flex-row justify-content-center">
