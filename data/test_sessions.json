@@ -1,0 +1,37 @@
+[
+    {
+        "id": 950737,
+        "users": [
+            {
+                "id": 1234567,
+                "userName": "oscar",
+                "isHost": "1",
+                "isMisterX": "",
+                "cardAmount":{"tax":""},
+                "myTurn": true,
+                "hasMoved": false,
+                "location": "startinglocation"
+            },
+            {
+                "id": 2345678,
+                "userName": "bjorn",
+                "isHost": "",
+                "isMisterX": ""
+            },
+            {
+                "id": 2398498,
+                "userName": "noor",
+                "isHost": "",
+                "isMisterX": "1"
+            },
+            {
+                "id": 9872348,
+                "userName": "dennis",
+                "isHost": "",
+                "isMisterX": ""
+            }
+
+        ],
+        "gameStarted": true
+    }
+]
