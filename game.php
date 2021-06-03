@@ -68,25 +68,6 @@ $json_file = file_get_contents("data/trigger_locations.json");
                     </table>
                 </div>
             </div>
-<<<<<<< HEAD
-            <div class="d-flex flex-row justify-content-center" id="vehiclebuttons">
-                <div class="d-flex flex-column m-3">
-                    <input type="button" class="btn btn-warning btn-block" value="Taxi: 10">
-                </div>
-                <div class="d-flex flex-column m-3">
-                    <input type="button" class="btn btn-info btn-block" value="Bus: 8">
-                </div>
-                <div class="d-flex flex-column m-3">
-                    <input type="button" class="btn btn-danger btn-block" value="Underground: 4">
-                </div>
-            </div>
-            <div class="d-flex flex-row justify-content-center">
-                <div class="d-flex flex-column m-5 col-12">
-                    <input type="submit" class="btn btn-success" value="Submit Move">
-                </div>
-            </div>
-=======
->>>>>>> 4a9b18842137cce96811d19c7c9f700e62f51a63
             <div class="d-flex flex-row">
                 <div class="d-flex flex-column">
                     <h5>Mr. X used vehicles</h5>
@@ -261,10 +242,10 @@ $json_file = file_get_contents("data/trigger_locations.json");
                         <input type="button" class="btn btn-warning btn-lg" value="Taxi: 10">
                     </div>
                     <div class="d-flex flex-column ml-2 mr-2">
-                        <input type="button" class="btn btn-danger btn-lg" value="Bus: 8">
+                        <input type="button" class="btn btn-info btn-lg" value="Bus: 8">
                     </div>
                     <div class="d-flex flex-column ml-2 mr-2">
-                        <input type="button" class="btn btn-dark btn-lg" value="Underground: 4">
+                        <input type="button" class="btn btn-danger btn-lg" value="Underground: 4">
                     </div>
                 </div>
                 <div class="d-flex flex-row mt-3">
