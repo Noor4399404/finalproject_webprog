@@ -83,7 +83,8 @@ class Game {
                     this.misterX = new MisterX(
                         this,
                         this.sessionData["users"][user]["id"],
-                        this.sessionData["users"][user]["username"]
+                        this.sessionData["users"][user]["username"],
+                        this.sessionData["users"][user]["isHost"],
                         );
                 } else {
                     this.detectives.push(new Detective(
@@ -97,6 +98,25 @@ class Game {
             console.log(this.misterX);
             console.log(this.detectives);
         }
+    }
+
+    updateSession() {
+
+        var request = $.post("scripts/update_session.php", {
+            call_now: "True",
+            gameId: sessionStorage.getItem("gameId"),
+            playerId: this.id,
+            username: this.username,
+            cardAmount: this.cardAmount,
+            location: this.location,
+            previousLocation: this.previousLocation,
+            myTurn: this.myTurn,
+            hasMoved: this.hasMoved
+        });
+        request.done(function (data) {
+             console.log(data)   
+        });
+
     }
 
     getMousePosition(event) {
@@ -239,6 +259,10 @@ class Game {
 
     }
 
+    checkForMisterX(){
+
+    }
+
 }
 
 
@@ -256,16 +280,16 @@ class Player {
 
     updateData() {
 
-        var request = $.post("scripts/edit_session.php", {
+        var request = $.post("scripts/update_player.php", {
             call_now: "True",
             gameId: sessionStorage.getItem("gameId"),
             playerId: this.id,
+            username: this.username,
             cardAmount: this.cardAmount,
-            myTurn: this.myTurn,
-            hasMoved: this.hasMoved,
             location: this.location,
-            previousLocation: this.previousLocation
-
+            previousLocation: this.previousLocation,
+            myTurn: this.myTurn,
+            hasMoved: this.hasMoved
         });
         request.done(function (data) {
              console.log(data)   
@@ -277,11 +301,11 @@ class Player {
 
 [
     {
-        "id": 9876543,
+        "id": 1234567,
         "users": [
             {
                 "id": 1234567,
-                "userName": "oscar",
+                "username": "oscar",
                 "isHost": "1",
                 "isMisterX": "",
                 "cardAmount":{"tax":""},
@@ -291,19 +315,19 @@ class Player {
             },
             {
                 "id": 2345678,
-                "userName": "bjorn",
+                "username": "bjorn",
                 "isHost": "",
                 "isMisterX": ""
             },
             {
                 "id": 2398498,
-                "userName": "noor",
+                "username": "noor",
                 "isHost": "",
                 "isMisterX": "1"
             },
             {
                 "id": 9872348,
-                "userName": "dennis",
+                "username": "dennis",
                 "isHost": "",
                 "isMisterX": ""
             }
@@ -343,10 +367,6 @@ class Detective extends Player {
 
     }
 
-    checkForMisterX(){
-
-    }
-
 }
 
 
@@ -379,9 +399,10 @@ $(function() {
     
     var request = $.post("scripts/get_session.php", {
         call_now: "True",
-        gameId: sessionStorage.getItem("gameId")
+        gameId: 1234567 //sessionStorage.getItem("gameId")
     });
     request.done(function (data) {
+            console.log(data);
             game.getSessionData(data);
             game.getHost();
             game.setupPlayers();
