@@ -2,11 +2,23 @@
 
 var joinedGame = false
 
+
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
-        // let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
-        let randomUserId = 1000000;
+
+        let username = $("#user-name-input").val()
+        let invalidUsernamePattern = new RegExp("[^0-9A-z]", "g").test(username)
+
+        if (username.length < 3 || username.length > 8 || invalidUsernamePattern) {
+            $("#username-input-feedback").addClass("d-block").text("Your username was not valid. It should be between 3 and 8 characters and should only consist of letters and numbers.");
+            console.log("heeee");
+            return
+        } else {
+            $("#username-input-feedback").addClass("d-none")
+        }
+
+        let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
 
         console.log(randomUserId);
         let gameId = $("#game-id").val()
@@ -14,7 +26,7 @@ function joinGame() {
         let request = $.post("./scripts/add_name_to_session.php", {
             gameId: gameId,
             userId: randomUserId,
-            userName: $("#user-name-input").val(),
+            userName: username,
             isHost: $("#is-host").val()
         });
         request.then((response) => {
@@ -82,7 +94,9 @@ function displayJoinedUsers(usersJSON) {
     }
 
     for (addedUserId of addedUsers) {
-        if (!joinedUserIds.includes(addedUserId)) {
+        if (!joinedUserIds.includes(addedUserId) && joinedGame && addedUserId == window.sessionStorage.getItem("userId")) {
+            window.location.href = "./"
+        } else if (!joinedUserIds.includes(addedUserId)) {
             $(`#list-item-joined-user-${addedUserId}`).remove();
         }
     }
@@ -314,11 +328,11 @@ $(function () {
             homeFunctions();
             break;
 
-        case "join_game_test.php":
+        case "join_game.php":
             waitingPageFunctions();
             break;
 
-        case "start_game_join_test.php":
+        case "game.php":
             gamePageSessionFunctions();
             break;
     }

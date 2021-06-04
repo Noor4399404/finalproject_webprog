@@ -14,15 +14,13 @@ $navigation = Array(
 include __DIR__ . '/tpl/head.php';
 include __DIR__ . '/tpl/body_start.php';
 ?>
-<script src="./scripts/create_and_join_sessions.js"></script>
-
 
 
 <div id="home-header">
     <h1>Scotland Yard</h1>
 
     <div class="game-home-buttons">
-        <form action="./join_game_test.php" method="POST">
+        <form action="./join_game.php" method="POST">
 
             <input id="host-game-code-input" type="hidden" value="" name="host-game-id">
             <button type="submit" id="start-game-button" class="game-home-button">Host game</button>

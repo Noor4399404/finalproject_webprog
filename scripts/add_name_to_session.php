@@ -9,6 +9,8 @@ $isHost = $_POST["isHost"];
 $activeGameSessionsFile =  file_get_contents('../data/active_sessions.json', 'r');
 $activeGameSessions = json_decode($activeGameSessionsFile, true);
 
+$randomColorIndex = mt_rand(0, 4);
+
 $userObject = array(
     "id" => $userId,
     "userName" => $userName,
@@ -33,6 +35,15 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
             $userObject["id"] = $userId;
             $gameSessionInfo["userId"] = $userId;
         }
+        // $hex_color = $activeGameSessions[$key]["userColors"][$randomColorIndex];
+        // array_splice($activeGameSessions[$key]["userColors"], $randomColorIndex, 1);
+        // $newUserInfo = ["userColor" => $hex_color];
+        // $userObject = array_merge($userObject, $newUserInfo);
+        // array_push($activeGameSessions[$key]["users"], $userObject);
+
+        
+        $newUserInfo = ["userColor" => array_splice($activeGameSessions[$key]["userColors"], $randomColorIndex, 1)[0]];
+        $userObject = array_merge($userObject, $newUserInfo);
         array_push($activeGameSessions[$key]["users"], $userObject);
     } else if ($activeGameSession["id"] === $gameId) {
         $gameSessionInfo["tooManyPlayers"] = true;
