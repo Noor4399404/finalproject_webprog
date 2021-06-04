@@ -20,8 +20,8 @@ function joinGame() {
         request.then((response) => {
             if (response.tooManyPlayers) {
                 console.log("worked kindof");
+                alert("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .")                
                 window.location.href = "./index.php"
-                alert("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .")
             } else {
                 joinedGame = true;
                 sessionStorage.setItem("userId", response.userId)
@@ -158,11 +158,27 @@ function clickToCopy(clickElementID, messageElementID) {
 
 }
 
+function beginGame() {
+    $("#start-game").click(function(event) {
+        if (addedUsers.length < 4) {
+            event.preventDefault();
+            $("#start-game-feedback-text").removeClass("d-none");
+            $("#start-game-feedback-paragraph").text("There are not enough players to start a game. There should be either 4 or 5 players.")
+        } else if (!misterXAdded) {
+            event.preventDefault();
+            $("#start-game-feedback-text").removeClass("d-none");
+            $("#start-game-feedback-paragraph").text("Appoint someone as Mister X, otherwise the game cannot be played.")
+        }
+    });
+
+}
+
 
 // FUNCTIONS ON THE GAME PAGE
 
 function startGame() {
     // function on the gamepage: game started is changed to true, so other players will join as well.
+   
     let request = $.post("./scripts/start_game_session.php", {
         gameId: sessionStorage.getItem("gameId"),
         isHost: $("#isHost").val()
@@ -171,6 +187,8 @@ function startGame() {
         console.log(response);
         console.log("Other players are starting now as well");
     })
+    
+
 }
 
 
@@ -271,6 +289,7 @@ function waitingPageFunctions() {
     }, 3000);
     endGameSession();
     joinGame();
+    beginGame();
     hostActions("delete");
     hostActions("appointX");
     clickToCopy("#game-id-card", "#copy-game-id-info");

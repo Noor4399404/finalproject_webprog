@@ -125,6 +125,9 @@ if (isset($_POST["host-game-id"])) {
                         <button href="./start_game_join_test.php" id="start-game" class="btn button-green-primary">Start Game!</button>
                         <button id="end-game-button" class="btn btn-danger">End game</button>
                     </form>
+                    <div class="d-none" id="start-game-feedback-text">
+                        <p id="start-game-feedback-paragraph" class="text-danger"></p>
+                    </div>
                 <?php
                 } else {
                 ?> <p class="text-muted mt-3">Join here and wait for the host to start the game.</p>
