@@ -22,6 +22,12 @@ class Game {
         this.canvas.style.width = (this.canvas.width / devicePixelRatio) + "px";
         this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
 
+        if ((window.innerWidth) - (this.canvas.width / devicePixelRatio) < (window.innerWidth / 3)) {
+            document.getElementById("gamebody").style.flexDirection = "column"
+        } else {
+            document.getElementById("gamebody").style.flexDirection = "row"
+        }
+
         this.setBackground();
 
         this.triggerSize = {
@@ -167,6 +173,12 @@ class Game {
 
         this.canvas.style.width = (this.canvas.width / devicePixelRatio) + "px";
         this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
+
+        if ((window.innerWidth) - (this.canvas.width / devicePixelRatio) < (window.innerWidth / 3)) {
+            document.getElementById("gamebody").style.flexDirection = "column"
+        } else {
+            document.getElementById("gamebody").style.flexDirection = "row"
+        }
 
         this.setBackground();
 
