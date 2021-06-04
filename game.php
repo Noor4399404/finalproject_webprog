@@ -17,11 +17,11 @@ $json_file = file_get_contents("data/trigger_locations.json");
 ?>
 
 <div class="d-flex" id="gamebody">
-    <div class="d-flex col-md-8 p-0 canvas-div" id="canvas-div">
+    <div class="d-flex col-md-8 justify-content-center mx-auto mt-3 canvas-div" id="canvas-div">
         <script type="text/javascript" src="scripts/game_mechanics.js"></script>
         <canvas id="gameCanvas">Your browser does not support the game, try updating it or using another one, like Chrome</canvas>
     </div>
-    <div id="game-information" class="p-0 d-flex flex-column justify-content-around">
+    <div id="game-information" class="p-0 mx-auto d-flex flex-column justify-content-around">
         <div class="d-flex flex-row align-items-center">
             <p class="p-2">Rounds player: 24</p>
             <div class="ml-auto p-2">

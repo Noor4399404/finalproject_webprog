@@ -24,8 +24,10 @@ class Game {
 
         if ((window.innerWidth) - (this.canvas.width / devicePixelRatio) < (window.innerWidth / 3)) {
             document.getElementById("gamebody").style.flexDirection = "column"
+            document.getElementById("game-information").classList.add("col-md-8")
         } else {
             document.getElementById("gamebody").style.flexDirection = "row"
+            document.getElementById("game-information").classList.remove("col-md-8")
         }
 
         this.setBackground();
@@ -176,8 +178,10 @@ class Game {
 
         if ((window.innerWidth) - (this.canvas.width / devicePixelRatio) < (window.innerWidth / 3)) {
             document.getElementById("gamebody").style.flexDirection = "column"
+            document.getElementById("game-information").classList.add("col-md-8")
         } else {
             document.getElementById("gamebody").style.flexDirection = "row"
+            document.getElementById("game-information").classList.remove("col-md-8")
         }
 
         this.setBackground();
