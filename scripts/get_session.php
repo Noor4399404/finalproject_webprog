@@ -12,7 +12,7 @@ if (isset($_POST['call_now'])){
             $currentGameInfo = $activeGameSession;
         }
     }
-    
+    header('Content-Type: application/json');
     $answer = json_encode($currentGameInfo);
     echo $answer;
 }

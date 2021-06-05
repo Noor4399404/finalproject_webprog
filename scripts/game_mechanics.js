@@ -1,17 +1,17 @@
 class Game {
-    
+
     constructor() {
 
         this.canvas = document.getElementById("gameCanvas");
         this.ctx = this.canvas.getContext("2d");
-        
+
         this.backgroundSRC = "./images/gameBoard_medRes.JPG";
 
-        this.canvas.width =  window.innerWidth * 0.97 * window.devicePixelRatio;
+        this.canvas.width = window.innerWidth * 0.97 * window.devicePixelRatio;
         this.canvas.height = window.innerHeight * 0.90 * window.devicePixelRatio;
         this.ratio = 4312 / 3256; // Change to pixels of image
 
-        if (this.canvas.height < this.canvas.width / this.ratio){
+        if (this.canvas.height < this.canvas.width / this.ratio) {
             this.canvas.width = this.canvas.height * this.ratio;
         } else {
             this.canvas.height = this.canvas.width / this.ratio;
@@ -30,7 +30,7 @@ class Game {
             document.getElementById("game-information").classList.remove("col-md-7")
         }
 
-        this.setBackground();
+        this.setupCanvas();
 
         this.triggerSize = {
             "x": this.canvas.width * 0.015,
@@ -44,23 +44,56 @@ class Game {
 
     }
 
-    setBackground() {
+    setupCanvas() {
 
         //sets the background, with correct size
 
         var ctx = this.ctx;
         var canvas = this.canvas;
 
+
         var background = new Image();
         background.src = this.backgroundSRC;
 
-        background.onload = function() {
+
+        let userIconSRC = "./images/icons/user_icon.svg"
+        let userIcon = new Image();
+        userIcon.src = userIconSRC;
+
+        this.userIcon = userIcon
+
+        background.onload = function () {
             ctx.drawImage(
-                background, 0, 0, 
+                background, 0, 0,
                 canvas.width / window.devicePixelRatio,
                 canvas.height / window.devicePixelRatio);
+            ctx.drawImage(
+                userIcon, 0, 0,
+                canvas.width / window.devicePixelRatio / 25,
+                canvas.height / window.devicePixelRatio / 25);
         }
+        userIcon.onload = function () {
+            ctx.drawImage(
+                userIcon, 0, 0,
+                canvas.width / window.devicePixelRatio / 25,
+                canvas.height / window.devicePixelRatio / 25);
+        }
+
+        // a icon will always be displayed above the canvas, but I place two icons. one of them is above the background.
+        
     }
+
+    // updateUserIcon(stationNum) {
+    //     let ctx = this.ctx
+    //     let x, y = this.triggerLocations[stationNum];
+    //     let userIcon = this.userIcon;
+    //     userIcon.onload = function () {
+    //         ctx.drawImage(
+    //             userIcon, x * this.canvas.width, y * this.canvas.height,
+    //             canvas.width / window.devicePixelRatio / 25,
+    //             canvas.height / window.devicePixelRatio / 25);
+    //     }
+    // } does not work yet.
 
 
     getHost() {
@@ -68,8 +101,8 @@ class Game {
         const userId = 1234567;//window.sessionStorage.getItem("userId");
 
         for (var user in this.sessionData["users"]) {
-            if (this.sessionData["users"][user]["id"] == userId){
-                if (this.sessionData["users"][user]["isHost"] == "1"){
+            if (this.sessionData["users"][user]["id"] == userId) {
+                if (this.sessionData["users"][user]["isHost"] == "1") {
                     this.isHost = true;
                     console.log("you are the host")
                 } else {
@@ -83,17 +116,17 @@ class Game {
 
     setupPlayers() {
 
-        if (this.isHost){
+        if (this.isHost) {
             this.detectiveAmount = Object.keys(this.sessionData["users"]).length - 1;
             this.detectives = [];
             for (var user in this.sessionData["users"]) {
-                if (this.sessionData["users"][user]["isMisterX"] == '1'){
+                if (this.sessionData["users"][user]["isMisterX"] == '1') {
                     this.misterX = new MisterX(
                         this,
                         this.sessionData["users"][user]["id"],
                         this.sessionData["users"][user]["username"],
                         this.sessionData["users"][user]["isHost"],
-                        );
+                    );
                 } else {
                     this.detectives.push(new Detective(
                         this,
@@ -107,6 +140,7 @@ class Game {
             console.log(this.detectives);
         }
     }
+
 
     updateSession() {
 
@@ -122,7 +156,7 @@ class Game {
             hasMoved: this.hasMoved
         });
         request.done(function (data) {
-             console.log(data)   
+            console.log(data)
         });
 
     }
@@ -136,7 +170,7 @@ class Game {
         this.mouseY = event.clientY * devicePixelRatio - rect.top * devicePixelRatio;
 
         //console.log("X: " + this.mouseX + "\tY: " + this.mouseY);
-        
+
     }
 
     getTriggers(triggerLocations) {
@@ -162,10 +196,10 @@ class Game {
 
         //makes sure the game looks correct with window resize
 
-        this.canvas.width =  window.innerWidth * 0.97 * devicePixelRatio;
+        this.canvas.width = window.innerWidth * 0.97 * devicePixelRatio;
         this.canvas.height = window.innerHeight * 0.90 * devicePixelRatio;
 
-        if (this.canvas.height < this.canvas.width / this.ratio){
+        if (this.canvas.height < this.canvas.width / this.ratio) {
             this.canvas.width = this.canvas.height * this.ratio;
         } else {
             this.canvas.height = this.canvas.width / this.ratio;
@@ -184,7 +218,7 @@ class Game {
             document.getElementById("game-information").classList.remove("col-md-7")
         }
 
-        this.setBackground();
+        this.setupCanvas();
 
         this.clickSense = this.canvas.width * 0.004;
 
@@ -192,23 +226,23 @@ class Game {
             "x": this.canvas.width * 0.015,
             "y": this.canvas.height * 0.025
         };
-    
+
     }
 
     scanForTrigger() {
 
         const location_list = Object.entries(this.triggerLocations);
 
-        for (let location in location_list){
+        for (let location in location_list) {
             //console.log(location_list[location]);
-            for (let coordinate in location_list[location]){
+            for (let coordinate in location_list[location]) {
 
                 const topBoundary = (location_list[location][coordinate]["y"] * this.canvas.height) - this.clickSense;
                 const bottomBoundary = (location_list[location][coordinate]["y"] * this.canvas.height) + this.triggerSize["y"] + this.clickSense;
                 const leftBoundary = (location_list[location][coordinate]["x"] * this.canvas.width) - this.clickSense;
                 const rightBoundary = (location_list[location][coordinate]["x"] * this.canvas.width) + this.triggerSize["x"] + this.clickSense;
 
-                if (this.mouseX > leftBoundary && 
+                if (this.mouseX > leftBoundary &&
                     this.mouseX < rightBoundary &&
                     this.mouseY < bottomBoundary &&
                     this.mouseY > topBoundary) {
@@ -225,16 +259,16 @@ class Game {
 
         const location_list = Object.entries(this.triggerLocations);
 
-        for (let location in location_list){
+        for (let location in location_list) {
             //console.log(location_list[location]);
-            for (let coordinate in location_list[location]){
+            for (let coordinate in location_list[location]) {
 
                 this.ctx.beginPath();
                 this.ctx.rect(
-                    location_list[location][coordinate]["x"] * this.canvas.width, 
-                    location_list[location][coordinate]["y"] * this.canvas.height, 
+                    location_list[location][coordinate]["x"] * this.canvas.width,
+                    location_list[location][coordinate]["y"] * this.canvas.height,
                     this.triggerSize["x"], this.triggerSize["y"]
-                    );
+                );
                 this.ctx.lineWidth = 1;
                 this.ctx.strokeStyle = 'red';
                 this.ctx.stroke();
@@ -249,22 +283,22 @@ class Game {
         //click in the middle and if the square is correct, copy the console coordinates to the json file
 
         const topLeft = {
-            "x": (this.mouseX - (this.triggerSize["x"]/2)) / this.canvas.width,
-            "y": (this.mouseY - (this.triggerSize["y"]/2)) / this.canvas.height
+            "x": (this.mouseX - (this.triggerSize["x"] / 2)) / this.canvas.width,
+            "y": (this.mouseY - (this.triggerSize["y"] / 2)) / this.canvas.height
         }
 
         //draws a square where clicked
         this.ctx.beginPath();
         this.ctx.rect(
-            topLeft["x"] * this.canvas.width, topLeft["y"] * this.canvas.height, 
+            topLeft["x"] * this.canvas.width, topLeft["y"] * this.canvas.height,
             this.triggerSize["x"], this.triggerSize["y"]
-            );
+        );
         this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = 'red';
         this.ctx.stroke();
 
         console.log(topLeft);
-        
+
         //copy the coordinates to the clipboard
         var textArea = document.createElement("textarea");
         textArea.value = '{"x": ' + topLeft["x"] + ', "y": ' + topLeft["y"] + '},';
@@ -275,7 +309,7 @@ class Game {
 
     }
 
-    checkForMisterX(){
+    checkForMisterX() {
 
     }
 
@@ -308,7 +342,7 @@ class Player {
             hasMoved: this.hasMoved
         });
         request.done(function (data) {
-             console.log(data)   
+            console.log(data)
         });
 
     }
@@ -403,52 +437,53 @@ class MisterX extends Player {
         this.hasMoved = false;
 
         this.updateData();
-        
+
     }
 
 }
 
 
-$(function() {
+$(function () {
 
     var game = new Game();
-    
+
     var request = $.post("scripts/get_session.php", {
         call_now: "True",
-        gameId: 1234567 //sessionStorage.getItem("gameId")
+        gameId: 950737 //sessionStorage.getItem("gameId")
     });
     request.done(function (data) {
-            console.log(data);
-            game.getSessionData(data);
-            game.getHost();
-            game.setupPlayers();
+        console.log(data);
+        game.sessionData = data
+        // game.getSessionData(data); is not necessary if you make the header inside php json.
+        game.getHost();
+        game.setupPlayers();
     });
-    
+
 
     const canvas = document.getElementById("gameCanvas");
 
     //gets trigger locations from json file
-    var request = $.post("scripts/get_triggers.php", {call_now: "True"});
+    var request = $.post("scripts/get_triggers.php", { call_now: "True" });
     request.done(function (data) {
         game.getTriggers(data);
-        
+
         //Shows the clickable areas on the game board 
         /*
         setTimeout(function(){
             game.showTriggers();
         }, 100);
         */
-        
+
     });
 
-    var request = $.post("scripts/get_possible_moves.php", {call_now: "True"});
+    var request = $.post("scripts/get_possible_moves.php", { call_now: "True" });
     request.done(function (data) {
         game.getPossibleMoves(data);
     });
 
 
-    canvas.addEventListener("click", function(event){
-        
+    canvas.addEventListener("click", function (event) {
+
         game.getMousePosition(event);
 
         //The following copies the location of where you clicked in trigger_locations.json format
@@ -460,7 +495,7 @@ $(function() {
     });
 
 
-    window.addEventListener("resize", function(){
+    window.addEventListener("resize", function () {
         game.resize();
     });
 
