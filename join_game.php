@@ -125,10 +125,10 @@ if (isset($_POST["host-game-id"])) {
 
 
                 <?php if ($isHost) { ?>
-                    <form action="./start_game_join_test.php" method="POST" id="start-game-form" class="d-none">
+                    <form action="./game.php" method="POST" id="start-game-form" class="d-none">
                         <input type="hidden" name="is-host" value="<?php echo $isHost; ?>">
                         <button href="./start_game_join_test.php" id="start-game" class="btn button-green-primary">Start Game!</button>
-                        <button id="end-game-button" class="btn btn-danger">End game</button>
+                        <button id="end-game-button-2" class="btn btn-danger">End game</button>
                     </form>
                     <div class="d-none" id="start-game-feedback-text">
                         <p id="start-game-feedback-paragraph" class="text-danger"></p>

@@ -2,7 +2,6 @@
 
 var joinedGame = false
 
-
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
@@ -31,9 +30,13 @@ function joinGame() {
         });
         request.then((response) => {
             if (response.tooManyPlayers) {
-                console.log("worked kindof");
-                alert("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .")                
-                window.location.href = "./index.php"
+                useModal("Player limit reached", "There were too many players in this session, join another session or ask the host to kick one of the other players >:) .", "Go home" , closeModalAction = () => {window.location.href = "./index.php"})
+                
+                $("#modal-close").click(function() {
+                    $('#info-modal').modal('toggle');
+                    $("#modal-text").text("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .");
+                    $("#modal-title").text("Player limit reached")
+                })
             } else {
                 joinedGame = true;
                 sessionStorage.setItem("userId", response.userId)
@@ -95,7 +98,7 @@ function displayJoinedUsers(usersJSON) {
 
     for (addedUserId of addedUsers) {
         if (!joinedUserIds.includes(addedUserId) && joinedGame && addedUserId == window.sessionStorage.getItem("userId")) {
-            window.location.href = "./"
+            useModal("You are removed", "You have been removed from the current session. Start your own session or join another.", "Go home", closeModalAction = () => {window.location.href = "./index.php"})
         } else if (!joinedUserIds.includes(addedUserId)) {
             $(`#list-item-joined-user-${addedUserId}`).remove();
         }
@@ -146,7 +149,7 @@ function getGameInformation() {
     request.then(response => JSON.parse(response))
         .then((response) => {
             if (response.gameStarted === true) {
-                window.location.href = "./start_game_join_test.php"
+                window.location.href = "./game.php"
             }
             displayJoinedUsers(response.users);
             console.log(response);
@@ -256,9 +259,8 @@ function stopJoiningGame() {
 
 // GENERAL FUNCTIONS
 
-function endGameSession() {
-    $("#end-game-button").click(function(event) {
-        event.preventDefault();
+function endGameSession(idEndGameButton) {
+    function endSession() {
         let request = $.post("./scripts/end_game_session.php", {
             gameId: sessionStorage.getItem("gameId"),
             isHost: $("#is-host").val()
@@ -266,7 +268,12 @@ function endGameSession() {
         request.then((response) => {
             window.location.href = "./index.php";
         })
-    })
+    }
+
+    $(`#${idEndGameButton}`).click(function(event) {
+        event.preventDefault();
+        useModal("Are you sure?", "You will end this session. The other players would have to leave the current session.", "Don't end", closeModalAction = () => {}, twoActions = true, otherButtonText = "End session", otherModalAction = endSession)
+    });
 }
 
 
@@ -301,7 +308,8 @@ function waitingPageFunctions() {
             getGameInformation();
         }
     }, 3000);
-    endGameSession();
+    endGameSession("end-game-button");
+    endGameSession("end-game-button-2"); 
     joinGame();
     beginGame();
     hostActions("delete");
@@ -310,8 +318,9 @@ function waitingPageFunctions() {
 }
 
 function gamePageSessionFunctions() {
+    $("#container-div").removeClass("container");
     startGame();
-    endGameSession();
+    endGameSession("end-game-button");
 }
 
 

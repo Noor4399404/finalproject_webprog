@@ -11,22 +11,26 @@ $navigation = array(
     )
 );
 include __DIR__ . '/tpl/head.php';
+include __DIR__ . '/tpl/body_start.php';
+
 
 $json_file = file_get_contents("data/trigger_locations.json");
 
 ?>
 
 <div class="d-flex" id="gamebody">
-    <div class="d-flex col-md-8 justify-content-center mx-auto mt-3 canvas-div" id="canvas-div">
-        <script type="text/javascript" src="scripts/game_mechanics.js"></script>
-        <canvas id="gameCanvas">Your browser does not support the game, try updating it or using another one, like Chrome</canvas>
+    <div class="d-flex col-md-8 justify-content-center canvas-div" id="canvas-div">
+        <div class="p-2 mt-1 mx-auto">
+            <script type="text/javascript" src="scripts/game_mechanics.js"></script>
+            <canvas id="gameCanvas">Your browser does not support the game, try updating it or using another one, like Chrome</canvas>
+        </div>
     </div>
     <div id="game-information" class="p-0 mx-auto d-flex flex-column justify-content-around">
         <div class="d-flex flex-row align-items-center">
             <p class="p-2">Rounds player: 24</p>
             <div class="ml-auto p-2">
                 <input type="button" class="btn btn-primary" value="?">
-                <input type="button" class="btn btn-danger" value="End Game">
+                <input type="button" class="btn btn-danger" id="end-game-button" value="End Game">
             </div>
         </div>
         <div class="px-2">
@@ -378,3 +382,11 @@ $json_file = file_get_contents("data/trigger_locations.json");
         </div>
     </div>
 </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
