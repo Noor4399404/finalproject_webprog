@@ -13,7 +13,7 @@ p, button, a, input, label, textarea, .form-control, .custom-file-label, .btn {
     --yellow-accent: #f5e7c2;
     --red-dark-accent: #e74c51;
     --red-accent: #fd353c;
-    --main-background: #09080d;
+    --main-background: #131315;
     --second-background: #3c3438;
     --green-accent: #538989FF;
     --green-dark-accent: rgb(71, 101, 101);
@@ -325,6 +325,10 @@ h5 {
     overflow-y: scroll;
 }
 
+#game-main-element {
+    background-color: var(--main-background);
+}
+
 .table {
     font-size: 14px;
 }
@@ -385,6 +389,15 @@ table td > p {
     font-size: 24px;
 }
 
+#gamebody {
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#game-information {
+    justify-content: space-around;
+}
+
 
 @media (max-width: 991.98px) {
     #gamebody {
@@ -392,7 +405,6 @@ table td > p {
         align-items: center;
     }
     .canvas-div {
-        
         justify-content: center;
     }
 }

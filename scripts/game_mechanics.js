@@ -17,17 +17,24 @@ class Game {
             this.canvas.height = this.canvas.width / this.ratio;
         }
 
+        if (this.canvas.width / devicePixelRatio / 2 > window.innerWidth / 3) {
+            this.canvas.width = window.innerWidth / 3 * 2 * window.devicePixelRatio;
+            this.canvas.height = this.canvas.width / this.ratio
+        }
+
         this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
         this.canvas.style.width = (this.canvas.width / devicePixelRatio) + "px";
         this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
 
-        if ((window.innerWidth) - (this.canvas.width / devicePixelRatio) < (window.innerWidth / 3)) {
+        
+        if (window.innerWidth < window.innerHeight || window.innerWidth < 991.98) {
             document.getElementById("gamebody").style.flexDirection = "column"
-            document.getElementById("game-information").classList.add("col-md-7")
+            document.getElementById("game-information").style.width = "75%"
         } else {
+            let widthGameInformation = (window.innerWidth - this.canvas.width / devicePixelRatio - 40)
+            document.getElementById("game-information").style.width =  widthGameInformation + "px";
             document.getElementById("gamebody").style.flexDirection = "row"
-            document.getElementById("game-information").classList.remove("col-md-7")
         }
 
         this.setupCanvas();
@@ -205,17 +212,23 @@ class Game {
             this.canvas.height = this.canvas.width / this.ratio;
         }
 
+        if (this.canvas.width / devicePixelRatio / 2 > window.innerWidth / 3) {
+            this.canvas.width = window.innerWidth / 3 * 2 * window.devicePixelRatio;
+            this.canvas.height = this.canvas.width / this.ratio
+        }
+
         this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
         this.canvas.style.width = (this.canvas.width / devicePixelRatio) + "px";
         this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
 
-        if ((window.innerWidth) - (this.canvas.width / devicePixelRatio) < (window.innerWidth / 3)) {
+        if (window.innerWidth < window.innerHeight || window.innerWidth < 991.98) {
             document.getElementById("gamebody").style.flexDirection = "column"
-            document.getElementById("game-information").classList.add("col-md-7")
+            document.getElementById("game-information").style.width = "75%"
         } else {
+            let widthGameInformation = (window.innerWidth - this.canvas.width / devicePixelRatio - 40)
+            document.getElementById("game-information").style.width =  widthGameInformation + "px";
             document.getElementById("gamebody").style.flexDirection = "row"
-            document.getElementById("game-information").classList.remove("col-md-7")
         }
 
         this.setupCanvas();

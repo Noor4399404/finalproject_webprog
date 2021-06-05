@@ -28,6 +28,15 @@ function p_print($array)
 </head>
 
 <body>
+
+    <?php 
+    
+        if (basename($_SERVER['PHP_SELF']) != "game.php") {
+
+
+        
+    
+    ?>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
             <div class="container-fluid">
@@ -54,3 +63,5 @@ function p_print($array)
             </div>
         </nav>
     </header>
+
+    <?php } ?>
