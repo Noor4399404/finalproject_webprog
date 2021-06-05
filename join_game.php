@@ -44,6 +44,7 @@ if (isset($_POST["host-game-id"])) {
         $gameSession = [
             "id" => $gameId,
             "users" => array(),
+            "userColors" => array("0959f7", "f78809", "f70909", "15d34e", "e814cb"),
             "gameStarted" => false
         ];
         $activeGameSessions = array_slice($activeGameSessions, -100, 100);
@@ -51,13 +52,12 @@ if (isset($_POST["host-game-id"])) {
         array_push($activeGameSessions, $gameSession);
         $activeGameSessionsFile = json_encode($activeGameSessions);
         file_put_contents('data/active_sessions.json', $activeGameSessionsFile);
-    
+
         $message = "You have created session #$gameId";
     } else {
         $found_session_id = false;
         $message = "this game id already exists, try recreating a game id by hosting another game <a href='./index.php'>here</a>";
     }
-
 } else if (isset($_POST["join-game-id"]) && $_POST["join-game-id"] != 0) {
     $gameId = intval($_POST["join-game-id"]);
 
@@ -84,15 +84,17 @@ if (isset($_POST["host-game-id"])) {
 }
 ?>
 
-<script src="./scripts/create_and_join_sessions.js"></script>
-
-
 <div class="container mt-3 mb-5">
 
     <?php
     if ($found_session_id) {
     ?>
-        <h1>You can Host a game</h1>
+        <?php if ($isHost) { ?>
+            <h1>You are hosting a game</h1>
+        <?php } else { ?>
+            <h1>You are joining a game</h1>
+        <?php } ?>
+        
         <div class="row wp-row d-flex mt-4">
             <div class="d-flex flex-column mb-4 col-md-12">
                 <div id="game-id-card" class="card my-3">
@@ -111,20 +113,26 @@ if (isset($_POST["host-game-id"])) {
                     <input type="hidden" id="is-host" name="game-id" value="<?php echo $isHost; ?>">
                     <input type="hidden" id="game-id" name="game-id" value="<?php echo $gameId; ?>">
                     <input type="text" class="form-control mb-3" placeholder="Your name" id="user-name-input" name="user-name-input">
+                    <div class="invalid-feedback mb-3" id="username-input-feedback">
+
+                    </div>
                     <button id="join-game-name" class="btn button-green-primary">Join Game!</button>
                     <?php if ($isHost) { ?>
-                    <button id="end-game-button" class="btn btn-danger">End game</button>
+                        <button id="end-game-button" class="btn btn-danger">End game</button>
                     <?php } ?>
                 </form>
-                
+
 
 
                 <?php if ($isHost) { ?>
-                    <form action="./start_game_join_test.php" method="POST" id="start-game-form" class="d-none">
+                    <form action="./game.php" method="POST" id="start-game-form" class="d-none">
                         <input type="hidden" name="is-host" value="<?php echo $isHost; ?>">
                         <button href="./start_game_join_test.php" id="start-game" class="btn button-green-primary">Start Game!</button>
-                        <button id="end-game-button" class="btn btn-danger">End game</button>
+                        <button id="end-game-button-2" class="btn btn-danger">End game</button>
                     </form>
+                    <div class="d-none" id="start-game-feedback-text">
+                        <p id="start-game-feedback-paragraph" class="text-danger"></p>
+                    </div>
                 <?php
                 } else {
                 ?> <p class="text-muted mt-3">Join here and wait for the host to start the game.</p>

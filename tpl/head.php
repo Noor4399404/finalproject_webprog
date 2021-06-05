@@ -22,7 +22,9 @@ function p_print($array)
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Scripts -->
+    <script src="./scripts/main.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+    <script src="./scripts/sessions.js"></script>
 </head>
 
 <body>

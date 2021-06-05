@@ -5,8 +5,19 @@ var joinedGame = false
 function joinGame() {
     $("#join-game-name").click(function (event) {
         event.preventDefault();
-        // let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
-        let randomUserId = 1000000;
+
+        let username = $("#user-name-input").val()
+        let invalidUsernamePattern = new RegExp("[^0-9A-z]", "g").test(username)
+
+        if (username.length < 3 || username.length > 8 || invalidUsernamePattern) {
+            $("#username-input-feedback").addClass("d-block").text("Your username was not valid. It should be between 3 and 8 characters and should only consist of letters and numbers.");
+            console.log("heeee");
+            return
+        } else {
+            $("#username-input-feedback").addClass("d-none")
+        }
+
+        let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
 
         console.log(randomUserId);
         let gameId = $("#game-id").val()
@@ -14,14 +25,18 @@ function joinGame() {
         let request = $.post("./scripts/add_name_to_session.php", {
             gameId: gameId,
             userId: randomUserId,
-            userName: $("#user-name-input").val(),
+            userName: username,
             isHost: $("#is-host").val()
         });
         request.then((response) => {
             if (response.tooManyPlayers) {
-                console.log("worked kindof");
-                window.location.href = "./index.php"
-                alert("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .")
+                useModal("Player limit reached", "There were too many players in this session, join another session or ask the host to kick one of the other players >:) .", "Go home" , closeModalAction = () => {window.location.href = "./index.php"})
+                
+                $("#modal-close").click(function() {
+                    $('#info-modal').modal('toggle');
+                    $("#modal-text").text("There were too many players in this session, join another session or ask the host to kick one of the other players >:) .");
+                    $("#modal-title").text("Player limit reached")
+                })
             } else {
                 joinedGame = true;
                 sessionStorage.setItem("userId", response.userId)
@@ -82,7 +97,9 @@ function displayJoinedUsers(usersJSON) {
     }
 
     for (addedUserId of addedUsers) {
-        if (!joinedUserIds.includes(addedUserId)) {
+        if (!joinedUserIds.includes(addedUserId) && joinedGame && addedUserId == window.sessionStorage.getItem("userId")) {
+            useModal("You are removed", "You have been removed from the current session. Start your own session or join another.", "Go home", closeModalAction = () => {window.location.href = "./index.php"})
+        } else if (!joinedUserIds.includes(addedUserId)) {
             $(`#list-item-joined-user-${addedUserId}`).remove();
         }
     }
@@ -132,7 +149,7 @@ function getGameInformation() {
     request.then(response => JSON.parse(response))
         .then((response) => {
             if (response.gameStarted === true) {
-                window.location.href = "./start_game_join_test.php"
+                window.location.href = "./game.php"
             }
             displayJoinedUsers(response.users);
             console.log(response);
@@ -158,11 +175,27 @@ function clickToCopy(clickElementID, messageElementID) {
 
 }
 
+function beginGame() {
+    $("#start-game").click(function(event) {
+        if (addedUsers.length < 4) {
+            event.preventDefault();
+            $("#start-game-feedback-text").removeClass("d-none");
+            $("#start-game-feedback-paragraph").text("There are not enough players to start a game. There should be either 4 or 5 players.")
+        } else if (!misterXAdded) {
+            event.preventDefault();
+            $("#start-game-feedback-text").removeClass("d-none");
+            $("#start-game-feedback-paragraph").text("Appoint someone as Mister X, otherwise the game cannot be played.")
+        }
+    });
+
+}
+
 
 // FUNCTIONS ON THE GAME PAGE
 
 function startGame() {
     // function on the gamepage: game started is changed to true, so other players will join as well.
+   
     let request = $.post("./scripts/start_game_session.php", {
         gameId: sessionStorage.getItem("gameId"),
         isHost: $("#isHost").val()
@@ -171,6 +204,8 @@ function startGame() {
         console.log(response);
         console.log("Other players are starting now as well");
     })
+    
+
 }
 
 
@@ -224,9 +259,8 @@ function stopJoiningGame() {
 
 // GENERAL FUNCTIONS
 
-function endGameSession() {
-    $("#end-game-button").click(function(event) {
-        event.preventDefault();
+function endGameSession(idEndGameButton) {
+    function endSession() {
         let request = $.post("./scripts/end_game_session.php", {
             gameId: sessionStorage.getItem("gameId"),
             isHost: $("#is-host").val()
@@ -234,7 +268,12 @@ function endGameSession() {
         request.then((response) => {
             window.location.href = "./index.php";
         })
-    })
+    }
+
+    $(`#${idEndGameButton}`).click(function(event) {
+        event.preventDefault();
+        useModal("Are you sure?", "You will end this session. The other players would have to leave the current session.", "Don't end", closeModalAction = () => {}, twoActions = true, otherButtonText = "End session", otherModalAction = endSession)
+    });
 }
 
 
@@ -269,16 +308,19 @@ function waitingPageFunctions() {
             getGameInformation();
         }
     }, 3000);
-    endGameSession();
+    endGameSession("end-game-button");
+    endGameSession("end-game-button-2"); 
     joinGame();
+    beginGame();
     hostActions("delete");
     hostActions("appointX");
     clickToCopy("#game-id-card", "#copy-game-id-info");
 }
 
 function gamePageSessionFunctions() {
+    $("#container-div").removeClass("container");
     startGame();
-    endGameSession();
+    endGameSession("end-game-button");
 }
 
 
@@ -295,11 +337,11 @@ $(function () {
             homeFunctions();
             break;
 
-        case "join_game_test.php":
+        case "join_game.php":
             waitingPageFunctions();
             break;
 
-        case "start_game_join_test.php":
+        case "game.php":
             gamePageSessionFunctions();
             break;
     }
