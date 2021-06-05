@@ -130,7 +130,7 @@ $session_data = json_decode($session_data_json, true);
 <div class="d-flex flex-column" id="game-main-element">
     <header id="game-header" class="d-flex flex-row p-2 align-items-center">
         <div class="col-md-8 d-flex justify-content-around">
-        <h6 class="mb-0">Rounds player: 24</h6>
+        <h6 class="mb-0">Rounds played: 24</h6>
         <h6 class="mb-0">
             X more moves until Mr. X reveals himself!
         </h6>
