@@ -18,3 +18,17 @@ function useModal(modalTitle, modalText, closeButtonText, closeModalAction = () 
         closeModalAction();
     })
 }
+
+function fillUsernames() {
+    $.getJSON("data/test_sessions.json", function (data) {
+        let headingRow = $('#moves_table tr')[0];
+        for (let key in data) {
+            console.log(data[key]['users'][0]['userName']);
+            headingRow.innerHTML = '<th scope="col">' + 'Vehicles' + '</th><th scope="col">' + data[key]['users'][0]['userName'] + '</th><th scope="col">' + data[key]['users'][1]['userName'] + '</th><th scope="col">' + data[key]['users'][2]['userName'] + '</th>';
+        }
+    })
+}
+
+$(function() {
+    fillUsernames();
+});
