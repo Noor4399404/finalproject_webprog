@@ -15,7 +15,8 @@
                 "myTurn": "false",
                 "hasMoved": "false",
                 "location": "138",
-                "previousLocation": "0"
+                "previousLocation": "0",
+                "color": "f78809"
             },
             {
                 "id": "2345678",
@@ -28,7 +29,8 @@
                 "myTurn": "false",
                 "hasMoved": "false",
                 "location": "198",
-                "previousLocation": "0"
+                "previousLocation": "0",
+                "color": "15d34e"
             },
             {
                 "id": "2398498",
@@ -43,7 +45,8 @@
                 "myTurn": "true",
                 "hasMoved": "false",
                 "location": "117",
-                "previousLocation": "0"
+                "previousLocation": "0",
+                "color": "f70909"
             },
             {
                 "id": "9872348",
@@ -56,7 +59,8 @@
                 "myTurn": "false",
                 "hasMoved": "false",
                 "location": "53",
-                "previousLocation": "0"
+                "previousLocation": "0",
+                "color": "e814cb"
             }
         ],
         "gameStarted": true

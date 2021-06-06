@@ -75,13 +75,18 @@ class Game {
 
     }
 
-    addUserIcon(startLocation, userId) {
+    addUserIcon(detective) {
+        let userId = detective.id;
+        let startLocation = detective.location;
+        let color = detective.color;
+
         let canvas_positions = this.canvas_positions;
-        let userIcon = $(`<img id="userIconImage_${userId}") src="./images/icons/user_icon.svg" style="position: absolute;">`)
+        let userIcon = $(`<svg id="userIconImage_${userId}") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
         let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
         let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
         $("body").append(userIcon)
-        $(`#userIconImage_${userId}`).css("top", y).css("left", x).css("z-index", 10)
+
+        $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`)
     }
 
     resizeUserIcon() {
@@ -131,13 +136,15 @@ class Game {
                         this.sessionData["users"][user]["id"],
                         this.sessionData["users"][user]["username"],
                         this.sessionData["users"][user]["isHost"],
+                        this.sessionData["users"][user]["color"]
                     );
                 } else {
                     this.detectives.push(new Detective(
                         this,
                         this.sessionData["users"][user]["id"],
                         this.sessionData["users"][user]["username"],
-                        this.sessionData["users"][user]["isHost"]
+                        this.sessionData["users"][user]["isHost"],
+                        this.sessionData["users"][user]["color"]
                     ));
                 }
             }
@@ -305,13 +312,14 @@ class Game {
 
 class Player {
 
-    constructor(game, playerId, username, isHost) {
+    constructor(game, playerId, username, isHost, color) {
 
         this.id = playerId;
         this.username = username;
         this.isHost = isHost;
         this.location = game.startingPositions.pop();
         this.previousLocation = 0;
+        this.color = color;
 
     }
 
@@ -388,8 +396,8 @@ class Player {
 
 class Detective extends Player {
 
-    constructor(game, playerId, username, isHost) {
-        super(game, playerId, username, isHost);
+    constructor(game, playerId, username, isHost, color) {
+        super(game, playerId, username, isHost, color);
 
         this.cardAmount = {
             "tax": 10,
@@ -409,8 +417,8 @@ class Detective extends Player {
 
 class MisterX extends Player {
 
-    constructor(game, playerId, username, isHost) {
-        super(game, playerId, username, isHost);
+    constructor(game, playerId, username, isHost, color) {
+        super(game, playerId, username, isHost, color);
 
         this.cardAmount = {
             "tax": 4,
@@ -466,7 +474,7 @@ $(function () {
         console.log(game.detectives)
         for (let detective in game.detectives) {
             console.log(game.detectives[detective])
-            game.addUserIcon(game.detectives[detective].location, game.detectives[detective].id)
+            game.addUserIcon(game.detectives[detective])
         }
         $("#test-moving-button").click(function () {
             console.log(15);
