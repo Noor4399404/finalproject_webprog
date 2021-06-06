@@ -382,6 +382,9 @@ table td > p {
 .vehicles_explained .border{
     padding: 10px;
 }
+.transport_explained{
+    padding: 11%;
+}
 .vehicle_button_div {
     height: 42px;
     padding: 0.25rem 0.5rem;
