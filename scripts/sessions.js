@@ -201,8 +201,7 @@ function startGame() {
         isHost: $("#isHost").val()
     });
     request.then((response) => {
-        console.log(response);
-        console.log("Other players are starting now as well");
+        
     })
     
 
