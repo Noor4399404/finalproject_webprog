@@ -75,13 +75,13 @@ class Game {
 
     }
 
-    addUserIcon(startLocation) {
+    addUserIcon(startLocation, userId) {
         let canvas_positions = this.canvas_positions;
-        let userIcon = $('<img id="userIconImage") src="./images/icons/user_icon.svg" style="position: absolute;">')
+        let userIcon = $(`<img id="userIconImage_${userId}") src="./images/icons/user_icon.svg" style="position: absolute;">`)
         let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
         let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
         $("body").append(userIcon)
-        $("#userIconImage").css("top", y).css("left", x).css("z-index", 10)
+        $(`#userIconImage_${userId}`).css("top", y).css("left", x).css("z-index", 10)
     }
 
     resizeUserIcon() {
@@ -93,7 +93,7 @@ class Game {
         $("#userIconImage").css("top", y).css("left", x).css("z-index", 10)
     }
 
-    moveUserIcon(newLocation) {
+    moveUserIcon(newLocation, userId) {
         let canvas_positions = this.canvas_positions;
         let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
         let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
@@ -105,7 +105,7 @@ class Game {
 
         const userId = 1234567;//window.sessionStorage.getItem("userId");
 
-        for (var user in this.sessionData["users"]) {
+        for (let user in this.sessionData["users"]) {
             if (this.sessionData["users"][user]["id"] == userId) {
                 if (this.sessionData["users"][user]["isHost"] == "1") {
                     this.isHost = true;
@@ -456,16 +456,17 @@ $(function () {
         let sessionData = res[0];
         console.log(sessionData);
         game.sessionData = sessionData
-        // game.getSessionData(sessionData); is not necessary if you make the header inside php json.
+        // game.getSessionData(sessionData); //is not necessary if you make the header inside php json.
         game.getHost();
         game.setupPlayers();
 
         // code in the .done after the second request
         game.getTriggers(res[1]);
+
         console.log(game.detectives)
-        for (detective in game.detectives) {
-            console.log(detective)
-            game.addUserIcon(detective.location + 1)
+        for (let detective in game.detectives) {
+            console.log(game.detectives[detective])
+            game.addUserIcon(game.detectives[detective].location, game.detectives[detective].id)
         }
         $("#test-moving-button").click(function () {
             console.log(15);
