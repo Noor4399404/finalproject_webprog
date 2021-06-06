@@ -46,9 +46,9 @@ function fillUsernames() {
             thirdRow[5].innerHTML = '<td>' + data[key]['users'][1]['cardAmount']['und'] + '</td>';
             thirdRow[7].innerHTML = '<td>' + data[key]['users'][2]['cardAmount']['und'] + '</td>';
 
-            vehicleButtons[0].innerHTML = '<p>' + data[key]['users'][3]['cardAmount']['tax'] + '</p>';
-            vehicleButtons[1].innerHTML = '<p>' + data[key]['users'][3]['cardAmount']['bus'] + '</p>';
-            vehicleButtons[2].innerHTML = '<p>' + data[key]['users'][3]['cardAmount']['und'] + '</p>';
+            vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['tax'] + '</p>';
+            vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['bus'] + '</p>';
+            vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['und'] + '</p>';
 
         }
     })
