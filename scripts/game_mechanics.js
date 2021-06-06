@@ -27,17 +27,18 @@ class Game {
         this.canvas.style.width = (this.canvas.width / devicePixelRatio) + "px";
         this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
 
-        
         if (window.innerWidth < window.innerHeight || window.innerWidth < 991.98) {
             document.getElementById("gamebody").style.flexDirection = "column"
             document.getElementById("game-information").style.width = "75%"
         } else {
             let widthGameInformation = (window.innerWidth - this.canvas.width / devicePixelRatio - 40)
-            document.getElementById("game-information").style.width =  widthGameInformation + "px";
+            document.getElementById("game-information").style.width = widthGameInformation + "px";
             document.getElementById("gamebody").style.flexDirection = "row"
         }
 
         this.setupCanvas();
+        this.canvas_positions = this.canvas.getBoundingClientRect();
+        this.addUserIcon();
 
         this.triggerSize = {
             "x": this.canvas.width * 0.015,
@@ -62,33 +63,44 @@ class Game {
         var background = new Image();
         background.src = this.backgroundSRC;
 
-
-        let userIconSRC = "./images/icons/user_icon.svg"
-        let userIcon = new Image();
-        userIcon.src = userIconSRC;
-
-        this.userIcon = userIcon
-
         background.onload = function () {
             ctx.drawImage(
                 background, 0, 0,
                 canvas.width / window.devicePixelRatio,
                 canvas.height / window.devicePixelRatio);
-            ctx.drawImage(
-                userIcon, 0, 0,
-                canvas.width / window.devicePixelRatio / 25,
-                canvas.height / window.devicePixelRatio / 25);
         }
-        userIcon.onload = function () {
-            ctx.drawImage(
-                userIcon, 0, 0,
-                canvas.width / window.devicePixelRatio / 25,
-                canvas.height / window.devicePixelRatio / 25);
-        }
-
         // a icon will always be displayed above the canvas, but I place two icons. one of them is above the background.
-        
+
     }
+
+    addUserIcon() {
+        let canvas_positions = this.canvas_positions;
+        console.log(canvas_positions.top, canvas_positions.left);
+        let userIcon = $('<img id="userIconImage") src="./images/icons/user_icon.svg" style="position: absolute;">')
+        let x = 0.255513698630137;
+        let y = 0.31398125755743655;
+        x = x * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
+        y = y * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
+        $("body").append(userIcon)
+        $("#userIconImage").css("top", y).css("left", x).css("z-index", 10)
+    }
+
+    resizeUserIcon() {
+        let canvas_positions = this.canvas_positions
+        let x = 0.255513698630137;
+        let y = 0.31398125755743655;
+        x = x * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
+        y = y * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
+        $("#userIconImage").css("top", y).css("left", x).css("z-index", 10)
+    }
+
+    moveUserIcon(x, y) {
+        let canvas_positions = this.canvas_positions;
+        x = x * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
+        y = y * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
+        $("#userIconImage").css("top", y).css("left", x).css("z-index", 10)
+    }
+
 
     // updateUserIcon(stationNum) {
     //     let ctx = this.ctx
@@ -227,11 +239,13 @@ class Game {
             document.getElementById("game-information").style.width = "75%"
         } else {
             let widthGameInformation = (window.innerWidth - this.canvas.width / devicePixelRatio - 40)
-            document.getElementById("game-information").style.width =  widthGameInformation + "px";
+            document.getElementById("game-information").style.width = widthGameInformation + "px";
             document.getElementById("gamebody").style.flexDirection = "row"
         }
 
         this.setupCanvas();
+        this.canvas_positions = this.canvas.getBoundingClientRect();
+        this.resizeUserIcon();
 
         this.clickSense = this.canvas.width * 0.004;
 
@@ -479,6 +493,15 @@ $(function () {
     var request = $.post("scripts/get_triggers.php", { call_now: "True" });
     request.done(function (data) {
         game.getTriggers(data);
+        $("#test-moving-button").click(function() {
+            let randomInt = Math.floor((Math.random() * 200) + 1);
+            console.log(randomInt);
+            let x = data[randomInt]["x"]
+            let y = data[randomInt]["y"]
+            game.moveUserIcon(x, y)
+
+        });
+        
 
         //Shows the clickable areas on the game board 
         /*
