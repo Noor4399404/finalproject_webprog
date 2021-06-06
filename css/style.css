@@ -375,6 +375,13 @@ table td > p {
     width: 20px;
 }
 
+.vehicles_explained{
+    background-color: #3c3438;
+    padding: 20px;
+}
+.vehicles_explained .border{
+    padding: 10px;
+}
 .vehicle_button_div {
     height: 42px;
     padding: 0.25rem 0.5rem;
