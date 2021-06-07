@@ -19,7 +19,7 @@ function useModal(modalTitle, modalText, closeButtonText, closeModalAction = () 
     })
 }
 
-function fillUsernames() {
+function fillData() {
     $.getJSON("data/test_sessions.json", function (data) {
         let headingRow = $('#moves_table tr')[0];
         let rows = $('#moves_table tbody tr');
@@ -28,7 +28,7 @@ function fillUsernames() {
         let secondRow = rows[1].childNodes;
         let thirdRow = rows[2].childNodes;
 
-        let vehicleButtons = $('.vehicle_button_div p');
+        let vehicleButtons = $('#move_buttons > p');
         console.log(vehicleButtons);
 
         for (let key in data) {
@@ -50,10 +50,11 @@ function fillUsernames() {
             vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['bus'] + '</p>';
             vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['und'] + '</p>';
 
+            $('#station').text('Current Location: ' + data[key]['users'][3]['location']);
         }
     })
 }
 
 $(function() {
-    fillUsernames();
+    fillData();
 });
