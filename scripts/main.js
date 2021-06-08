@@ -19,41 +19,38 @@ function useModal(modalTitle, modalText, closeButtonText, closeModalAction = () 
     })
 }
 
-function fillUsernames() {
+function fillData() {
+    //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
+    window.sessionStorage.setItem("userId", "1234567");
+    //json_data.done(function (data) {
     $.getJSON("data/test_sessions.json", function (data) {
-        let headingRow = $('#moves_table tr')[0];
-        let rows = $('#moves_table tbody tr');
-
-        let firstRow = rows[0].childNodes;
-        let secondRow = rows[1].childNodes;
-        let thirdRow = rows[2].childNodes;
-
-        let vehicleButtons = $('.vehicle_button_div p');
-        console.log(vehicleButtons);
-
+        let vehicleButtons = $('#move_buttons > p');
         for (let key in data) {
-            headingRow.innerHTML = '<th scope="col">' + 'Vehicles' + '</th><th scope="col">' + data[key]['users'][0]['username'] + '</th><th scope="col">' + data[key]['users'][1]['username'] + '</th><th scope="col">' + data[key]['users'][2]['username'] + '</th>';
+            for (let user in data[key]['users']) {
+                 if (data[key]['users'][user]['id'] !== window.sessionStorage.getItem("userId")) {
+                     $('#moves_table tbody').append('<tr></tr>');
+                     let correctRow = $('#moves_table tbody tr').last();
+                     correctRow.append('<td>' + data[key]["users"][user]["username"] + '</td>');
+                     correctRow.append('<td>' + data[key]["users"][user]["cardAmount"]["tax"] + '</td>');
+                     correctRow.append('<td>' + data[key]["users"][user]["cardAmount"]["bus"] + '</td>');
+                     correctRow.append('<td>' + data[key]["users"][user]["cardAmount"]["und"] + '</td>');
 
-            firstRow[3].innerHTML = '<td>' + data[key]['users'][0]['cardAmount']['tax'] + '</td>';
-            firstRow[5].innerHTML = '<td>' + data[key]['users'][1]['cardAmount']['tax'] + '</td>';
-            firstRow[7].innerHTML = '<td>' + data[key]['users'][2]['cardAmount']['tax'] + '</td>';
+                 }
+                 if (data[key]['users'][user]['id'] === window.sessionStorage.getItem("userId")) {
+                     vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][user]['cardAmount']['tax'] + '</p>';
+                     vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][user]['cardAmount']['bus'] + '</p>';
+                     vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][user]['cardAmount']['und'] + '</p>';
 
-            secondRow[3].innerHTML = '<td>' + data[key]['users'][0]['cardAmount']['bus'] + '</td>';
-            secondRow[5].innerHTML = '<td>' + data[key]['users'][1]['cardAmount']['bus'] + '</td>';
-            secondRow[7].innerHTML = '<td>' + data[key]['users'][2]['cardAmount']['bus'] + '</td>';
-
-            thirdRow[3].innerHTML = '<td>' + data[key]['users'][0]['cardAmount']['und'] + '</td>';
-            thirdRow[5].innerHTML = '<td>' + data[key]['users'][1]['cardAmount']['und'] + '</td>';
-            thirdRow[7].innerHTML = '<td>' + data[key]['users'][2]['cardAmount']['und'] + '</td>';
-
-            vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['tax'] + '</p>';
-            vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['bus'] + '</p>';
-            vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data[key]['users'][3]['cardAmount']['und'] + '</p>';
-
+                     $('#station').text('Current Location: ' + data[key]['users'][user]['location']);
+                 }
+            }
         }
     })
 }
 
 $(function() {
-    fillUsernames();
+    fillData();
+    //window.setInterval(function () {
+        //fillData();
+    //}, 1000);
 });
