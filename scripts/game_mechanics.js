@@ -81,7 +81,7 @@ class Game {
         let color = detective.color;
 
         let canvas_positions = this.canvas_positions;
-        let userIcon = $(`<svg id="userIconImage_${userId}") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
+        let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
         let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
         let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
         $("body").append(userIcon)
@@ -89,20 +89,28 @@ class Game {
         $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`)
     }
 
-    resizeUserIcon() {
+    resizeUserIcons() {
         let canvas_positions = this.canvas_positions
-        let x = 0.255513698630137;
-        let y = 0.31398125755743655;
-        x = x * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
-        y = y * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
-        $("#userIconImage").css("top", y).css("left", x).css("z-index", 10)
+
+        for (let detective in this.detectives) {
+            console.log(detective);
+            let currentLocation = this.detectives[detective]["location"];
+            let userId = this.detectives[detective]["id"];
+            let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5;
+            let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2;
+            console.log(x, y);
+            $(`#userIconImage_${userId}`).css("top", y).css("left", x)
+        }
     }
 
-    moveUserIcon(newLocation, userId) {
+    moveUserIcon(detective) {
+        let userId = detective.id;
+        let newLocation = detective.location;
+
         let canvas_positions = this.canvas_positions;
         let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
         let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
-        $("#userIconImage").css("top", y).css("left", x).css("z-index", 10)
+        $(`#userIconImage_${userId}`).css("top", y).css("left", x)
     }
 
 
@@ -212,7 +220,7 @@ class Game {
 
         this.addBackground();
         this.canvas_positions = this.canvas.getBoundingClientRect();
-        this.resizeUserIcon();
+        this.resizeUserIcons();
 
         this.clickSense = this.canvas.width * 0.004;
 
