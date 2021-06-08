@@ -20,7 +20,9 @@ function useModal(modalTitle, modalText, closeButtonText, closeModalAction = () 
 }
 
 function fillData() {
+    //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
     window.sessionStorage.setItem("userId", "1234567");
+    //json_data.done(function (data) {
     $.getJSON("data/test_sessions.json", function (data) {
         let vehicleButtons = $('#move_buttons > p');
         for (let key in data) {
@@ -48,4 +50,7 @@ function fillData() {
 
 $(function() {
     fillData();
+    //window.setInterval(function () {
+        //fillData();
+    //}, 1000);
 });
