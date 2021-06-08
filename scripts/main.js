@@ -20,6 +20,7 @@ function useModal(modalTitle, modalText, closeButtonText, closeModalAction = () 
 }
 
 function fillData() {
+    window.sessionStorage.setItem("userId", "1234567");
     $.getJSON("data/test_sessions.json", function (data) {
         let headingRow = $('#moves_table tr')[0];
         let rows = $('#moves_table tbody tr');
@@ -29,9 +30,14 @@ function fillData() {
         let thirdRow = rows[2].childNodes;
 
         let vehicleButtons = $('#move_buttons > p');
-        console.log(vehicleButtons);
 
         for (let key in data) {
+            for (let user in data[key]['users']) {
+                 if (data[key]['users'][user]['id'] === window.sessionStorage.getItem("userId")) {
+                     let activeUser = data[key]['users'][user];
+                     console.log(activeUser);
+                 }
+            }
             headingRow.innerHTML = '<th scope="col">' + 'Vehicles' + '</th><th scope="col">' + data[key]['users'][0]['username'] + '</th><th scope="col">' + data[key]['users'][1]['username'] + '</th><th scope="col">' + data[key]['users'][2]['username'] + '</th>';
 
             firstRow[3].innerHTML = '<td>' + data[key]['users'][0]['cardAmount']['tax'] + '</td>';
