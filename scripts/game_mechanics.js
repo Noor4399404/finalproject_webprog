@@ -93,12 +93,10 @@ class Game {
         let canvas_positions = this.canvas_positions
 
         for (let detective in this.detectives) {
-            console.log(detective);
             let currentLocation = this.detectives[detective]["location"];
             let userId = this.detectives[detective]["id"];
             let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5;
             let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2;
-            console.log(x, y);
             $(`#userIconImage_${userId}`).css("top", y).css("left", x)
         }
     }
@@ -116,7 +114,7 @@ class Game {
 
     getHost() {
 
-        const userId = 1234567;//window.sessionStorage.getItem("userId");
+        const userId = window.sessionStorage.getItem("userId");
 
         for (let user in this.sessionData["users"]) {
             if (this.sessionData["users"][user]["id"] == userId) {
@@ -142,7 +140,7 @@ class Game {
                     this.misterX = new MisterX(
                         this,
                         this.sessionData["users"][user]["id"],
-                        this.sessionData["users"][user]["username"],
+                        this.sessionData["users"][user]["userName"],
                         this.sessionData["users"][user]["isHost"],
                         this.sessionData["users"][user]["color"]
                     );
@@ -150,7 +148,7 @@ class Game {
                     this.detectives.push(new Detective(
                         this,
                         this.sessionData["users"][user]["id"],
-                        this.sessionData["users"][user]["username"],
+                        this.sessionData["users"][user]["userName"],
                         this.sessionData["users"][user]["isHost"],
                         this.sessionData["users"][user]["color"]
                     ));
@@ -311,6 +309,34 @@ class Game {
 
     }
 
+
+    fillData() {
+        //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
+        // window.sessionStorage.setItem("userId", "1234567");
+        //json_data.done(function (data) {
+        let data = this.sessionData
+        console.log(data);
+        let vehicleButtons = $('#move_buttons > p');
+            for (let user in data['users']) {
+                    if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
+                        $('#moves_table tbody').append('<tr></tr>');
+                        let correctRow = $('#moves_table tbody tr').last();
+                        correctRow.append(`<td style="color: #${data["users"][user]["color"]}; filter: brightness(1.2);">` + data["users"][user]["userName"] + '</td>');
+                        correctRow.append('<td>' + data["users"][user]["cardAmount"]["tax"] + '</td>');
+                        correctRow.append('<td>' + data["users"][user]["cardAmount"]["bus"] + '</td>');
+                        correctRow.append('<td>' + data["users"][user]["cardAmount"]["und"] + '</td>');
+
+                    }
+                    if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
+                        vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
+                        vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
+                        vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
+
+                        $('#station').text('Current Location: ' + data['users'][user]['location']);
+                    }
+            }
+    }
+
     checkForMisterX() {
 
     }
@@ -454,10 +480,11 @@ $(function () {
     var game = new Game();
     const canvas = document.getElementById("gameCanvas");
 
+    console.log(sessionStorage.getItem("gameId"));
 
     let request_1 = $.post("scripts/get_session.php", {
         call_now: "True",
-        gameId: 1234567 //sessionStorage.getItem("gameId")
+        gameId: sessionStorage.getItem("gameId")
     });
     let request_2 = $.post("scripts/get_triggers.php", { call_now: "True" });
     let request_3 = $.post("scripts/get_possible_moves.php", { call_now: "True" });
@@ -469,9 +496,8 @@ $(function () {
         // When the game is loaded, the user should be able to interact with the website
 
         // code in the .done after the first request
-        let sessionData = res[0];
-        console.log(sessionData);
-        game.sessionData = sessionData
+        game.sessionData = res[0]
+        console.log(game.sessionData);
         // game.getSessionData(sessionData); //is not necessary if you make the header inside php json.
         game.getHost();
         game.setupPlayers();
@@ -496,6 +522,7 @@ $(function () {
 
         // code in the .done after the third request
         game.getPossibleMoves(res[2]);
+        game.fillData();
 
     }
 

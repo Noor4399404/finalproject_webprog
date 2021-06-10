@@ -30,7 +30,7 @@ function fillData() {
                  if (data[key]['users'][user]['id'] !== window.sessionStorage.getItem("userId")) {
                      $('#moves_table tbody').append('<tr></tr>');
                      let correctRow = $('#moves_table tbody tr').last();
-                     correctRow.append('<td>' + data[key]["users"][user]["username"] + '</td>');
+                     correctRow.append(`<td style="color: #${data[key]["users"][user]["color"]}; filter: brightness(1.2);">` + data[key]["users"][user]["username"] + '</td>');
                      correctRow.append('<td>' + data[key]["users"][user]["cardAmount"]["tax"] + '</td>');
                      correctRow.append('<td>' + data[key]["users"][user]["cardAmount"]["bus"] + '</td>');
                      correctRow.append('<td>' + data[key]["users"][user]["cardAmount"]["und"] + '</td>');
@@ -49,7 +49,7 @@ function fillData() {
 }
 
 $(function() {
-    fillData();
+    // fillData();
     //window.setInterval(function () {
         //fillData();
     //}, 1000);

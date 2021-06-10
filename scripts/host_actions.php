@@ -15,6 +15,8 @@ $activeGameSessions = json_decode($activeGameSessionsFile, true);
 
 $message = array();
 
+
+
 foreach ($activeGameSessions as $key => $activeGameSession) {
     if ($activeGameSession["id"] === $gameId) {
         array_push($message, "found game session");
@@ -34,8 +36,15 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
         if ($isHost) {
             array_push($message, "user is goneeeeee");
             if ($host_action == "appointX") {
+                $misterXCards = array( 
+                    "tax" => 4,
+                    "bus" => 3,
+                    "und" => 3
+                );
                 $activeGameSessions[$key]["users"][$indexUserEdited]["isMisterX"] = true;
+                $activeGameSessions[$key]["users"][$indexUserEdited]["cardAmount"] = $misterXCards;
             } else if ($host_action == "delete") {
+                array_push($activeGameSessions[$key]["userColors"], $activeGameSessions[$key]["users"][$indexUserEdited]["color"]);
                 array_splice($activeGameSessions[$key]["users"], $indexUserEdited, 1);
             }
             array_push($message, [$key, $indexUserEdited, $activeGameSessions[$key]["users"]]);

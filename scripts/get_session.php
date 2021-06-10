@@ -4,7 +4,7 @@ if (isset($_POST['call_now'])){
 
     $gameId = intval($_POST["gameId"]);
 
-    $activeGameSessionsFile =  file_get_contents('../data/test_sessions.json', 'r');
+    $activeGameSessionsFile =  file_get_contents('../data/active_sessions.json', 'r');
     $activeGameSessions = json_decode($activeGameSessionsFile, true);
     
     foreach ($activeGameSessions as $activeGameSession) {

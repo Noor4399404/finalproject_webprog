@@ -9,13 +9,22 @@ $isHost = $_POST["isHost"];
 $activeGameSessionsFile =  file_get_contents('../data/active_sessions.json', 'r');
 $activeGameSessions = json_decode($activeGameSessionsFile, true);
 
-$randomColorIndex = mt_rand(0, 4);
-
 $userObject = array(
     "id" => $userId,
     "userName" => $userName,
     "isHost" => $isHost,
-    "isMisterX" => false
+    "isMisterX" => "",
+    "color" => "",
+    "location" => 0,
+    "hasMoved" => false,
+    "myTurn" => false,
+    "cardAmount" => array(
+        "tax" => 10,
+        "bus" => 8,
+        "und" => 4
+    ),
+    "hasRecentVersion" => false,
+    "usedVehicles" => array()
 );
 
 $gameSessionInfo = [
@@ -26,6 +35,9 @@ $gameSessionInfo = [
 
 foreach ($activeGameSessions as $key => $activeGameSession) {
     if ($activeGameSession["id"] === $gameId && count($activeGameSession["users"]) < 5) {
+        $randomColorIndex = mt_rand(0, count($activeGameSessions[$key]["userColors"]) - 1);
+        $randomStartLocationIndex = mt_rand(0, count($activeGameSessions[$key]["startLocations"]) - 1);
+
         $userIds = [];
         foreach ($activeGameSessions[$key]["users"] as $secondKey => $user) {
             array_push($userIds, $user["id"]);
@@ -42,7 +54,7 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
         // array_push($activeGameSessions[$key]["users"], $userObject);
 
         
-        $newUserInfo = ["userColor" => array_splice($activeGameSessions[$key]["userColors"], $randomColorIndex, 1)[0]];
+        $newUserInfo = ["color" => array_splice($activeGameSessions[$key]["userColors"], $randomColorIndex, 1)[0], "location" => array_splice($activeGameSessions[$key]["startLocations"], $randomStartLocationIndex, 1)[0]];
         $userObject = array_merge($userObject, $newUserInfo);
         array_push($activeGameSessions[$key]["users"], $userObject);
     } else if ($activeGameSession["id"] === $gameId) {
