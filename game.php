@@ -270,14 +270,7 @@ $session_data = json_decode($session_data_json, true);
                                     1
                                 </th>
                                 <td>
-                                    <div class="border-warning border vehicle_info_div">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
-                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.04 3H5.81l1.04-3zM19 17H5v-4.66l.12-.34h13.77l.11.34V17z" />
-                                            <circle cx="7.5" cy="14.5" r="1.5" />
-                                            <circle cx="16.5" cy="14.5" r="1.5" />
-                                        </svg>
-                                    </div>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -285,14 +278,7 @@ $session_data = json_decode($session_data_json, true);
                                     2
                                 </th>
                                 <td>
-                                    <div class="border-info border vehicle_info_div">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
-                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                            <path d="M12 2c-4.42 0-8 .5-8 4v10c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4zm5.66 2.99H6.34C6.89 4.46 8.31 4 12 4s5.11.46 5.66.99zm.34 2V10H6V6.99h12zm-.34 9.74l-.29.27H6.63l-.29-.27C6.21 16.62 6 16.37 6 16v-4h12v4c0 .37-.21.62-.34.73z" />
-                                            <circle cx="8.5" cy="14.5" r="1.5" />
-                                            <circle cx="15.5" cy="14.5" r="1.5" />
-                                        </svg>
-                                    </div>
+                                   
                                 </td>
                             </tr>
                             <tr>
@@ -300,14 +286,7 @@ $session_data = json_decode($session_data_json, true);
                                     3
                                 </th>
                                 <td>
-                                    <div class="border-info border vehicle_info_div">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
-                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                            <path d="M12 2c-4.42 0-8 .5-8 4v10c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4zm5.66 2.99H6.34C6.89 4.46 8.31 4 12 4s5.11.46 5.66.99zm.34 2V10H6V6.99h12zm-.34 9.74l-.29.27H6.63l-.29-.27C6.21 16.62 6 16.37 6 16v-4h12v4c0 .37-.21.62-.34.73z" />
-                                            <circle cx="8.5" cy="14.5" r="1.5" />
-                                            <circle cx="15.5" cy="14.5" r="1.5" />
-                                        </svg>
-                                    </div>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -315,12 +294,7 @@ $session_data = json_decode($session_data_json, true);
                                     4
                                 </th>
                                 <td>
-                                    <div class="border-danger border vehicle_info_div">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
-                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                            <path d="M17.8 2.8C16 2.09 13.86 2 12 2s-4 .09-5.8.8C3.53 3.84 2 6.05 2 8.86V22h20V8.86c0-2.81-1.53-5.02-4.2-6.06zM9.17 20l1.5-1.5h2.66l1.5 1.5H9.17zm-2.16-6V9h10v5h-10zm9.49 2c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1zm-8-1c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM20 20h-3.5v-.38l-1.15-1.16c1.49-.17 2.65-1.42 2.65-2.96V9c0-2.63-3-3-6-3s-6 .37-6 3v6.5c0 1.54 1.16 2.79 2.65 2.96L7.5 19.62V20H4V8.86c0-2 1.01-3.45 2.93-4.2C8.41 4.08 10.32 4 12 4s3.59.08 5.07.66c1.92.75 2.93 2.2 2.93 4.2V20z" />
-                                        </svg>
-                                    </div>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -328,14 +302,7 @@ $session_data = json_decode($session_data_json, true);
                                     5
                                 </th>
                                 <td>
-                                    <div class="border-warning border vehicle_info_div">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
-                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.04 3H5.81l1.04-3zM19 17H5v-4.66l.12-.34h13.77l.11.34V17z" />
-                                            <circle cx="7.5" cy="14.5" r="1.5" />
-                                            <circle cx="16.5" cy="14.5" r="1.5" />
-                                        </svg>
-                                    </div>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -343,14 +310,7 @@ $session_data = json_decode($session_data_json, true);
                                     6
                                 </th>
                                 <td>
-                                    <div class="border-warning border vehicle_info_div">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
-                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H15V3H9v2H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.04 3H5.81l1.04-3zM19 17H5v-4.66l.12-.34h13.77l.11.34V17z" />
-                                            <circle cx="7.5" cy="14.5" r="1.5" />
-                                            <circle cx="16.5" cy="14.5" r="1.5" />
-                                        </svg>
-                                    </div>
+                                    
                                 </td>
                             </tr>
                             <tr>
