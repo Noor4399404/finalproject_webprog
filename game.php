@@ -461,7 +461,7 @@ $session_data = json_decode($session_data_json, true);
                     </button>
                 </div>
                 <div class="my-3">
-                    <button type="button" style="width: 100%;" class="btn btn-success">Submit Move</button>
+                    <button type="button" id="submit-move-button" style="width: 100%;" class="btn btn-success">Submit Move</button>
                 </div>
             </div>
         </div>

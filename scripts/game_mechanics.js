@@ -690,6 +690,12 @@ $(function () {
         game.resize();
     });
 
+    $("submit-move-button").click(function(event) {
+        event.preventDefault();
+        // the changed information should be submitted so everyone will have the change
+
+    });
+
     
 
 });
