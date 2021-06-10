@@ -47,7 +47,8 @@ if (isset($_POST["host-game-id"])) {
             "userColors" => array("0959f7", "f78809", "f70909", "ac09f7", "e814cb"),
             "round" => 1,
             "startLocations" => [13, 26, 29, 34, 50, 53, 94, 103, 112, 117, 132, 138, 141, 155, 174, 197, 198],
-            "gameStarted" => false
+            "gameStarted" => false,
+            "isChanged" => true
         ];
         $activeGameSessions = array_slice($activeGameSessions, -100, 100);
 

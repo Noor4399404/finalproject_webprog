@@ -112,9 +112,9 @@ class Game {
         }
     }
 
-    moveUserIcon(detective) {
-        let userId = detective.id;
-        let newLocation = detective.location;
+    moveUserIcon(user) {
+        let userId = user.id;
+        let newLocation = user.location;
 
         let canvas_positions = this.canvas_positions;
         let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
@@ -653,6 +653,21 @@ $(function () {
         game.getPossibleMoves(res[2]);
         game.fillData();
 
+
+        // should be here, otherwise it will try to get new inforation, while the old information isnt even available
+        window.setInterval(() => {
+            let request = $.post("./scripts/update_session.php", { // could be another script name
+                gameId: sessionStorage.getItem("gameId"),
+                userId: sessionStorage.getItem("userId")
+            }) 
+            request.then((response) => {
+                if(response.isChanged) {
+                    this.sessionData = response;
+                    // some more stuff needs to happen like updating the player positions and the information inside the tables
+                }
+            })
+    
+        }, 2000)
     }
 
     fetchAsyncData();
@@ -674,5 +689,7 @@ $(function () {
     window.addEventListener("resize", function () {
         game.resize();
     });
+
+    
 
 });

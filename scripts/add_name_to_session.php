@@ -23,7 +23,7 @@ $userObject = array(
         "bus" => 8,
         "und" => 4
     ),
-    "hasRecentVersion" => false,
+    "hasRecentVersion" => true,
     "usedVehicles" => array()
 );
 
