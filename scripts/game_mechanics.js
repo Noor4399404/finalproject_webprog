@@ -316,7 +316,7 @@ class Game {
         //json_data.done(function (data) {
         let data = this.sessionData
         console.log(data);
-        let vehicleButtons = $('#move_buttons > p');
+        let vehicleButtons = $('.vehicle_button_div > p');
             for (let user in data['users']) {
                     if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
                         $('#moves_table tbody').append('<tr></tr>');
