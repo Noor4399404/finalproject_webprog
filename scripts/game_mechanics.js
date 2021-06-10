@@ -340,6 +340,75 @@ class Game {
     checkForMisterX() {
 
     }
+    showPossibleMoves(active_position) {
+        var self = this;
+        const tax_button = $('#tax_button');
+        const bus_button = $('#bus_button');
+        const und_button = $('#und_button');
+        $.getJSON('data/test_sessions.json', function(data) {
+            $(tax_button).click(function() {
+                $.getJSON('data/possible_moves.json', function(data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let tax_moves = data[key]['tax'];
+                            self.showTriggers(tax_moves);
+                        }
+                    }
+                })
+            })
+            $(bus_button).click(function() {
+                $.getJSON('data/possible_moves.json', function(data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let bus_moves = data[key]['bus'];
+                            self.showTriggers(bus_moves);
+                        }
+                    }
+                })
+            })
+            $(und_button).click(function() {
+                $.getJSON('data/possible_moves.json', function(data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let und_moves = data[key]['und'];
+                            self.showTriggers(und_moves);
+                        }
+                    }
+                })
+            })
+        })
+    }
+
+    showTriggers(moves) {
+        var self = this;
+        //highlights all placed triggers for dev purposes
+        const location_list = Object.entries(this.triggerLocations);
+
+        moves = moves.split(" ");
+        $.each(moves, function (i) {
+            moves[i] = parseInt(moves[i]);
+            moves[i] = moves[i].toString();
+            for (let location in location_list) {
+                if (location_list[location][0] === moves[i]) {
+                    for (let coordinate in location_list[location]) {
+
+                        //self.ctx.clearRect(location_list[location][coordinate]["x"] * self.canvas.width, location_list[location][coordinate]["y"] * self.canvas.height, self.triggerSize["x"], self.triggerSize["y"]);
+                        self.ctx.beginPath();
+                        self.ctx.fillStyle = "rgba(0,0,0,0.5)";
+                        self.ctx.fillRect(
+                            location_list[location][coordinate]["x"] * self.canvas.width,
+                            location_list[location][coordinate]["y"] * self.canvas.height,
+                            self.triggerSize["x"], self.triggerSize["y"]
+                        );
+                        self.ctx.lineWidth = 1;
+                        self.ctx.strokeStyle = 'red';
+                        self.ctx.stroke();
+
+                    }
+                }
+            }
+        })
+    }
 
 }
 
@@ -479,6 +548,9 @@ $(function () {
 
     var game = new Game();
     const canvas = document.getElementById("gameCanvas");
+
+    let active_button = '74';
+    game.showPossibleMoves(active_button);
 
     console.log(sessionStorage.getItem("gameId"));
 
