@@ -1,5 +1,5 @@
         </div>
-        <footer class="row wp-row p-3 d-flex flex-row mx-0" id="footer" style="width: 100vw;">
+        <footer class="row wp-row p-3 d-flex flex-row mx-0 mt-auto" id="footer" style="width: 100vw;">
             <div class="col-md-4">
                 <a href="https://www.rug.nl/?lang=en">
                     <img class=" mt-3 p-3" id="rug-logo-footer" width="100%" src="./images/rug_logo.png">
