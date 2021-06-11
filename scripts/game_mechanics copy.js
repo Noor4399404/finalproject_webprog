@@ -20,32 +20,12 @@ class Game {
 
         this.clickSense = this.canvas.width * 0.004;
 
-        this.userId = window.sessionStorage['userId']
-        this.gameId = window.sessionStorage['gameId']
+        this.startingPositions = [13, 26, 29, 34, 50, 53, 94, 103, 112, 117, 132, 138, 141, 155, 174, 197, 198];
+        this.startingPositions = this.startingPositions.sort(() => Math.random() - 0.5)
 
-    }
-
-    //METHODS TO SET UP THE GAME AND GET INITIAL DATA --- --- --- --- --- ---
-
-    getTriggers(triggerLocations) {
-        //helper function to store trigger locations in game class
-        this.triggerLocations = triggerLocations;
-    }
-
-    getPossibleMoves(possibleMoves) {
-        //helper function to store possible moves in game class
-        this.possibleMoves = possibleMoves;
-    }
-
-    getSessionData(sessionData) {
-        //helper function to store session data in game class
-        this.sessionData = JSON.parse(sessionData);
-        //console.log(this.sessionData);
     }
 
     setupCanvas() {
-        //creates canvas (size & background) and determines where the rest of the UI is placed
-
         this.canvas.width = window.innerWidth * 0.97 * window.devicePixelRatio;
         this.canvas.height = window.innerHeight * 0.90 * window.devicePixelRatio;
         this.ratio = 4312 / 3256; // Change to pixels of image
@@ -77,10 +57,12 @@ class Game {
     }
 
     addBackground() {
+
         //sets the background, with correct size
 
         var ctx = this.ctx;
         var canvas = this.canvas;
+
 
         var background = new Image();
         background.src = this.backgroundSRC;
@@ -91,43 +73,12 @@ class Game {
                 canvas.width / window.devicePixelRatio,
                 canvas.height / window.devicePixelRatio);
         }
+
     }
-
-
-    fillData() {
-        //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
-        // window.sessionStorage.setItem("userId", "1234567");
-        //json_data.done(function (data) {
-        let data = this.sessionData
-        console.log(data);
-        let vehicleButtons = $('.vehicle_button_div > p');
-        for (let user in data['users']) {
-            if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
-                $('#moves_table tbody').append('<tr></tr>');
-                let correctRow = $('#moves_table tbody tr').last();
-                correctRow.append(`<td style="color: #${data["users"][user]["color"]}; filter: brightness(1.2);">` + data["users"][user]["userName"] + '</td>');
-                correctRow.append('<td>' + data["users"][user]["cardAmount"]["tax"] + '</td>');
-                correctRow.append('<td>' + data["users"][user]["cardAmount"]["bus"] + '</td>');
-                correctRow.append('<td>' + data["users"][user]["cardAmount"]["und"] + '</td>');
-
-            }
-            if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
-                vehicleButtons[0].innerHTML = '<h1 class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</h1>';
-                vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
-                vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
-
-                $('#station').text('Current Location: ' + data['users'][user]['location']);
-            }
-
-        }
-    }
-
 
     addUserIcon(users) {
-        //adds icon to the canvas for every user
-
-        for (let userIndex in this.sessionData["users"]) {
-            let user = this.sessionData["users"][userIndex]
+        for (let userIndex in users) {
+            let user = users[userIndex]
             let userId = user.id;
             let startLocation = user.location;
             let color = user.color;
@@ -146,8 +97,33 @@ class Game {
         }
     }
 
+    resizeUserIcons() {
+        let canvas_positions = this.canvas_positions
+
+        for (let userIndex in this.sessionData["users"]) {
+            let user = this.sessionData["users"][userIndex]
+            let currentLocation = user["location"];
+            console.log(currentLocation);
+            let userId = user["id"];
+            console.log(userId);
+            let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
+            let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
+            $(`#userIconImage_${userId}`).css("top", y).css("left", x)
+        }
+    }
+
+    moveUserIcon(user) {
+        let userId = user.id;
+        let newLocation = user.location;
+
+        let canvas_positions = this.canvas_positions;
+        let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
+        let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
+        $(`#userIconImage_${userId}`).css("top", y).css("left", x)
+    }
+
+
     getHost() {
-        //establishes which player is the host, and sets this.isHost to true
 
         const userId = window.sessionStorage.getItem("userId");
 
@@ -155,19 +131,104 @@ class Game {
             if (this.sessionData["users"][user]["id"] == userId) {
                 if (this.sessionData["users"][user]["isHost"] == "1") {
                     this.isHost = true;
+                    console.log("you are the host")
                 } else {
                     this.isHost = false;
+                    console.log("you are not the host")
                 }
             }
         }
     }
 
-    //RESIZING FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    // setupPlayers() {
+
+    //     if (this.isHost) {
+    //         this.detectiveAmount = Object.keys(this.sessionData["users"]).length - 1;
+    //         this.detectives = [];
+    //         for (var user in this.sessionData["users"]) {
+    //             if (this.sessionData["users"][user]["isMisterX"] == '1') {
+    //                 this.misterX = new MisterX(
+    //                     this,
+    //                     this.sessionData["users"][user]["id"],
+    //                     this.sessionData["users"][user]["userName"],
+    //                     this.sessionData["users"][user]["isHost"],
+    //                     this.sessionData["users"][user]["location"],
+    //                     this.sessionData["users"][user]["color"]
+    //                 );
+    //             } else {
+    //                 this.detectives.push(new Detective(
+    //                     this,
+    //                     this.sessionData["users"][user]["id"],
+    //                     this.sessionData["users"][user]["userName"],
+    //                     this.sessionData["users"][user]["isHost"],
+    //                     this.sessionData["users"][user]["location"],
+    //                     this.sessionData["users"][user]["color"]
+    //                 ));
+    //             }
+    //         }
+    //         console.log(this.misterX);
+    //         console.log(this.detectives);
+    //     }
+    // }
+
+
+    updateSession() {
+
+        var request = $.post("scripts/update_session.php", {
+            call_now: "True",
+            gameId: sessionStorage.getItem("gameId"),
+            playerId: this.id,
+            username: this.username,
+            cardAmount: this.cardAmount,
+            location: this.location,
+            previousLocation: this.previousLocation,
+            myTurn: this.myTurn,
+            hasMoved: this.hasMoved
+        });
+        request.done(function (data) {
+            console.log(data)
+        });
+
+    }
+
+    getMousePosition(event) {
+
+        //sets mouseX and mouseY to most recent click
+
+        var rect = this.canvas.getBoundingClientRect();
+        this.mouseX = event.clientX * devicePixelRatio - rect.left * devicePixelRatio;
+        this.mouseY = event.clientY * devicePixelRatio - rect.top * devicePixelRatio;
+
+        //console.log("X: " + this.mouseX + "\tY: " + this.mouseY);
+
+    }
+
+    getTriggers(triggerLocations) {
+
+        this.triggerLocations = triggerLocations;
+
+    }
+
+    getPossibleMoves(possibleMoves) {
+
+        this.possibleMoves = possibleMoves;
+
+    }
+
+    getSessionData(sessionData) {
+
+        this.sessionData = JSON.parse(sessionData);
+        console.log(this.sessionData);
+
+    }
 
     resize() {
+
         //makes sure the game looks correct with window resize
 
         this.setupCanvas();
+
         this.addBackground();
         this.canvas_positions = this.canvas.getBoundingClientRect();
         this.resizeUserIcons();
@@ -181,35 +242,7 @@ class Game {
 
     }
 
-    resizeUserIcons() {
-        //resizes the user icons to match the canvas
-        let canvas_positions = this.canvas_positions
-
-        for (let userIndex in this.sessionData["users"]) {
-            let user = this.sessionData["users"][userIndex]
-            let currentLocation = user["location"];
-            console.log(currentLocation);
-            let userId = user["id"];
-            console.log(userId);
-            let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5;
-            let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2;
-            $(`#userIconImage_${userId}`).css("top", y).css("left", x)
-        }
-    }
-
-    //CANVAS INTERACTION --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-    getMousePosition(event) {
-        //sets mouseX and mouseY to most recent click
-
-        var rect = this.canvas.getBoundingClientRect();
-        this.mouseX = event.clientX * devicePixelRatio - rect.left * devicePixelRatio;
-        this.mouseY = event.clientY * devicePixelRatio - rect.top * devicePixelRatio;
-        //console.log("X: " + this.mouseX + "\tY: " + this.mouseY);
-    }
-
     scanForTrigger() {
-        //takes the current mouse coordinates and scans for a clicked trigger
 
         const location_list = Object.entries(this.triggerLocations);
 
@@ -233,91 +266,90 @@ class Game {
         }
     }
 
-    showPossibleMoves(active_position) {
-        var self = this;
-        const tax_button = $('#tax_button');
-        const bus_button = $('#bus_button');
-        const und_button = $('#und_button');
-        $.getJSON('data/test_sessions.json', function (data) {
-            $(tax_button).click(function () {
-                $.getJSON('data/possible_moves.json', function (data) {
-                    for (let key in data) {
-                        if (key === active_position) {
-                            let tax_moves = data[key]['tax'];
-                            self.showTriggers(tax_moves);
-                        }
-                    }
-                })
-            })
-            $(bus_button).click(function () {
-                $.getJSON('data/possible_moves.json', function (data) {
-                    for (let key in data) {
-                        if (key === active_position) {
-                            let bus_moves = data[key]['bus'];
-                            self.showTriggers(bus_moves);
-                        }
-                    }
-                })
-            })
-            $(und_button).click(function () {
-                $.getJSON('data/possible_moves.json', function (data) {
-                    for (let key in data) {
-                        if (key === active_position) {
-                            let und_moves = data[key]['und'];
-                            self.showTriggers(und_moves);
-                        }
-                    }
-                })
-            })
-        })
-    }
-    /*
-    showTriggers(moves) {
-        var self = this;
-        //highlights all placed triggers for dev purposes
+    showTriggers() {
+
+        //higlights all placed triggers for dev purposes
+
         const location_list = Object.entries(this.triggerLocations);
 
-        moves = moves.split(" ");
-        $.each(moves, function (i) {
-            moves[i] = parseInt(moves[i]);
-            moves[i] = moves[i].toString();
-            for (let location in location_list) {
-                if (location_list[location][0] === moves[i]) {
-                    for (let coordinate in location_list[location]) {
+        for (let location in location_list) {
+            //console.log(location_list[location]);
+            for (let coordinate in location_list[location]) {
 
-                        //self.ctx.clearRect(location_list[location][coordinate]["x"] * self.canvas.width, location_list[location][coordinate]["y"] * self.canvas.height, self.triggerSize["x"], self.triggerSize["y"]);
-                        self.ctx.beginPath();
-                        self.ctx.fillStyle = "rgba(0,0,0,0.5)";
-                        self.ctx.fillRect(
-                            location_list[location][coordinate]["x"] * self.canvas.width,
-                            location_list[location][coordinate]["y"] * self.canvas.height,
-                            self.triggerSize["x"], self.triggerSize["y"]
-                        );
-                        self.ctx.lineWidth = 1;
-                        self.ctx.strokeStyle = 'red';
-                        self.ctx.stroke();
+                this.ctx.beginPath();
+                this.ctx.rect(
+                    location_list[location][coordinate]["x"] * this.canvas.width,
+                    location_list[location][coordinate]["y"] * this.canvas.height,
+                    this.triggerSize["x"], this.triggerSize["y"]
+                );
+                this.ctx.lineWidth = 1;
+                this.ctx.strokeStyle = 'red';
+                this.ctx.stroke();
 
-                    }
-                }
             }
-        })
-    }
-    */
-
-
-    //INTERFACE UPDATE --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-    moveUserIcon(user) {
-        //moves user icon to the new location
-        let userId = user.id;
-        let newLocation = user.location;
-
-        let canvas_positions = this.canvas_positions;
-        let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
-        let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
-        $(`#userIconImage_${userId}`).css("top", y).css("left", x)
+        }
     }
 
+    triggerHelper() {
+
+        //help get trigger locations    
+        //click in the middle and if the square is correct, copy the console coordinates to the json file
+
+        const topLeft = {
+            "x": (this.mouseX - (this.triggerSize["x"] / 2)) / this.canvas.width,
+            "y": (this.mouseY - (this.triggerSize["y"] / 2)) / this.canvas.height
+        }
+
+        //draws a square where clicked
+        this.ctx.beginPath();
+        this.ctx.rect(
+            topLeft["x"] * this.canvas.width, topLeft["y"] * this.canvas.height,
+            this.triggerSize["x"], this.triggerSize["y"]
+        );
+        this.ctx.lineWidth = 1;
+        this.ctx.strokeStyle = 'red';
+        this.ctx.stroke();
+
+        console.log(topLeft);
+
+        //copy the coordinates to the clipboard
+        var textArea = document.createElement("textarea");
+        textArea.value = '{"x": ' + topLeft["x"] + ', "y": ' + topLeft["y"] + '},';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+
+    }
+
+
+    fillData() {
+        //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
+        // window.sessionStorage.setItem("userId", "1234567");
+        //json_data.done(function (data) {
+        let data = this.sessionData
+        console.log(data);
+        let vehicleButtons = $('.vehicle_button_div > p');
+        for (let user in data['users']) {
+            if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
+                $('#moves_table tbody').append(`<tr id="moves_table_row${data['users'][user]['id']}" ></tr>`);
+                let correctRow = $('#moves_table tbody tr').last();
+                correctRow.append(`<td style="color: #${data["users"][user]["color"]}; filter: brightness(1.2);">` + data["users"][user]["userName"] + '</td>');
+                correctRow.append('<td>' + data["users"][user]["cardAmount"]["tax"] + '</td>');
+                correctRow.append('<td>' + data["users"][user]["cardAmount"]["bus"] + '</td>');
+                correctRow.append('<td>' + data["users"][user]["cardAmount"]["und"] + '</td>');
+
+            }
+            if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
+                vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
+                vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
+                vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
+
+                $('#station').text('Current Location: ' + data['users'][user]['location']);
+            }
+
+        }
+    }
 
     updateFillData() {
 
@@ -390,77 +422,214 @@ class Game {
         }
     }
 
+    // checkForMisterX() {
 
-    //HELPER METHODS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    // }
+    showPossibleMoves(active_position) {
+        var self = this;
+        const tax_button = $('#tax_button');
+        const bus_button = $('#bus_button');
+        const und_button = $('#und_button');
+        $.getJSON('data/test_sessions.json', function (data) {
+            $(tax_button).click(function () {
+                $.getJSON('data/possible_moves.json', function (data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let tax_moves = data[key]['tax'];
+                            self.showTriggers(tax_moves);
+                        }
+                    }
+                })
+            })
+            $(bus_button).click(function () {
+                $.getJSON('data/possible_moves.json', function (data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let bus_moves = data[key]['bus'];
+                            self.showTriggers(bus_moves);
+                        }
+                    }
+                })
+            })
+            $(und_button).click(function () {
+                $.getJSON('data/possible_moves.json', function (data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let und_moves = data[key]['und'];
+                            self.showTriggers(und_moves);
+                        }
+                    }
+                })
+            })
+        })
+    }
 
-    showTriggers() {
-
-        //higlights all placed triggers for dev purposes
-
+    showTriggers(moves) {
+        var self = this;
+        //highlights all placed triggers for dev purposes
         const location_list = Object.entries(this.triggerLocations);
 
-        for (let location in location_list) {
-            //console.log(location_list[location]);
-            for (let coordinate in location_list[location]) {
+        moves = moves.split(" ");
+        $.each(moves, function (i) {
+            moves[i] = parseInt(moves[i]);
+            moves[i] = moves[i].toString();
+            for (let location in location_list) {
+                if (location_list[location][0] === moves[i]) {
+                    for (let coordinate in location_list[location]) {
 
-                this.ctx.beginPath();
-                this.ctx.rect(
-                    location_list[location][coordinate]["x"] * this.canvas.width,
-                    location_list[location][coordinate]["y"] * this.canvas.height,
-                    this.triggerSize["x"], this.triggerSize["y"]
-                );
-                this.ctx.lineWidth = 1;
-                this.ctx.strokeStyle = 'red';
-                this.ctx.stroke();
+                        //self.ctx.clearRect(location_list[location][coordinate]["x"] * self.canvas.width, location_list[location][coordinate]["y"] * self.canvas.height, self.triggerSize["x"], self.triggerSize["y"]);
+                        self.ctx.beginPath();
+                        self.ctx.fillStyle = "rgba(0,0,0,0.5)";
+                        self.ctx.fillRect(
+                            location_list[location][coordinate]["x"] * self.canvas.width,
+                            location_list[location][coordinate]["y"] * self.canvas.height,
+                            self.triggerSize["x"], self.triggerSize["y"]
+                        );
+                        self.ctx.lineWidth = 1;
+                        self.ctx.strokeStyle = 'red';
+                        self.ctx.stroke();
 
+                    }
+                }
             }
-        }
+        })
     }
 
-    triggerHelper() {
-
-        //help get trigger locations    
-        //click in the middle and if the square is correct, copy the console coordinates to the json file
-
-        const topLeft = {
-            "x": (this.mouseX - (this.triggerSize["x"] / 2)) / this.canvas.width,
-            "y": (this.mouseY - (this.triggerSize["y"] / 2)) / this.canvas.height
-        }
-
-        //draws a square where clicked
-        this.ctx.beginPath();
-        this.ctx.rect(
-            topLeft["x"] * this.canvas.width, topLeft["y"] * this.canvas.height,
-            this.triggerSize["x"], this.triggerSize["y"]
-        );
-        this.ctx.lineWidth = 1;
-        this.ctx.strokeStyle = 'red';
-        this.ctx.stroke();
-
-        console.log(topLeft);
-
-        //copy the coordinates to the clipboard
-        var textArea = document.createElement("textarea");
-        textArea.value = '{"x": ' + topLeft["x"] + ', "y": ' + topLeft["y"] + '},';
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-
-    }
-
-    //GAME LOOP METHODS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-    updateInterface() {
-
-    }
-
-    gameLoop(){
-
-
-    }
+    // updateWithNewData() {
+        
+        
+    // }
 
 }
+
+
+// class Player {
+
+//     constructor(game, playerId, username, isHost, location, color) {
+
+//         this.id = playerId;
+//         this.username = username;
+//         this.isHost = isHost;
+//         this.location = location
+//         this.previousLocation = 0;
+//         this.color = color;
+
+//     }
+
+//     updateData() {
+
+//         var request = $.post("scripts/update_player.php", {
+//             call_now: "True",
+//             gameId: sessionStorage.getItem("gameId"),
+//             playerId: this.id,
+//             username: this.username,
+//             cardAmount: this.cardAmount,
+//             location: this.location,
+//             previousLocation: this.previousLocation,
+//             myTurn: this.myTurn,
+//             hasMoved: this.hasMoved
+//         });
+//         request.done(function (data) {
+//             console.log(data)
+//         });
+
+//     }
+
+//     /*
+
+// [
+//     {
+//         "id": 1234567,
+//         "users": [
+//             {
+//                 "id": 1234567,
+//                 "username": "oscar",
+//                 "isHost": "1",
+//                 "isMisterX": "",
+//                 "cardAmount":{"tax":""},
+//                 "myTurn": true,
+//                 "hasMoved": false,
+//                 "location": "startinglocation"
+//             },
+//             {
+//                 "id": 2345678,
+//                 "username": "bjorn",
+//                 "isHost": "",
+//                 "isMisterX": ""
+//             },
+//             {
+//                 "id": 2398498,
+//                 "username": "noor",
+//                 "isHost": "",
+//                 "isMisterX": "1"
+//             },
+//             {
+//                 "id": 9872348,
+//                 "username": "dennis",
+//                 "isHost": "",
+//                 "isMisterX": ""
+//             }
+
+//         ],
+//         "gameStarted": true
+//     }
+// ]
+
+//     */
+
+//     movePlayerImage() {
+
+
+
+//     }
+
+
+
+// }
+
+// class Detective extends Player {
+
+//     constructor(game, playerId, username, isHost, color) {
+//         super(game, playerId, username, isHost, color);
+
+//         this.cardAmount = {
+//             "tax": 10,
+//             "bus": 8,
+//             "und": 4
+//         };
+
+//         this.myTurn = false;
+//         this.hasMoved = false;
+
+//         this.updateData();
+
+//     }
+
+// }
+
+
+// class MisterX extends Player {
+
+//     constructor(game, playerId, username, isHost, color) {
+//         super(game, playerId, username, isHost, color);
+
+//         this.cardAmount = {
+//             "tax": 4,
+//             "bus": 3,
+//             "und": 3,
+//             "blck": game.detectiveAmount,
+//             "2x": 2
+//         };
+
+//         this.myTurn = true;
+//         this.hasMoved = false;
+
+//         this.updateData();
+
+//     }
+
+// }
+
 
 $(function () {
 
