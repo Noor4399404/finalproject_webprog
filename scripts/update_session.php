@@ -18,7 +18,7 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
                     $answer = json_encode($answerArray);
                     
                 } else {
-                    $activeGameSession[$key]["users"][$index]["hasRecentVersion"] = true;
+                    $activeGameSessions[$key]["users"][$index]["hasRecentVersion"] = true;
                     $answer = json_encode($activeGameSession);
                 }
             }

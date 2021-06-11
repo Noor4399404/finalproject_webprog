@@ -24,6 +24,7 @@ $userObject = array(
         "und" => 4
     ),
     "hasRecentVersion" => true,
+    "lastUsedVehicle" => "",
     "usedVehicles" => array()
 );
 

@@ -112,6 +112,14 @@ class Game {
 
             }
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
+
+                if (data['users'][user]["myTurn"]) {
+                    $("#submit-move-button").removeAttr("disabled");
+                    $("#submit-move-button").removeClass("inactive-vehicle-button")
+                } else {
+                    $("#submit-move-button").addClass("inactive-vehicle-button")
+                    $("#submit-move-button").attr('disabled', true);
+                }
                 vehicleButtons[0].innerHTML = '<h1 class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</h1>';
                 vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
                 vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
@@ -320,7 +328,7 @@ class Game {
 
 
     updateFillData() {
-
+        $("#round-number-info").text(`round ${this.sessionData["round"]}`)
         let data = this.sessionData
         console.log(data);
         let vehicleButtons = $('.vehicle_button_div > p');
@@ -334,6 +342,15 @@ class Game {
 
             }
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
+
+                if (data['users'][user]["myTurn"]) {
+                    $("#submit-move-button").removeAttr("disabled");
+                    $("#submit-move-button").removeClass("inactive-vehicle-button")
+                } else {
+                    $("#submit-move-button").addClass("inactive-vehicle-button")
+                    $("#submit-move-button").attr('disabled', true);
+                }
+
                 vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
                 vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
                 vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
@@ -386,6 +403,24 @@ class Game {
                 }
 
 
+            }
+        }
+    }
+
+
+    addMisterXIcon() {
+        for (let userIndex in this.sessionData["users"]) {
+            if (this.sessionData["users"][userIndex]["isMisterX"]) {
+                let user = this.sessionData["users"][userIndex]
+                let startLocation = user.location;
+                let color = user.color;
+    
+                let canvas_positions = this.canvas_positions;
+                let userIcon = $(`<svg class="userIconImage" id="MisterXRevealIcon") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
+                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8
+                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6
+                $("body").append(userIcon)
+                $(`#MisterXRevealIcon`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)    
             }
         }
     }
@@ -521,10 +556,16 @@ $(function () {
             }) 
             request.then((response) => {
                 if(response.isChanged) {
-                    console.log(response);
                     game.sessionData = response;
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
+                    }
+                    game.updateFillData();
+
+                    if ([3, 8, 13, 18].includes(game.sessionData["round"])) {
+                        game.addMisterXIcon();
+                    } else {
+                        $("#MisterXRevealIcon").remove();
                     }
                 }
             })
@@ -571,6 +612,8 @@ $(function () {
 
     $("#submit-move-button").click(function(event) {
         event.preventDefault();
+        $("#submit-move-button").addClass("inactive-vehicle-button")
+        $("#submit-move-button").attr('disabled', true);
         console.log("hoi");
         for (let user in game.sessionData["users"]) {
             if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
