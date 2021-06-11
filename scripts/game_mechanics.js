@@ -641,10 +641,10 @@ $(function () {
         game.addUserIcon(game.sessionData["users"])
 
         $("#hide-icons-button").on("mousedown", function () {
-            $(".userIconImage").fadeOut();
+            $(".userIconImage").fadeOut("fast");
         });
         $("#hide-icons-button").on("mouseup", function () {
-            $(".userIconImage").fadeIn();
+            $(".userIconImage").fadeIn("fast");
         });
         //Shows the clickable areas on the game board 
 
