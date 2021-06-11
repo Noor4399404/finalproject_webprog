@@ -42,7 +42,10 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
                     "und" => 3
                 );
                 $activeGameSessions[$key]["users"][$indexUserEdited]["isMisterX"] = true;
+                $activeGameSessions[$key]["users"][$indexUserEdited]["myTurn"] = true;
                 $activeGameSessions[$key]["users"][$indexUserEdited]["cardAmount"] = $misterXCards;
+                $idUser = array_splice($activeGameSessions[$key]["orderRound"], array_search($activeGameSessions[$key]["users"][$indexUserEdited]["id"], $activeGameSessions[$key]["orderRound"]), 1)[0]; 
+                array_splice($activeGameSessions[$key]["orderRound"], 0, 0, $idUser);
             } else if ($host_action == "delete") {
                 array_push($activeGameSessions[$key]["userColors"], $activeGameSessions[$key]["users"][$indexUserEdited]["color"]);
                 array_splice($activeGameSessions[$key]["users"], $indexUserEdited, 1);

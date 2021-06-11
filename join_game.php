@@ -49,7 +49,9 @@ if (isset($_POST["host-game-id"])) {
             "startLocations" => [13, 26, 29, 34, 50, 53, 94, 103, 112, 117, 132, 138, 141, 155, 174, 197, 198],
             "gameStarted" => false,
             "isChanged" => true,
-            "misterXFound" => false
+            "misterXFound" => false,
+            "misterXEscaped" => false,
+            "orderRound" => array()
         ];
         $activeGameSessions = array_slice($activeGameSessions, -100, 100);
 

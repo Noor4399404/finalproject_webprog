@@ -57,6 +57,7 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
         $newUserInfo = ["color" => array_splice($activeGameSessions[$key]["userColors"], $randomColorIndex, 1)[0], "location" => array_splice($activeGameSessions[$key]["startLocations"], $randomStartLocationIndex, 1)[0]];
         $userObject = array_merge($userObject, $newUserInfo);
         array_push($activeGameSessions[$key]["users"], $userObject);
+        array_push($activeGameSessions[$key]["orderRound"], $userObject["id"]);
     } else if ($activeGameSession["id"] === $gameId) {
         $gameSessionInfo["tooManyPlayers"] = true;
     }
