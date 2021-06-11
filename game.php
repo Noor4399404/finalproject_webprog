@@ -199,7 +199,7 @@ $session_data = json_decode($session_data_json, true);
         </div>
 
         <div class="ml-auto">
-            <button id="test-moving-button" class="btn btn-secondary rounded">Test move</button>
+            <button id="hide-icons-button" class="btn btn-secondary rounded">Hide user icons</button>
             <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#ruleModal" value="?">
             <input type="button" class="btn btn-danger" id="end-game-button" value="End Game">
         </div>

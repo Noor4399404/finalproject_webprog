@@ -88,11 +88,11 @@ class Game {
             console.log(user.isMisterX && userId == sessionStorage.getItem("userId"));
             console.log(!user.isMisterX);
             if ((user.isMisterX && userId == sessionStorage.getItem("userId")) || !user.isMisterX ) {
-                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5
-                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2
+                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8
+                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6
                 $("body").append(userIcon)
     
-                $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`)    
+                $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)    
             }
         }
     }
@@ -639,9 +639,12 @@ $(function () {
 
         console.log(game.detectives)
         game.addUserIcon(game.sessionData["users"])
-        $("#test-moving-button").click(function () {
-            console.log(15);
-            game.moveUserIcon(17)
+
+        $("#hide-icons-button").on("mousedown", function () {
+            $(".userIconImage").fadeOut();
+        });
+        $("#hide-icons-button").on("mouseup", function () {
+            $(".userIconImage").fadeIn();
         });
         //Shows the clickable areas on the game board 
 
