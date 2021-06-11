@@ -30,8 +30,21 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
             $activeGameSessions[$key]["misterXEscaped"] = true;
             // Mister X won the game by escaping for 23 rounds
         }
-        
+
+        $misterXLocation = 0;
         foreach ($activeGameSession["users"] as $index => $user) {
+            if ($user["isMisterX"]) {
+                $misterXLocation = $user["location"];
+            }
+        }
+        
+        
+
+        foreach ($activeGameSession["users"] as $index => $user) {
+            if ($user["location"] == $misterXLocation && !$user["isMisterX"]) {
+                $activeGameSessions[$key]["misterXFound"] = true;
+            }
+
             if ($user["id"] == $userId) {
                 array_push($activeGameSessions[$key]["users"][$index]["usedVehicles"], $newUserInfo["lastUsedVehicle"]);
                 $activeGameSessions[$key]["users"][$index] = $newUserInfo;
