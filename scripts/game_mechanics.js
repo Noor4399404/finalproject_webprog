@@ -284,6 +284,8 @@ class Game {
                         $("body").append(icon)
         
                         $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${colour}`).css("width", 30).css("height", 30)
+
+                        $
                     }
                 }
             }
