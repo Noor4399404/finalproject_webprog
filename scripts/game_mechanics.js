@@ -283,13 +283,7 @@ class Game {
                         let y = this.triggerLocations[coordinate]["y"] * this.canvas.height / devicePixelRatio + this.canvas_positions.top - (0.010 * this.canvas.height)
                         $("body").append(icon)
         
-<<<<<<< HEAD
-                        $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${colour}`).css("width", 30).css("height", 30)
-
-                        $
-=======
                         $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("width", (0.040 * this.canvas.width)).css("height", (0.040 * this.canvas.height))
->>>>>>> 1d60d7c2521619f3e0e4f6f1ef1b792f9b77b0e3
                     }
                 }
             }
