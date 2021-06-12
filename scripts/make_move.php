@@ -9,7 +9,6 @@ $gameId = intval($_POST["gameId"]);
 $userId = intval($_POST["userId"]);
 $newUserInfo = json_decode($_POST["newUserInfo"], true);
 
-echo json_encode($userId);
 
 $activeGameSessionsFile = file_get_contents('../data/active_sessions.json', 'r');
 $activeGameSessions = json_decode($activeGameSessionsFile, true);
@@ -38,6 +37,8 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
             }
         }
         
+
+
         
 
         foreach ($activeGameSession["users"] as $index => $user) {
@@ -46,6 +47,7 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
             }
 
             if ($user["id"] == $userId) {
+                $lastVehicle = $newUserInfo["lastUsedVehicle"];
                 array_push($activeGameSessions[$key]["users"][$index]["usedVehicles"], $newUserInfo["lastUsedVehicle"]);
                 $newUserInfo["lastUsedVehicle"] = "";
                 $newUserInfo["lastLocation"] = $newUserInfo["location"];
@@ -58,6 +60,19 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
                 $activeGameSessions[$key]["users"][$index]["hasRecentVersion"] = false;
             }
         }
+
+
+        foreach ($activeGameSession["users"] as $index => $user) {
+            if ($user["isMisterX"] && $user["id"] != $userId) {
+                $answer = "if statement does work";
+                $activeGameSessions[$key]["users"][$index]["cardAmount"][$lastVehicle] += 1;
+                break;
+            } else {
+                $answer = "does not work";
+            }
+        }
+        
+
         break;
     }
 }
@@ -65,3 +80,4 @@ $writableData = json_encode($activeGameSessions);
 $json_file = fopen('../data/active_sessions.json', 'w'); 
 fwrite($json_file, $writableData); 
 fclose($json_file);
+echo json_encode($answer);
