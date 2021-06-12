@@ -240,24 +240,22 @@ class Game {
             }
         }
     }
-
-    showPossibleMoves(active_position) {
+  /*
+    showPossibleMoves(location, vehicle) {
         var self = this;
         const tax_button = $('#tax_button');
         const bus_button = $('#bus_button');
         const und_button = $('#und_button');
         $.getJSON('data/test_sessions.json', function (data) {
-            $(tax_button).click(function () {
-                $.getJSON('data/possible_moves.json', function (data) {
-                    for (let key in data) {
-                        if (key === active_position) {
-                            let tax_moves = data[key]['tax'];
-                            self.showTriggers(tax_moves);
-                        }
+            $('#tax_button').click(function () {
+                for (let key in this.possibleMoves) {
+                    if (key === active_position) {
+                        let tax_moves = data[key]['tax'];
+                        console.log('tax_moves');
                     }
-                })
-            })
-            $(bus_button).click(function () {
+                }
+             })
+            $('#bus_button').click(function () {
                 $.getJSON('data/possible_moves.json', function (data) {
                     for (let key in data) {
                         if (key === active_position) {
@@ -267,7 +265,7 @@ class Game {
                     }
                 })
             })
-            $(und_button).click(function () {
+            $('#und_button').click(function () {
                 $.getJSON('data/possible_moves.json', function (data) {
                     for (let key in data) {
                         if (key === active_position) {
@@ -279,7 +277,7 @@ class Game {
             })
         })
     }
-    /*
+  
     showTriggers(moves) {
         var self = this;
         //highlights all placed triggers for dev purposes
@@ -312,6 +310,24 @@ class Game {
     }
     */
 
+    isPossibleMove(location, vehicle, next_location) {
+        //tests if the user can move to their next location using the selected vehicle
+
+        for (let key in this.possibleMoves) {
+            if (key == location) {
+                for (let loc in this.possibleMoves[key][vehicle].split(", ")) {
+                    if (this.possibleMoves[key][vehicle].split(", ")[loc] == next_location) {
+                        return true;
+                    } 
+                }
+                return false
+                
+            }
+
+        }
+
+    }
+
 
     //INTERFACE UPDATE --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -330,12 +346,12 @@ class Game {
     updateFillData() {
         $("#round-number-info").text(`round ${this.sessionData["round"]}`)
         let data = this.sessionData
-        console.log(data);
+        //console.log(data);
         let vehicleButtons = $('.vehicle_button_div > p');
         for (let user in data['users']) {
             if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
                 let dataCells = $(`#moves_table_row${data["users"][user]["id"]}`).children();
-                console.log(dataCells);
+                //console.log(dataCells);
                 $(dataCells[1]).html(data["users"][user]["cardAmount"]["tax"]);
                 $(dataCells[2]).html(data["users"][user]["cardAmount"]["bus"]);
                 $(dataCells[3]).html(data["users"][user]["cardAmount"]["und"]);
@@ -361,7 +377,7 @@ class Game {
         }
 
         let mrXTableElements = $("#mrxtable > tbody > tr > td")
-        console.log(mrXTableElements);
+        //console.log(mrXTableElements);
         for (let user in this.sessionData["users"]) {
             if (this.sessionData["users"][user]["isMisterX"]) {
                 let usedVehicles = this.sessionData["users"][user]["usedVehicles"];
@@ -505,8 +521,7 @@ $(function () {
     var game = new Game();
     const canvas = document.getElementById("gameCanvas");
 
-    let active_button = '74';
-    game.showPossibleMoves(active_button);
+    var current_vehicle = "None"
 
     console.log(sessionStorage.getItem("gameId"));
 
@@ -588,8 +603,14 @@ $(function () {
         data = game.sessionData
         for (let user in data["users"]) {
             if (data["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
-                data["users"][user]["location"] = trigger;
-                game.moveUserIcon(data["users"][user]);
+                if (game.isPossibleMove(data["users"][user]["location"], current_vehicle, trigger)){
+                    current_vehicle = "None"
+                    data["users"][user]["location"] = trigger;
+                    game.moveUserIcon(data["users"][user]);
+                } else {
+                    console.log("you're trying to make an invalid move, dummy")
+                }
+                
             }
 
         }
@@ -610,7 +631,28 @@ $(function () {
         game.resize();
     });
 
+    $('#tax_button').click(function(){
+        current_vehicle = "tax";
+        console.log('taxi set')
+
+        //show possible moves for this vehicle
+
+    })
+
+    $('#bus_button').click(function(){
+        current_vehicle = "bus";
+        console.log('bus set')
+        
+    })
+
+    $('#und_button').click(function(){
+        current_vehicle = "und";
+        console.log('underground set')
+        
+    })
+
     $("#submit-move-button").click(function(event) {
+
         event.preventDefault();
         $("#submit-move-button").addClass("inactive-vehicle-button")
         $("#submit-move-button").attr('disabled', true);
