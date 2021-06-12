@@ -169,7 +169,3 @@ if (isset($_POST["host-game-id"])) {
         </div>
 
 </div>
-
-<?php
-include __DIR__ . '/tpl/body_end.php';
-?>
