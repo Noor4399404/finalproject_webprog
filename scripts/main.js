@@ -1,5 +1,6 @@
 function useModal(modalTitle, modalText, closeButtonText, closeModalAction = () => {}, twoActions = false,  otherButtonText = String(), otherModalAction = () => {}) {
     $('#info-modal').modal('show');
+    console.log("model shows");
     $("#modal-title").text(modalTitle);
     $("#modal-text").text(modalText);
     if (twoActions) {

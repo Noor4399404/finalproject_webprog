@@ -47,6 +47,8 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
 
             if ($user["id"] == $userId) {
                 array_push($activeGameSessions[$key]["users"][$index]["usedVehicles"], $newUserInfo["lastUsedVehicle"]);
+                $newUserInfo["lastUsedVehicle"] = "";
+                $newUserInfo["lastLocation"] = $newUserInfo["location"];
                 $activeGameSessions[$key]["users"][$index] = $newUserInfo;
                 $activeGameSessions[$key]["users"][$index]["myTurn"] = false;
             } else if ($user["id"] == $nextUserTurnId) {
