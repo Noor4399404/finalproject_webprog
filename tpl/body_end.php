@@ -7,18 +7,19 @@
             </div>
             <div class="col-md-8 row d-flex flex-row wp-row justify-content-*-around">
                 <div class="col-md-6 mt-3 p-3">
-                    <p class="footer_title">Used modules</p>
+                    <p class="footer_title">Developers:</p>
                     <ul>
-                        <li class="my-1"><a href=""> <span class="text-muted">- </span></a></li>
-                        <li class="my-1"><a href=""> <span class="text-muted">- </span></a></li>
-                        <li class="my-1"><a href=""> <span class="text-muted">- </span></a></li>
+                        <li class="my-1"><a href=""> <span class="text-muted">Björn Overbeek</span></a></li>
+                        <li class="my-1"><a href=""> <span class="text-muted">Oscar Zwagers</span></a></li>
+                        <li class="my-1"><a href=""> <span class="text-muted">Dennis van Thulden</span></a></li>
+                        <li class="my-1"><a href=""> <span class="text-muted">Noor Otjens</span></a></li>
                     </ul>
                 </div>
                 <div class="col-md-6 mt-3 p-3">
                     <p class="footer_title">Useful links</p>
                     <ul>
-                        <li class="my-1"><a href="https://github.com/Noor4399404/finalproject_webprog">Github <span class="text-muted">- the code</span></a></li>
-                        <li class="my-1"><a href="https://www.rug.nl/?lang=en">Groningen University <span class="text-muted">- university</span></a></li>
+                        <li class="my-1"><a href="https://github.com/Noor4399404/finalproject_webprog">Github <span class="text-muted">- Our code</span></a></li>
+                        <li class="my-1"><a href="https://www.rug.nl/?lang=en">Groningen University <span class="text-muted">- Our University</span></a></li>
                     </ul>
                 </div>
             </div>

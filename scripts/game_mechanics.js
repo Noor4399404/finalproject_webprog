@@ -40,7 +40,6 @@ class Game {
     getSessionData(sessionData) {
         //helper function to store session data in game class
         this.sessionData = JSON.parse(sessionData);
-        //console.log(this.sessionData);
     }
 
     setupCanvas() {
@@ -94,11 +93,7 @@ class Game {
     }
 
     fillData() {
-        //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
-        // window.sessionStorage.setItem("userId", "1234567");
-        //json_data.done(function (data) {
         let data = this.sessionData
-        console.log(data);
         let vehicleButtons = $('.vehicle_button_div > p');
         for (let user in data['users']) {
             if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
@@ -108,7 +103,6 @@ class Game {
                 correctRow.append('<td>' + data["users"][user]["cardAmount"]["tax"] + '</td>');
                 correctRow.append('<td>' + data["users"][user]["cardAmount"]["bus"] + '</td>');
                 correctRow.append('<td>' + data["users"][user]["cardAmount"]["und"] + '</td>');
-
             }
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
 
@@ -118,13 +112,9 @@ class Game {
 
                 $('#station').text('Current Location: ' + data['users'][user]['location']);
 
-
-                console.log(data['users'][user]["myTurn"]);
-
                 if (data['users'][user]["myTurn"]) {
                     $("#make-move-div").fadeIn();
                 } else {
-                    console.log("it will be faded out");
                     $("#make-move-div").fadeOut();
                 }
             }
@@ -143,13 +133,10 @@ class Game {
 
             let canvas_positions = this.canvas_positions;
             let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
-            console.log(user.isMisterX && userId == sessionStorage.getItem("userId"));
-            console.log(!user.isMisterX);
             if ((user.isMisterX && userId == sessionStorage.getItem("userId")) || !user.isMisterX) {
                 let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8
                 let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6
                 $("body").append(userIcon)
-
                 $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)
             }
         }
@@ -201,7 +188,6 @@ class Game {
             "x": this.canvas.width * 0.015,
             "y": this.canvas.height * 0.025
         };
-
     }
 
     resizeUserIcons() {
@@ -211,9 +197,7 @@ class Game {
         for (let userIndex in this.sessionData["users"]) {
             let user = this.sessionData["users"][userIndex]
             let currentLocation = user["location"];
-            console.log(currentLocation);
             let userId = user["id"];
-            console.log(userId);
             let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 5;
             let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 2;
             $(`#userIconImage_${userId}`).css("top", y).css("left", x)
@@ -228,7 +212,6 @@ class Game {
         var rect = this.canvas.getBoundingClientRect();
         this.mouseX = event.clientX * devicePixelRatio - rect.left * devicePixelRatio;
         this.mouseY = event.clientY * devicePixelRatio - rect.top * devicePixelRatio;
-        //console.log("X: " + this.mouseX + "\tY: " + this.mouseY);
     }
 
     scanForTrigger() {
@@ -237,7 +220,6 @@ class Game {
         const location_list = Object.entries(this.triggerLocations);
 
         for (let location in location_list) {
-            //console.log(location_list[location]);
             for (let coordinate in location_list[location]) {
 
                 const topBoundary = (location_list[location][coordinate]["y"] * this.canvas.height) - this.clickSense;
@@ -287,7 +269,6 @@ class Game {
                     }
                 }
             }
-
         }
     }
 
@@ -320,7 +301,6 @@ class Game {
                 }
             }
         }
-
         if (userLocations.includes(newLocation)) {
             return false;
         } else {
@@ -346,37 +326,27 @@ class Game {
     updateFillData(enableMoveButtons) {
         $("#round-number-info").html(`<p style="font-weight: light;">round ${this.sessionData["round"]}</p>`)
         let data = this.sessionData
-        console.log(data);
         let vehicleButtons = $('.vehicle_button_div > p');
         for (let user in data['users']) {
             if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
                 let dataCells = $(`#moves_table_row${data["users"][user]["id"]}`).children();
-                //console.log(dataCells);
                 $(dataCells[1]).html(data["users"][user]["cardAmount"]["tax"]);
                 $(dataCells[2]).html(data["users"][user]["cardAmount"]["bus"]);
                 $(dataCells[3]).html(data["users"][user]["cardAmount"]["und"]);
-
             }
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
-
-                
 
                 vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
                 vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
                 vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
                 $('#station').text('Current Location: ' + data['users'][user]['location']);
 
-                console.log(data['users'][user]["myTurn"]);
-                console.log(enableMoveButtons);
-
                 if (data['users'][user]["myTurn"]) {
                     if (enableMoveButtons) {
-                        console.log("hoi");
                         $("#make-move-div").fadeIn();
                     } else {
                         $("#make-move-div").fadeOut();
                     }
-
                 } else {
                     $("#make-move-div").fadeOut();
                 }
@@ -384,8 +354,7 @@ class Game {
 
         }
 
-        let mrXTableElements = $("#mrxtable > tbody > tr > td")
-        //console.log(mrXTableElements);
+        let mrXTableElements = $("#mrxtable > tbody > tr > td");
         for (let user in this.sessionData["users"]) {
             if (this.sessionData["users"][user]["isMisterX"]) {
                 let usedVehicles = this.sessionData["users"][user]["usedVehicles"];
@@ -423,14 +392,10 @@ class Game {
                                             </div>`)
                             break;
                     }
-
                 }
-
-
             }
         }
     }
-
 
     addMisterXIcon() {
         for (let userIndex in this.sessionData["users"]) {
@@ -449,19 +414,16 @@ class Game {
         }
     }
 
-
     //HELPER METHODS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
     showTriggers() {
 
-        //higlights all placed triggers for dev purposes
+        //highlights all placed triggers for dev purposes
 
         const location_list = Object.entries(this.triggerLocations);
 
         for (let location in location_list) {
-            //console.log(location_list[location]);
             for (let coordinate in location_list[location]) {
-
                 this.ctx.beginPath();
                 this.ctx.rect(
                     location_list[location][coordinate]["x"] * this.canvas.width,
@@ -471,7 +433,6 @@ class Game {
                 this.ctx.lineWidth = 1;
                 this.ctx.strokeStyle = 'red';
                 this.ctx.stroke();
-
             }
         }
     }
@@ -496,8 +457,6 @@ class Game {
         this.ctx.strokeStyle = 'red';
         this.ctx.stroke();
 
-        console.log(topLeft);
-
         //copy the coordinates to the clipboard
         var textArea = document.createElement("textarea");
         textArea.value = '{"x": ' + topLeft["x"] + ', "y": ' + topLeft["y"] + '},';
@@ -505,7 +464,6 @@ class Game {
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
-
     }
 
     //GAME LOOP METHODS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -516,9 +474,7 @@ class Game {
 
     gameLoop() {
 
-
     }
-
 }
 
 $(function () {
@@ -530,8 +486,6 @@ $(function () {
     const canvas = document.getElementById("gameCanvas");
 
     var selectedVehicle = "None"
-
-    console.log(sessionStorage.getItem("gameId"));
 
     let request_1 = $.post("scripts/get_session.php", {
         call_now: "True",
@@ -548,17 +502,12 @@ $(function () {
 
         // code in the .done after the first request
         game.sessionData = res[0]
-        console.log(game.sessionData);
-        // game.getSessionData(sessionData); //is not necessary if you make the header inside php json.
         game.getHost();
         game.getMisterX();
 
         // code in the .done after the second request
         game.getTriggers(res[1]);
-
-        console.log(game.detectives)
         game.addUserIcon(game.sessionData["users"])
-
 
         //Shows the clickable areas on the game board 
 
@@ -570,8 +519,7 @@ $(function () {
         game.getPossibleMoves(res[2]);
         game.fillData();
 
-
-        // should be here, otherwise it will try to get new inforation, while the old information isnt even available
+        // should be here, otherwise it will try to get new information, while the old information is not even available
         window.setInterval(() => {
             let request = $.post("./scripts/update_session.php", { // could be another script name
                 gameId: sessionStorage.getItem("gameId"),
@@ -583,8 +531,7 @@ $(function () {
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
                     }
-                   
-                    console.log("hoi");
+
                     game.updateFillData(true);
 
                     let showX = false
@@ -607,13 +554,10 @@ $(function () {
                     }
                 }
             })
-
         }, 2000)
     }
 
     fetchAsyncData();
-
-    var usedVehicle;
 
     canvas.addEventListener("click", function (event) {
 
@@ -627,7 +571,7 @@ $(function () {
                 if (data["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
                     if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)) {
                         usedVehicle = selectedVehicle;
-                        selectedVehicle = "None"
+                        selectedVehicle = "None";
                         
                         data["users"][user]["location"] = trigger;
                         game.moveUserIcon(data["users"][user]);
@@ -663,13 +607,11 @@ $(function () {
                             },
                             type: 'POST'
                         });
-                        
                     } else {
                         useModal("Not a valid move", "You're trying to make an invalid move, dummy", "close")
                     }
                 }
             }
-            
         } else {
             useModal("Cannot make move", "You should select a vehicle type before making a move.", "close")
         }
@@ -688,7 +630,6 @@ $(function () {
 
     $('#tax_button').click(function () {
         selectedVehicle = "tax";
-        console.log('taxi set')
         for (let user in game.sessionData["users"]) {
             if (game.sessionData["users"][user]["id"] == game.userId) {
                 game.sessionData["users"][user]["lastUsedVehicle"] = selectedVehicle;
@@ -700,7 +641,6 @@ $(function () {
 
     $('#bus_button').click(function () {
         selectedVehicle = "bus";
-        console.log('bus set')
         for (let user in game.sessionData["users"]) {
             if (game.sessionData["users"][user]["id"] == game.userId) {
                 game.sessionData["users"][user]["lastUsedVehicle"] = selectedVehicle;
@@ -712,7 +652,6 @@ $(function () {
 
     $('#und_button').click(function () {
         selectedVehicle = "und";
-        console.log('underground set')
         for (let user in game.sessionData["users"]) {
             if (game.sessionData["users"][user]["id"] == game.userId) {
                 game.sessionData["users"][user]["lastUsedVehicle"] = selectedVehicle;

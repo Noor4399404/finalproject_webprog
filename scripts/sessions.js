@@ -11,7 +11,6 @@ function joinGame() {
 
         if (username.length < 3 || username.length > 8 || invalidUsernamePattern) {
             $("#username-input-feedback").addClass("d-block").text("Your username was not valid. It should be between 3 and 8 characters and should only consist of letters and numbers.");
-            console.log("heeee");
             return
         } else {
             $("#username-input-feedback").addClass("d-none")
@@ -19,9 +18,7 @@ function joinGame() {
 
         let randomUserId = Math.floor(Math.random() * 9000000) + 1000000;
 
-        console.log(randomUserId);
         let gameId = $("#game-id").val()
-        console.log($("#game-id").val(),);
         let request = $.post("./scripts/add_name_to_session.php", {
             gameId: gameId,
             userId: randomUserId,
@@ -91,7 +88,6 @@ function displayJoinedUsers(usersJSON) {
             let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("mister X");
             $(`#joined-user-info-${userId}`).append(badgeElement);
             misterXAdded = true
-            console.log("hoi");
         }
         
     }
@@ -122,8 +118,6 @@ function hostActions(action) {
 
     $(document).on('click', classNameButton, function(event) {
         let userId = Number($(this).parent().parent().attr("id").replace("list-item-joined-user", "")) * -1;
-        // for some reason the id becomes negative ... 
-        console.log("does work");
         let request = $.post("./scripts/host_actions.php", {
             gameId: sessionStorage.getItem("gameId"),
             hostUserId: sessionStorage.getItem("userId"),
@@ -134,13 +128,9 @@ function hostActions(action) {
             if (action == "appointX") {
                 $(".mister-X-button").fadeOut()
             }
-            console.log(response);
         })
     });
 }
-
-
-// the javascript for hostActions is finished, the php needs to be changed though
 
 function getGameInformation() {
     let request = $.post("./scripts/get_joined_users.php", {
@@ -152,7 +142,6 @@ function getGameInformation() {
                 window.location.href = "./game.php"
             }
             displayJoinedUsers(response.users);
-            console.log(response);
         })
 }
 
@@ -167,7 +156,6 @@ function clickToCopy(clickElementID, messageElementID) {
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        // This was copied completely from another website
 
         $(messageElementID).removeClass("text-muted").addClass("text-success");
         $(messageElementID).text("The game ID has been copied to your clipboard.");
@@ -190,7 +178,6 @@ function beginGame() {
 
 }
 
-
 // FUNCTIONS ON THE GAME PAGE
 
 function startGame() {
@@ -203,12 +190,7 @@ function startGame() {
     request.then((response) => {
         
     })
-    
-
 }
-
-
-
 
 // FUNCTIONS ON THE HOME PAGE
 
@@ -221,7 +203,6 @@ function startHostingGame() {
         // only one game id gets posted and that is the one that is made three lines above.
         $("#join-game-code-input").remove();
         $(this).prev().attr("value", String(randomGameId));
-
     });
 }
 
@@ -282,7 +263,6 @@ function addIdToPage(elementId, sortId) {
             let gameId = sessionStorage.getItem("gameId");
             $(`#${elementId}`).val(gameId);
             break;
-
         case "user":
             let userId = sessionStorage.getItem("userId");
             $(`#${elementId}`).val(userId);
@@ -310,7 +290,6 @@ function waitingPageFunctions() {
     endGameSession("end-game-button");
     endGameSession("end-game-button-2"); 
     joinGame();
-    // beginGame();
     hostActions("delete");
     hostActions("appointX");
     clickToCopy("#game-id-card", "#copy-game-id-info");
@@ -322,11 +301,9 @@ function gamePageSessionFunctions() {
     endGameSession("end-game-button");
 }
 
-
 $(function () {
     let windowLocation = $(location).attr("pathname");
     windowLocation = windowLocation.split("/").pop()
-    console.log(windowLocation);
 
     switch (windowLocation) {
         case "":
@@ -335,11 +312,9 @@ $(function () {
         case "index.php":
             homeFunctions();
             break;
-
         case "join_game.php":
             waitingPageFunctions();
             break;
-
         case "game.php":
             gamePageSessionFunctions();
             break;
