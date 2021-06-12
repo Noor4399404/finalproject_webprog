@@ -425,7 +425,7 @@ $session_data = json_decode($session_data_json, true);
                     </table>
                 </div>
             </div>
-            <div class="p-2 d-flex flex-column">
+            <div id="make-move-div" class="p-2 d-flex flex-column">
                 <h4 class="text-center">Make move</h4>
                 <div class="d-flex flex-row justify-content-around">
                     <button class="vehicle_buttons btn-warning" id="move_buttons">
@@ -459,9 +459,6 @@ $session_data = json_decode($session_data_json, true);
                             <p>24</p>
                         </div>
                     </button>
-                </div>
-                <div class="my-3">
-                    <button type="button" id="submit-move-button" style="width: 100%;" class="btn btn-success">Submit Move</button>
                 </div>
             </div>
         </div>

@@ -114,9 +114,7 @@ class Game {
 
                 if (data['users'][user]["myTurn"]) {
                     this.submitCanBeDisabled = true;
-                    $(".vehicle_buttons").removeAttr("disabled");
                 } else {
-                    $(".vehicle_buttons").prop("disabled",true)
                     $("#submit-move-button").addClass("inactive-vehicle-button")
                     this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
@@ -254,11 +252,44 @@ class Game {
             }
         }
     }
+    /*
+  
+    showTriggers(moves) {
+        var self = this;
+        //highlights all placed triggers for dev purposes
+        const location_list = Object.entries(this.triggerLocations);
+
+        moves = moves.split(" ");
+        $.each(moves, function (i) {
+            moves[i] = parseInt(moves[i]);
+            moves[i] = moves[i].toString();
+            for (let location in location_list) {
+                if (location_list[location][0] === moves[i]) {
+                    for (let coordinate in location_list[location]) {
+
+                        //self.ctx.clearRect(location_list[location][coordinate]["x"] * self.canvas.width, location_list[location][coordinate]["y"] * self.canvas.height, self.triggerSize["x"], self.triggerSize["y"]);
+                        self.ctx.beginPath();
+                        self.ctx.fillStyle = "rgba(0,0,0,0.5)";
+                        self.ctx.fillRect(
+                            location_list[location][coordinate]["x"] * self.canvas.width,
+                            location_list[location][coordinate]["y"] * self.canvas.height,
+                            self.triggerSize["x"], self.triggerSize["y"]
+                        );
+                        self.ctx.lineWidth = 1;
+                        self.ctx.strokeStyle = 'red';
+                        self.ctx.stroke();
+
+                    }
+                }
+            }
+        })
+    }
+    */
 
     showPossibleMoves(location, vehicle) {
         //shows the possible moves for the current location and selected vehicle
 
-        $(".showPossibleMoves").remove()
+        console.log(location, vehicle)
 
         for (let key in this.possibleMoves) {
             if (key == location) {
@@ -266,35 +297,26 @@ class Game {
             }
         }
 
+        console.log(litupLocations)
+
         if (vehicle == "tax") {
-            var colour = "#f0ad4e"
+            var colour = "yellow"
         } else if (vehicle == "bus") {
-            var colour = "#5bc0de"
+            var colour = "green"
         } else if (vehicle == "und") {
-            var colour = "#d9534f"
+            var colour = "pink"
         }
 
         for (let location in litupLocations) {
-            if (this.noCollision(location)) {
-                for (let coordinate in this.triggerLocations) {
-                    if (coordinate == litupLocations[location]) {
-                        let icon = $(`<svg class="showPossibleMoves" id="show${coordinate}" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="${colour}"><g><rect fill="none" height="24" width="24"/></g><g><path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8 c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/></g></svg>`)
-                        let x = this.triggerLocations[coordinate]["x"] * this.canvas.width / devicePixelRatio + this.canvas_positions.left - (0.012 * this.canvas.width)
-                        let y = this.triggerLocations[coordinate]["y"] * this.canvas.height / devicePixelRatio + this.canvas_positions.top - (0.010 * this.canvas.height)
-                        $("body").append(icon)
-        
-<<<<<<< HEAD
-                        $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${colour}`).css("width", 30).css("height", 30)
-
-                        $
-=======
-                        $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("width", (0.040 * this.canvas.width)).css("height", (0.040 * this.canvas.height))
->>>>>>> 1d60d7c2521619f3e0e4f6f1ef1b792f9b77b0e3
-                    }
+            console.log(location)
+            for (let coordinates in this.triggerLocations) {
+                if (this.triggerLocations[coordinates] == litupLocations[location]) {
+                    console.log(this.triggerLocations[coordinates])
                 }
             }
-            
         }
+
+
     }
 
     isPossibleMove(location, vehicle, nextLocation) {
@@ -349,7 +371,7 @@ class Game {
     }
 
 
-    updateFillData(enableMoveButtons) {
+    updateFillData() {
         $("#round-number-info").html(`<p style="font-weight: light;">round ${this.sessionData["round"]}</p>`)
         let data = this.sessionData
         console.log(data);
@@ -366,12 +388,8 @@ class Game {
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
 
                 if (data['users'][user]["myTurn"]) {
-                    if (enableMoveButtons) {
-                        this.submitCanBeDisabled = true;
-                        $(".vehicle_buttons").removeAttr("disabled");
-                        $(".vehicle_buttons").fadeIn();
-                    }
-
+                    this.submitCanBeDisabled = true;
+                    $(".vehicle_buttons").removeAttr("disabled");
                 } else {
                     $("#submit-move-button").addClass("inactive-vehicle-button");
                     this.submitCanBeDisabled = false;
@@ -586,7 +604,7 @@ $(function () {
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
                     }
-                    game.updateFillData(true);
+                    game.updateFillData();
 
                     if ([3, 8, 13, 18].includes(game.sessionData["round"])) {
                         game.addMisterXIcon();
@@ -611,7 +629,7 @@ $(function () {
         //game.triggerHelper();
 
         var trigger = game.scanForTrigger();
-       
+
         if (selectedVehicle != "None") {
             data = game.sessionData
             for (let user in data["users"]) {
@@ -619,9 +637,6 @@ $(function () {
                     if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)) {
                         usedVehicle = selectedVehicle;
                         selectedVehicle = "None"
-                        $(".showPossibleMoves").remove()
-                        $(".vehicle_buttons").attr("disabled", true);
-                        $(".vehicle_buttons").fadeOut();
                         data["users"][user]["location"] = trigger;
                         game.moveUserIcon(data["users"][user]);
                         if (game.submitCanBeDisabled) {
@@ -635,7 +650,7 @@ $(function () {
                 }
 
             }
-            game.updateFillData(false)
+            game.updateFillData()
         } else {
             console.log('select a vhicle first, dummy');
         }
@@ -660,36 +675,34 @@ $(function () {
         selectedVehicle = "tax";
         console.log('taxi set')
         for (let user in game.sessionData["users"]) {
-            if (game.sessionData["users"][user]["id"] == game.userId) {
+            if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
                 game.sessionData["users"][user]["lastUsedVehicle"] = selectedVehicle;
-                var location = game.sessionData["users"][user]["location"];
             }
         }
-        game.showPossibleMoves(location, selectedVehicle);
+
+        //show possible moves for this vehicle
+
     })
 
     $('#bus_button').click(function () {
         selectedVehicle = "bus";
         console.log('bus set')
         for (let user in game.sessionData["users"]) {
-            if (game.sessionData["users"][user]["id"] == game.userId) {
+            if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
                 game.sessionData["users"][user]["lastUsedVehicle"] = selectedVehicle;
-                var location = game.sessionData["users"][user]["location"];
             }
         }
-        game.showPossibleMoves(location, selectedVehicle);
+
     })
 
     $('#und_button').click(function () {
         selectedVehicle = "und";
         console.log('underground set')
         for (let user in game.sessionData["users"]) {
-            if (game.sessionData["users"][user]["id"] == game.userId) {
+            if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
                 game.sessionData["users"][user]["lastUsedVehicle"] = selectedVehicle;
-                var location = game.sessionData["users"][user]["location"];
             }
         }
-        game.showPossibleMoves(location, selectedVehicle);
     })
 
     // $(".vehicle_buttons").click(function () {
@@ -715,6 +728,7 @@ $(function () {
                     return "";
                 }
                 let vehicleButtons = $('.vehicle_button_div > p');
+                $(".vehicle_buttons").attr('disabled', true);
                 switch (usedVehicle) {
                     case "tax":
                         game.sessionData["users"][user]["cardAmount"]["tax"] -= 1;
