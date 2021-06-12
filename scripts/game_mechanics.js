@@ -114,10 +114,10 @@ class Game {
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
 
                 if (data['users'][user]["myTurn"]) {
-                    $("#submit-move-button").removeAttr("disabled");
-                    $("#submit-move-button").removeClass("inactive-vehicle-button")
+                    this.submitCanBeDisabled = true;
                 } else {
                     $("#submit-move-button").addClass("inactive-vehicle-button")
+                    this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
                 }
                 vehicleButtons[0].innerHTML = '<h1 class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</h1>';
@@ -344,10 +344,10 @@ class Game {
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
 
                 if (data['users'][user]["myTurn"]) {
-                    $("#submit-move-button").removeAttr("disabled");
-                    $("#submit-move-button").removeClass("inactive-vehicle-button")
+                    this.submitCanBeDisabled = true;
                 } else {
                     $("#submit-move-button").addClass("inactive-vehicle-button")
+                    this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
                 }
 
@@ -610,14 +610,31 @@ $(function () {
         game.resize();
     });
 
+
+    $(".vehicle_buttons").click(function() {
+        let vehicle = $(this).attr("id").replace("_button", "");
+        if (game.submitCanBeDisabled) {
+            $("#submit-move-button").removeAttr("disabled");
+            $("#submit-move-button").removeClass("inactive-vehicle-button")
+        }
+        for (let user in game.sessionData["users"]) {
+            if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
+                game.sessionData["users"][user]["lastUsedVehicle"] = vehicle;
+            }
+        }
+    });
+
     $("#submit-move-button").click(function(event) {
         event.preventDefault();
-        $("#submit-move-button").addClass("inactive-vehicle-button")
-        $("#submit-move-button").attr('disabled', true);
-        console.log("hoi");
         for (let user in game.sessionData["users"]) {
             if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
                 let userData = game.sessionData["users"][user];
+                if (userData["lastLocation"] == userData["location"]) {
+                    useModal("Choose another position", "You cannot stay on the same position for two rounds in a row.", "Close")
+                    return "";
+                }
+                $("#submit-move-button").addClass("inactive-vehicle-button")
+                $("#submit-move-button").attr('disabled', true);
                 $.ajax({
                     url: './scripts/make_move.php',
                     data: {

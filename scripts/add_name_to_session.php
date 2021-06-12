@@ -16,6 +16,7 @@ $userObject = array(
     "isMisterX" => false,
     "color" => "",
     "location" => 0,
+    "lastLocation" => 0,
     "hasMoved" => false,
     "myTurn" => false,
     "cardAmount" => array(
@@ -55,7 +56,7 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
         // array_push($activeGameSessions[$key]["users"], $userObject);
 
         
-        $newUserInfo = ["color" => array_splice($activeGameSessions[$key]["userColors"], $randomColorIndex, 1)[0], "location" => array_splice($activeGameSessions[$key]["startLocations"], $randomStartLocationIndex, 1)[0]];
+        $newUserInfo = ["color" => array_splice($activeGameSessions[$key]["userColors"], $randomColorIndex, 1)[0], "location" => array_splice($activeGameSessions[$key]["startLocations"], $randomStartLocationIndex, 1)[0], "lastLocation" => array_splice($activeGameSessions[$key]["startLocations"], $randomStartLocationIndex, 1)[0]];
         $userObject = array_merge($userObject, $newUserInfo);
         array_push($activeGameSessions[$key]["users"], $userObject);
         array_push($activeGameSessions[$key]["orderRound"], $userObject["id"]);
