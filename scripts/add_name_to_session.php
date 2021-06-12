@@ -26,7 +26,7 @@ $userObject = array(
     ),
     "hasRecentVersion" => true,
     "lastUsedVehicle" => "",
-    "usedVehicles" => array()
+    "usedVehicles" => []
 );
 
 $gameSessionInfo = [

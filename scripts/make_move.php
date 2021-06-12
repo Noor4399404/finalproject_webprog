@@ -48,7 +48,11 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
 
             if ($user["id"] == $userId) {
                 $lastVehicle = $newUserInfo["lastUsedVehicle"];
-                array_push($activeGameSessions[$key]["users"][$index]["usedVehicles"], $newUserInfo["lastUsedVehicle"]);
+                array_push($newUserInfo["usedVehicles"], $lastVehicle);
+
+            
+
+                $newAnswer = $activeGameSessions[$key]["users"][$index];
                 $newUserInfo["lastUsedVehicle"] = "";
                 $newUserInfo["lastLocation"] = $newUserInfo["location"];
                 $activeGameSessions[$key]["users"][$index] = $newUserInfo;
