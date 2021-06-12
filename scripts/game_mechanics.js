@@ -114,7 +114,9 @@ class Game {
 
                 if (data['users'][user]["myTurn"]) {
                     this.submitCanBeDisabled = true;
+                    $(".vehicle_buttons").removeAttr("disabled");
                 } else {
+                    $(".vehicle_buttons").prop("disabled",true)
                     $("#submit-move-button").addClass("inactive-vehicle-button")
                     this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
@@ -341,7 +343,7 @@ class Game {
     }
 
 
-    updateFillData() {
+    updateFillData(enableMoveButtons) {
         $("#round-number-info").html(`<p style="font-weight: light;">round ${this.sessionData["round"]}</p>`)
         let data = this.sessionData
         console.log(data);
@@ -358,8 +360,12 @@ class Game {
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
 
                 if (data['users'][user]["myTurn"]) {
-                    this.submitCanBeDisabled = true;
-                    $(".vehicle_buttons").removeAttr("disabled");
+                    if (enableMoveButtons) {
+                        this.submitCanBeDisabled = true;
+                        $(".vehicle_buttons").removeAttr("disabled");
+                        $(".vehicle_buttons").fadeIn();
+                    }
+
                 } else {
                     $("#submit-move-button").addClass("inactive-vehicle-button");
                     this.submitCanBeDisabled = false;
@@ -574,7 +580,7 @@ $(function () {
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
                     }
-                    game.updateFillData();
+                    game.updateFillData(true);
 
                     if ([3, 8, 13, 18].includes(game.sessionData["round"])) {
                         game.addMisterXIcon();
@@ -599,7 +605,7 @@ $(function () {
         //game.triggerHelper();
 
         var trigger = game.scanForTrigger();
-
+       
         if (selectedVehicle != "None") {
             data = game.sessionData
             for (let user in data["users"]) {
@@ -607,6 +613,8 @@ $(function () {
                     if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)) {
                         usedVehicle = selectedVehicle;
                         selectedVehicle = "None"
+                        $(".vehicle_buttons").attr("disabled", true);
+                        $(".vehicle_buttons").fadeOut();
                         data["users"][user]["location"] = trigger;
                         game.moveUserIcon(data["users"][user]);
                         if (game.submitCanBeDisabled) {
@@ -620,7 +628,7 @@ $(function () {
                 }
 
             }
-            game.updateFillData()
+            game.updateFillData(false)
         } else {
             console.log('select a vhicle first, dummy');
         }
@@ -703,7 +711,6 @@ $(function () {
                     return "";
                 }
                 let vehicleButtons = $('.vehicle_button_div > p');
-                $(".vehicle_buttons").attr('disabled', true);
                 switch (usedVehicle) {
                     case "tax":
                         game.sessionData["users"][user]["cardAmount"]["tax"] -= 1;
