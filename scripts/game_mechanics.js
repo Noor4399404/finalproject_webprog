@@ -542,6 +542,12 @@ $(function () {
             request.then((response) => {
                 if (response.isChanged) {
                     game.sessionData = response;
+
+                    if (game.sessionData["misterXFound"]) {
+                        useModal("The detectives have won", "One of the detectives has found Mister X. This means the game is over and the detectives have won. Wanna play another game? Go to our homepage.", "Go home", closeModalAction = () => {window.location.href = "./index.php"})
+                    }
+
+
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
                     }

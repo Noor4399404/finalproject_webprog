@@ -17,7 +17,18 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
     if ($activeGameSessions[$key]["id"] == $gameId) {
         $indexUserTurn = array_search($userId, $activeGameSessions[$key]["orderRound"]);
 
+        $misterXLocation = 0;
+        foreach ($activeGameSession["users"] as $index => $user) {
+            if ($user["isMisterX"]) {
+                $misterXLocation = $user["location"];
+            }
+        }
+
+
         if ($indexUserTurn + 1 == count($activeGameSessions[$key]["orderRound"])) {
+            if ($newUserInfo["location"] == $misterXLocation && $newUserInfo["isMisterX"] != true) {
+                $activeGameSessions[$key]["misterXFound"] = true;
+            }
             $activeGameSessions[$key]["round"] += 1;
             $nextUserTurnId = $activeGameSessions[$key]["orderRound"][0];
         } else {
@@ -30,21 +41,13 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
             // Mister X won the game by escaping for 23 rounds
         }
 
-        $misterXLocation = 0;
-        foreach ($activeGameSession["users"] as $index => $user) {
-            if ($user["isMisterX"]) {
-                $misterXLocation = $user["location"];
-            }
-        }
+        
         
 
 
         
 
         foreach ($activeGameSession["users"] as $index => $user) {
-            if ($user["location"] == $misterXLocation && !$user["isMisterX"]) {
-                $activeGameSessions[$key]["misterXFound"] = true;
-            }
 
             if ($user["id"] == $userId) {
                 $lastVehicle = $newUserInfo["lastUsedVehicle"];
@@ -84,4 +87,4 @@ $writableData = json_encode($activeGameSessions);
 $json_file = fopen('../data/active_sessions.json', 'w'); 
 fwrite($json_file, $writableData); 
 fclose($json_file);
-echo json_encode($answer);
+echo json_encode($misterXLocation);
