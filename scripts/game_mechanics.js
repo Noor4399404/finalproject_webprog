@@ -23,6 +23,8 @@ class Game {
         this.userId = window.sessionStorage['userId']
         this.gameId = window.sessionStorage['gameId']
 
+        this.misterXReveal = [18, 13, 8, 3];
+
     }
 
     //METHODS TO SET UP THE GAME AND GET INITIAL DATA --- --- --- --- --- ---
@@ -324,7 +326,19 @@ class Game {
 
 
     updateFillData(enableMoveButtons) {
-        $("#round-number-info").html(`<p style="font-weight: light;">round ${this.sessionData["round"]}</p>`)
+        $("#round-number-info").text(`round ${this.sessionData["round"]}`);
+
+        let revealRounds;
+        if (this.misterXReveal[this.misterXReveal.length - 1] == this.sessionData["round"]) {
+            this.misterXReveal.pop()
+            revealRounds = this.misterXReveal[this.misterXReveal.length - 1] - this.sessionData["round"];
+        } else {
+            revealRounds = this.misterXReveal[this.misterXReveal.length - 1] - this.sessionData["round"];
+        }
+        
+
+        $("#reveal-number-info").text(`${revealRounds} rounds`);
+
         let data = this.sessionData
         let vehicleButtons = $('.vehicle_button_div > p');
         for (let user in data['users']) {
