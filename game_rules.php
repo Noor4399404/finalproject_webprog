@@ -5,9 +5,7 @@ $navigation = Array(
     'active' => 'How To Play',
     'items' => Array(
         'Home' => '/WP21/finalproject_webprog/index.php',
-        'Game' => '/WP21/finalproject_webprog/game.php',
         'How To Play' => '/WP21/finalproject_webprog/game_rules.php',
-        'Test_movement' => '/WP21/finalproject_webprog/test_movement.php'
     )
 );
 include __DIR__ . '/tpl/head.php';
