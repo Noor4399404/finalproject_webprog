@@ -393,6 +393,7 @@ table td > p {
 
 .inactive-vehicle-button {
     filter: grayscale(80%);
+    pointer-events: none;
 }
 
 .vehicle_button_div > p {
