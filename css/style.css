@@ -62,7 +62,6 @@ body{
     border-color: #92a8d1;
     color: white;
     border: none;
-    overflow-x: hidden;
 }
 .navbar-brand{
     font-weight: bold;
