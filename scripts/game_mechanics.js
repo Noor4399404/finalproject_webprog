@@ -102,7 +102,7 @@ class Game {
         let vehicleButtons = $('.vehicle_button_div > p');
         for (let user in data['users']) {
             if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
-                $('#moves_table tbody').append('<tr></tr>');
+                $('#moves_table tbody').append(`<tr id="moves_table_row${data['users'][user]['id']}" ></tr>`);
                 let correctRow = $('#moves_table tbody tr').last();
                 correctRow.append(`<td style="color: #${data["users"][user]["color"]}; filter: brightness(1.2);">` + data["users"][user]["userName"] + '</td>');
                 correctRow.append('<td>' + data["users"][user]["cardAmount"]["tax"] + '</td>');
@@ -114,7 +114,9 @@ class Game {
 
                 if (data['users'][user]["myTurn"]) {
                     this.submitCanBeDisabled = true;
+                    $(".vehicle_buttons").removeAttr("disabled");
                 } else {
+                    $(".vehicle_buttons").prop("disabled",true)
                     $("#submit-move-button").addClass("inactive-vehicle-button")
                     this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
@@ -282,8 +284,6 @@ class Game {
                         $("body").append(icon)
         
                         $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("width", (0.040 * this.canvas.width)).css("height", (0.040 * this.canvas.height))
-
-                        $
                     }
                 }
             }
@@ -343,10 +343,10 @@ class Game {
     }
 
 
-    updateFillData() {
-        $("#round-number-info").text(`round ${this.sessionData["round"]}`)
+    updateFillData(enableMoveButtons) {
+        $("#round-number-info").html(`<p style="font-weight: light;">round ${this.sessionData["round"]}</p>`)
         let data = this.sessionData
-        //console.log(data);
+        console.log(data);
         let vehicleButtons = $('.vehicle_button_div > p');
         for (let user in data['users']) {
             if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
@@ -360,7 +360,12 @@ class Game {
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
 
                 if (data['users'][user]["myTurn"]) {
-                    this.submitCanBeDisabled = true;
+                    if (enableMoveButtons) {
+                        this.submitCanBeDisabled = true;
+                        $(".vehicle_buttons").removeAttr("disabled");
+                        $(".vehicle_buttons").fadeIn();
+                    }
+
                 } else {
                     $("#submit-move-button").addClass("inactive-vehicle-button");
                     this.submitCanBeDisabled = false;
@@ -575,7 +580,7 @@ $(function () {
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
                     }
-                    game.updateFillData();
+                    game.updateFillData(true);
 
                     if ([3, 8, 13, 18].includes(game.sessionData["round"])) {
                         game.addMisterXIcon();
@@ -600,7 +605,7 @@ $(function () {
         //game.triggerHelper();
 
         var trigger = game.scanForTrigger();
-
+       
         if (selectedVehicle != "None") {
             data = game.sessionData
             for (let user in data["users"]) {
@@ -609,6 +614,8 @@ $(function () {
                         usedVehicle = selectedVehicle;
                         selectedVehicle = "None"
                         $(".showPossibleMoves").remove()
+                        $(".vehicle_buttons").attr("disabled", true);
+                        $(".vehicle_buttons").fadeOut();
                         data["users"][user]["location"] = trigger;
                         game.moveUserIcon(data["users"][user]);
                         if (game.submitCanBeDisabled) {
@@ -622,7 +629,7 @@ $(function () {
                 }
 
             }
-            game.updateFillData()
+            game.updateFillData(false)
         } else {
             console.log('select a vhicle first, dummy');
         }
@@ -679,18 +686,18 @@ $(function () {
         game.showPossibleMoves(location, selectedVehicle);
     })
 
-    $(".vehicle_buttons").click(function () {
-        let vehicle = $(this).attr("id").replace("_button", "");
-        if (game.submitCanBeDisabled) {
-            $("#submit-move-button").removeAttr("disabled");
-            $("#submit-move-button").removeClass("inactive-vehicle-button")
-        }
-        for (let user in game.sessionData["users"]) {
-            if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
-                game.sessionData["users"][user]["lastUsedVehicle"] = vehicle;
-            }
-        }
-    });
+    // $(".vehicle_buttons").click(function () {
+    //     let vehicle = $(this).attr("id").replace("_button", "");
+    //     if (game.submitCanBeDisabled) {
+    //         $("#submit-move-button").removeAttr("disabled");
+    //         $("#submit-move-button").removeClass("inactive-vehicle-button")
+    //     }
+    //     for (let user in game.sessionData["users"]) {
+    //         if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
+    //             game.sessionData["users"][user]["lastUsedVehicle"] = vehicle;
+    //         }
+    //     }
+    // });
 
     $("#submit-move-button").click(function (event) {
 

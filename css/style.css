@@ -157,10 +157,6 @@ body{
     width: 80%;
 }
 
-.name-joined-users-label {
-    overflow-x: scroll;
-}
-
 .button_row{
     position: relative;
     text-align: center;
