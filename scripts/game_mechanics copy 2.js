@@ -93,6 +93,7 @@ class Game {
         }
     }
 
+
     fillData() {
         //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
         // window.sessionStorage.setItem("userId", "1234567");
@@ -119,7 +120,7 @@ class Game {
                     this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
                 }
-                vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
+                vehicleButtons[0].innerHTML = '<h1 class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</h1>';
                 vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
                 vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
 
@@ -128,6 +129,7 @@ class Game {
 
         }
     }
+
 
     addUserIcon(users) {
         //adds icon to the canvas for every user
@@ -142,12 +144,12 @@ class Game {
             let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
             console.log(user.isMisterX && userId == sessionStorage.getItem("userId"));
             console.log(!user.isMisterX);
-            if ((user.isMisterX && userId == sessionStorage.getItem("userId")) || !user.isMisterX) {
+            if ((user.isMisterX && userId == sessionStorage.getItem("userId")) || !user.isMisterX ) {
                 let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8
                 let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6
                 $("body").append(userIcon)
-
-                $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)
+    
+                $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)    
             }
         }
     }
@@ -163,20 +165,6 @@ class Game {
                     this.isHost = true;
                 } else {
                     this.isHost = false;
-                }
-            }
-        }
-    }
-
-    getMisterX() {
-        //establishes which player is mister X, and sets this.isMrX to true
-
-        for (let user in this.sessionData["users"]) {
-            if (this.sessionData["users"][user]["id"] == this.userId) {
-                if (this.sessionData["users"][user]["isMisterX"]) {
-                    this.isMrX = true;
-                } else {
-                    this.isMrX = false;
                 }
             }
         }
@@ -252,7 +240,43 @@ class Game {
             }
         }
     }
-    /*
+  /*
+    showPossibleMoves(location, vehicle) {
+        var self = this;
+        const tax_button = $('#tax_button');
+        const bus_button = $('#bus_button');
+        const und_button = $('#und_button');
+        $.getJSON('data/test_sessions.json', function (data) {
+            $('#tax_button').click(function () {
+                for (let key in this.possibleMoves) {
+                    if (key === active_position) {
+                        let tax_moves = data[key]['tax'];
+                        console.log('tax_moves');
+                    }
+                }
+             })
+            $('#bus_button').click(function () {
+                $.getJSON('data/possible_moves.json', function (data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let bus_moves = data[key]['bus'];
+                            self.showTriggers(bus_moves);
+                        }
+                    }
+                })
+            })
+            $('#und_button').click(function () {
+                $.getJSON('data/possible_moves.json', function (data) {
+                    for (let key in data) {
+                        if (key === active_position) {
+                            let und_moves = data[key]['und'];
+                            self.showTriggers(und_moves);
+                        }
+                    }
+                })
+            })
+        })
+    }
   
     showTriggers(moves) {
         var self = this;
@@ -286,74 +310,22 @@ class Game {
     }
     */
 
-    showPossibleMoves(location, vehicle) {
-        //shows the possible moves for the current location and selected vehicle
-
-        console.log(location, vehicle)
-
-        for (let key in this.possibleMoves) {
-            if (key == location) {
-                var litupLocations = this.possibleMoves[key][vehicle].split(", ");
-            }
-        }
-
-        console.log(litupLocations)
-
-        if (vehicle == "tax") {
-            var colour = "yellow"
-        } else if (vehicle == "bus") {
-            var colour = "green"
-        } else if (vehicle == "und") {
-            var colour = "pink"
-        }
-
-        for (let location in litupLocations) {
-            console.log(location)
-            for (let coordinates in this.triggerLocations) {
-                if (this.triggerLocations[coordinates] == litupLocations[location]) {
-                    console.log(this.triggerLocations[coordinates])
-                }
-            }
-        }
-
-
-    }
-
-    isPossibleMove(location, vehicle, nextLocation) {
+    isPossibleMove(location, vehicle, next_location) {
         //tests if the user can move to their next location using the selected vehicle
 
         for (let key in this.possibleMoves) {
             if (key == location) {
                 for (let loc in this.possibleMoves[key][vehicle].split(", ")) {
-                    if (this.possibleMoves[key][vehicle].split(", ")[loc] == nextLocation) {
+                    if (this.possibleMoves[key][vehicle].split(", ")[loc] == next_location) {
                         return true;
-                    }
+                    } 
                 }
-                return false;
+                return false
+                
             }
-        }
-    }
 
-    noCollision(newLocation) {
-        //tests for collision with other users when a user wants to move
-
-        let userLocations = []
-
-        if (this.isMrX) {
-            return true;
-        } else {
-            for (let user in this.sessionData["users"]) {
-                if (this.sessionData["users"][user]["isMisterX"] == false) {
-                    userLocations.push(this.sessionData["users"][user]["location"])
-                }
-            }
         }
 
-        if (userLocations.includes(newLocation)) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
 
@@ -367,7 +339,7 @@ class Game {
         let canvas_positions = this.canvas_positions;
         let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
         let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
-        $(`#userIconImage_${userId}`).css("top", y).css("left", x);
+        $(`#userIconImage_${userId}`).css("top", y).css("left", x)
     }
 
 
@@ -390,7 +362,7 @@ class Game {
                 if (data['users'][user]["myTurn"]) {
                     this.submitCanBeDisabled = true;
                 } else {
-                    $("#submit-move-button").addClass("inactive-vehicle-button");
+                    $("#submit-move-button").addClass("inactive-vehicle-button")
                     this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
                 }
@@ -458,13 +430,13 @@ class Game {
                 let user = this.sessionData["users"][userIndex]
                 let startLocation = user.location;
                 let color = user.color;
-
+    
                 let canvas_positions = this.canvas_positions;
                 let userIcon = $(`<svg class="userIconImage" id="MisterXRevealIcon") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
                 let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8
                 let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6
                 $("body").append(userIcon)
-                $(`#MisterXRevealIcon`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)
+                $(`#MisterXRevealIcon`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)    
             }
         }
     }
@@ -534,7 +506,7 @@ class Game {
 
     }
 
-    gameLoop() {
+    gameLoop(){
 
 
     }
@@ -571,7 +543,7 @@ $(function () {
         console.log(game.sessionData);
         // game.getSessionData(sessionData); //is not necessary if you make the header inside php json.
         game.getHost();
-        game.getMisterX();
+        // game.setupPlayers();
 
         // code in the .done after the second request
         game.getTriggers(res[1]);
@@ -596,10 +568,11 @@ $(function () {
             let request = $.post("./scripts/update_session.php", { // could be another script name
                 gameId: sessionStorage.getItem("gameId"),
                 userId: sessionStorage.getItem("userId")
-            })
+            }) 
             request.then((response) => {
-                if (response.isChanged) {
+                if(response.isChanged) {
                     game.sessionData = response;
+                    console.log(game.sessionData);
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
                     }
@@ -612,13 +585,13 @@ $(function () {
                     }
                 }
             })
-
+    
         }, 2000)
     }
 
     fetchAsyncData();
 
-    var usedVehicle;
+    var usedVehicle
 
     canvas.addEventListener("click", function (event) {
 
@@ -629,32 +602,27 @@ $(function () {
 
         var trigger = game.scanForTrigger();
 
-        if (selectedVehicle != "None") {
-            data = game.sessionData
-            for (let user in data["users"]) {
-                if (data["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
-                    if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)) {
-                        usedVehicle = selectedVehicle;
-                        selectedVehicle = "None"
-                        data["users"][user]["location"] = trigger;
-                        game.moveUserIcon(data["users"][user]);
-                        if (game.submitCanBeDisabled) {
-                            $("#submit-move-button").removeAttr("disabled");
-                            $("#submit-move-button").removeClass("inactive-vehicle-button")
-                        }
-                    } else {
-                        useModal("Not a valid move", "You're trying to make an invalid move, dummy", "close")
+        data = game.sessionData
+        for (let user in data["users"]) {
+            if (data["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
+                if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)){
+                    usedVehicle = selectedVehicle;
+                    selectedVehicle = "None"
+                    data["users"][user]["location"] = trigger;
+                    game.moveUserIcon(data["users"][user]);
+                    if (game.submitCanBeDisabled) {
+                        $("#submit-move-button").removeAttr("disabled");
+                        $("#submit-move-button").removeClass("inactive-vehicle-button")
                     }
-
+                } else {
+                    useModal("Not a valid move", "You're trying to make an invalid move, dummy", "close")
                 }
-
+                
             }
-            game.updateFillData()
-        } else {
-            console.log('select a vhicle first, dummy');
+
         }
-
-
+        game.updateFillData()
+        
 
     });
 
@@ -670,7 +638,7 @@ $(function () {
         game.resize();
     });
 
-    $('#tax_button').click(function () {
+    $('#tax_button').click(function(){
         selectedVehicle = "tax";
         console.log('taxi set')
         for (let user in game.sessionData["users"]) {
@@ -683,7 +651,7 @@ $(function () {
 
     })
 
-    $('#bus_button').click(function () {
+    $('#bus_button').click(function(){
         selectedVehicle = "bus";
         console.log('bus set')
         for (let user in game.sessionData["users"]) {
@@ -691,10 +659,10 @@ $(function () {
                 game.sessionData["users"][user]["lastUsedVehicle"] = selectedVehicle;
             }
         }
-
+        
     })
 
-    $('#und_button').click(function () {
+    $('#und_button').click(function(){
         selectedVehicle = "und";
         console.log('underground set')
         for (let user in game.sessionData["users"]) {
@@ -704,20 +672,8 @@ $(function () {
         }
     })
 
-    $(".vehicle_buttons").click(function () {
-        let vehicle = $(this).attr("id").replace("_button", "");
-        if (game.submitCanBeDisabled) {
-            $("#submit-move-button").removeAttr("disabled");
-            $("#submit-move-button").removeClass("inactive-vehicle-button")
-        }
-        for (let user in game.sessionData["users"]) {
-            if (game.sessionData["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
-                game.sessionData["users"][user]["lastUsedVehicle"] = vehicle;
-            }
-        }
-    });
 
-    $("#submit-move-button").click(function (event) {
+    $("#submit-move-button").click(function(event) {
 
         event.preventDefault();
         for (let user in game.sessionData["users"]) {
@@ -757,7 +713,7 @@ $(function () {
                         newUserInfo: JSON.stringify(userData)
                     },
                     type: 'POST'
-                });
+                 });
 
             }
         }
@@ -765,6 +721,6 @@ $(function () {
 
     });
 
-
+    
 
 });
