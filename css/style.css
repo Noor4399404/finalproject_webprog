@@ -413,6 +413,9 @@ table td > p {
 }
 
 .showPossibleMoves {
+
+    pointer-events: none;
+
     animation: blink-animation 1s steps(5, start) infinite;
     -webkit-animation: blink-animation 1s steps(5, start) infinite;
   }
@@ -426,6 +429,12 @@ table td > p {
       visibility: hidden;
     }
   }
+
+.userIconImage {
+
+    pointer-events: none;
+
+}
 
 
 @media (max-width: 991.98px) {
