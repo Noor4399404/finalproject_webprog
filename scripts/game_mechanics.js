@@ -93,7 +93,6 @@ class Game {
         }
     }
 
-
     fillData() {
         //let json_data = $.post("./scripts/read_json.php", {call_now: "True"});
         // window.sessionStorage.setItem("userId", "1234567");
@@ -130,7 +129,6 @@ class Game {
         }
     }
 
-
     addUserIcon(users) {
         //adds icon to the canvas for every user
 
@@ -165,6 +163,20 @@ class Game {
                     this.isHost = true;
                 } else {
                     this.isHost = false;
+                }
+            }
+        }
+    }
+
+    getMisterX() {
+        //establishes which player is mister X, and sets this.isMrX to true
+
+        for (let user in this.sessionData["users"]) {
+            if (this.sessionData["users"][user]["id"] == this.userId) {
+                if (this.sessionData["users"][user]["isMisterX"]) {
+                    this.isMrX = true;
+                } else {
+                    this.isMrX = false;
                 }
             }
         }
@@ -240,43 +252,7 @@ class Game {
             }
         }
     }
-  /*
-    showPossibleMoves(location, vehicle) {
-        var self = this;
-        const tax_button = $('#tax_button');
-        const bus_button = $('#bus_button');
-        const und_button = $('#und_button');
-        $.getJSON('data/test_sessions.json', function (data) {
-            $('#tax_button').click(function () {
-                for (let key in this.possibleMoves) {
-                    if (key === active_position) {
-                        let tax_moves = data[key]['tax'];
-                        console.log('tax_moves');
-                    }
-                }
-             })
-            $('#bus_button').click(function () {
-                $.getJSON('data/possible_moves.json', function (data) {
-                    for (let key in data) {
-                        if (key === active_position) {
-                            let bus_moves = data[key]['bus'];
-                            self.showTriggers(bus_moves);
-                        }
-                    }
-                })
-            })
-            $('#und_button').click(function () {
-                $.getJSON('data/possible_moves.json', function (data) {
-                    for (let key in data) {
-                        if (key === active_position) {
-                            let und_moves = data[key]['und'];
-                            self.showTriggers(und_moves);
-                        }
-                    }
-                })
-            })
-        })
-    }
+    /*
   
     showTriggers(moves) {
         var self = this;
@@ -310,22 +286,74 @@ class Game {
     }
     */
 
-    isPossibleMove(location, vehicle, next_location) {
+    showPossibleMoves(location, vehicle){
+        //shows the possible moves for the current location and selected vehicle
+
+        console.log(location, vehicle)
+
+        for (let key in this.possibleMoves) {
+            if (key == location) {
+                var litupLocations = this.possibleMoves[key][vehicle].split(", ");
+            }
+        }
+
+        console.log(litupLocations)
+
+        if (vehicle == "tax") {
+            var colour = "yellow"
+        } else if (vehicle == "bus") {
+             var colour = "green"
+        } else if (vehicle == "und") {
+             var colour = "pink"
+        }
+
+        for (let location in litupLocations) {
+            console.log(location)
+            for (let coordinates in this.triggerLocations) {
+                if (this.triggerLocations[coordinates] == litupLocations[location]) {
+                    console.log(this.triggerLocations[coordinates])
+                }
+            }
+        }
+        
+
+    }
+
+    isPossibleMove(location, vehicle, nextLocation) {
         //tests if the user can move to their next location using the selected vehicle
 
         for (let key in this.possibleMoves) {
             if (key == location) {
                 for (let loc in this.possibleMoves[key][vehicle].split(", ")) {
-                    if (this.possibleMoves[key][vehicle].split(", ")[loc] == next_location) {
+                    if (this.possibleMoves[key][vehicle].split(", ")[loc] == nextLocation) {
                         return true;
                     } 
                 }
-                return false
-                
+                return false;
             }
+        }
+    }
 
+    noCollision(newLocation) {
+        //tests for collision with other users when a user wants to move
+
+        let userLocations = []
+
+        if (this.isMrX) {
+            return true;
+        } else {
+            for (let user in this.sessionData["users"]) {
+                if (this.sessionData["users"][user]["isMisterX"] == false) {
+                    userLocations.push(this.sessionData["users"][user]["location"])
+                }
+            }
         }
 
+        if (userLocations.includes(newLocation)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
@@ -339,7 +367,7 @@ class Game {
         let canvas_positions = this.canvas_positions;
         let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
         let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
-        $(`#userIconImage_${userId}`).css("top", y).css("left", x)
+        $(`#userIconImage_${userId}`).css("top", y).css("left", x);
     }
 
 
@@ -362,7 +390,7 @@ class Game {
                 if (data['users'][user]["myTurn"]) {
                     this.submitCanBeDisabled = true;
                 } else {
-                    $("#submit-move-button").addClass("inactive-vehicle-button")
+                    $("#submit-move-button").addClass("inactive-vehicle-button");
                     this.submitCanBeDisabled = false;
                     $("#submit-move-button").attr('disabled', true);
                 }
@@ -521,7 +549,7 @@ $(function () {
     var game = new Game();
     const canvas = document.getElementById("gameCanvas");
 
-    var current_vehicle = "None"
+    var selectedVehicle = "None"
 
     console.log(sessionStorage.getItem("gameId"));
 
@@ -543,7 +571,7 @@ $(function () {
         console.log(game.sessionData);
         // game.getSessionData(sessionData); //is not necessary if you make the header inside php json.
         game.getHost();
-        // game.setupPlayers();
+        game.getMisterX();
 
         // code in the .done after the second request
         game.getTriggers(res[1]);
@@ -600,21 +628,30 @@ $(function () {
 
         var trigger = game.scanForTrigger();
 
-        data = game.sessionData
-        for (let user in data["users"]) {
-            if (data["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
-                if (game.isPossibleMove(data["users"][user]["location"], current_vehicle, trigger)){
-                    current_vehicle = "None"
-                    data["users"][user]["location"] = trigger;
-                    game.moveUserIcon(data["users"][user]);
-                } else {
-                    console.log("you're trying to make an invalid move, dummy")
+        if (selectedVehicle != "None") {
+            data = game.sessionData;
+            for (let user in data["users"]) {
+                if (data["users"][user]["id"] == game.userId) {
+                    if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)){
+                        if (game.noCollision(trigger)) {
+                            selectedVehicle = "None";
+                            data["users"][user]["location"] = trigger;
+                            game.moveUserIcon(data["users"][user]);
+                        } else {
+                            console.log("There is another player there, dummy");
+                        } 
+                    } else {
+                        console.log("you're trying to make an invalid move, dummy");
+                    }
+                    
                 }
-                
-            }
 
+            }
+            game.updateFillData()
+        } else {
+            console.log('select a vhicle first, dummy');
         }
-        game.updateFillData()
+        
         
 
     });
@@ -632,21 +669,27 @@ $(function () {
     });
 
     $('#tax_button').click(function(){
-        current_vehicle = "tax";
+        selectedVehicle = "tax";
         console.log('taxi set')
 
-        //show possible moves for this vehicle
+        for (let user in game.sessionData["users"]) {
+            if (game.sessionData["users"][user]["id"] == game.userId) {
+                var userLocation = game.sessionData["users"][user]["location"];
+            }
+        }
+
+        game.showPossibleMoves(userLocation, selectedVehicle);
 
     })
 
     $('#bus_button').click(function(){
-        current_vehicle = "bus";
+        selectedVehicle = "bus";
         console.log('bus set')
         
     })
 
     $('#und_button').click(function(){
-        current_vehicle = "und";
+        selectedVehicle = "und";
         console.log('underground set')
         
     })
