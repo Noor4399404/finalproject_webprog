@@ -547,6 +547,10 @@ $(function () {
                         useModal("The detectives have won", "One of the detectives has found Mister X. This means the game is over and the detectives have won. Wanna play another game? Go to our homepage.", "Go home", closeModalAction = () => {window.location.href = "./index.php"})
                     }
 
+                    if (game.sessionData["misterXEscaped"]) {
+                        useModal("Mister X won the game", "Mister X has not been catched by the detectives. This means Mister X escaped and therefore won the game. Wanna play another game? Go to our homepage.", "Go home", closeModalAction = () => {window.location.href = "./index.php"})
+                    }
+
 
                     for (let user in game.sessionData["users"]) {
                         game.moveUserIcon(game.sessionData["users"][user])
