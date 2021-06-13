@@ -6,7 +6,6 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
 
         this.backgroundSRC = "./images/gameBoard_medRes.JPG";
-        this.userIcons = [];
 
         this.setupCanvas();
 
@@ -37,11 +36,6 @@ class Game {
     getPossibleMoves(possibleMoves) {
         //helper function to store possible moves in game class
         this.possibleMoves = possibleMoves;
-    }
-
-    getSessionData(sessionData) {
-        //helper function to store session data in game class
-        this.sessionData = JSON.parse(sessionData);
     }
 
     setupCanvas() {
@@ -124,7 +118,7 @@ class Game {
         }
     }
 
-    addUserIcon(users) {
+    addUserIcon() {
         //adds icon to the canvas for every user
 
         for (let userIndex in this.sessionData["users"]) {
@@ -134,12 +128,12 @@ class Game {
             let color = user.color;
 
             let canvas_positions = this.canvas_positions;
-            let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
-            if ((user.isMisterX && userId == sessionStorage.getItem("userId")) || !user.isMisterX) {
-                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width)
-                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width)
-                $("body").append(userIcon)
-                $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", (0.033 * this.canvas.width)).css("height", (0.033 * this.canvas.width))
+            let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
+            if ((user.isMrX && userId == sessionStorage.getItem("userId")) || !user.isMrX) {
+                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width);
+                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width);
+                $("body").append(userIcon);
+                $(`#userIconImage_${userId}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", (0.033 * this.canvas.width)).css("height", (0.033 * this.canvas.width));
             }
         }
     }
@@ -419,7 +413,7 @@ class Game {
                 let color = user.color;
 
                 let canvas_positions = this.canvas_positions;
-                let userIcon = $(`<svg class="userIconImage MisterXRevealIcon" id="MisterXRevealIcon") xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
+                let userIcon = $(`<svg class="userIconImage MisterXRevealIcon" id="MisterXRevealIcon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
                 let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8
                 let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6
                 $("body").append(userIcon)
@@ -479,16 +473,6 @@ class Game {
         document.execCommand('copy');
         document.body.removeChild(textArea);
     }
-
-    //GAME LOOP METHODS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-    updateInterface() {
-
-    }
-
-    gameLoop() {
-
-    }
 }
 
 $(function () {
@@ -521,7 +505,7 @@ $(function () {
 
         // code in the .done after the second request
         game.getTriggers(res[1]);
-        game.addUserIcon(game.sessionData["users"])
+        game.addUserIcon();
 
         //Shows the clickable areas on the game board 
 
@@ -535,7 +519,7 @@ $(function () {
 
         // should be here, otherwise it will try to get new information, while the old information is not even available
         window.setInterval(() => {
-            let request = $.post("./scripts/update_session.php", { // could be another script name
+            let request = $.post("./scripts/update_session.php", {
                 gameId: sessionStorage.getItem("gameId"),
                 userId: sessionStorage.getItem("userId")
             })
@@ -573,7 +557,6 @@ $(function () {
                     if ([3, 8, 13, 18].includes(game.sessionData["round"]) && showX) {
                         game.addMisterXIcon();
                     } else {
-                        showX = false
                         $("#MisterXRevealIcon").remove();
                     }
                 }
@@ -590,11 +573,11 @@ $(function () {
         var trigger = game.scanForTrigger();
 
         if (selectedVehicle != "None") {
-            data = game.sessionData
+            var data = game.sessionData;
             for (let user in data["users"]) {
                 if (data["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
                     if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)) {
-                        usedVehicle = selectedVehicle;
+                        var usedVehicle = selectedVehicle;
                         selectedVehicle = "None";
                         
                         data["users"][user]["location"] = trigger;

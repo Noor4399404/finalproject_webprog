@@ -51,7 +51,7 @@ var misterXAdded = false;
 
 function displayJoinedUsers(usersJSON) {
     let joinedUserIds = Array()
-    for (user of usersJSON) {
+    for (let user of usersJSON) {
         let userName = user.userName;
         let userId = user.id;
         joinedUserIds.push(userId);
@@ -92,7 +92,7 @@ function displayJoinedUsers(usersJSON) {
         
     }
 
-    for (addedUserId of addedUsers) {
+    for (let addedUserId of addedUsers) {
         if (!joinedUserIds.includes(addedUserId) && joinedGame && addedUserId == window.sessionStorage.getItem("userId")) {
             useModal("You are removed", "You have been removed from the current session. Start your own session or join another.", "Go home", closeModalAction = () => {window.location.href = "./index.php"})
         } else if (!joinedUserIds.includes(addedUserId)) {
@@ -168,14 +168,13 @@ function beginGame() {
         if (addedUsers.length < 4) {
             event.preventDefault();
             $("#start-game-feedback-text").removeClass("d-none");
-            $("#start-game-feedback-paragraph").text("There are not enough players to start a game. There should be either 4 or 5 players.")
+            $("#start-game-feedback-paragraph").text("There are not enough players to start a game. There should be either 4 or 5 players.");
         } else if (!misterXAdded) {
             event.preventDefault();
             $("#start-game-feedback-text").removeClass("d-none");
-            $("#start-game-feedback-paragraph").text("Appoint someone as Mister X, otherwise the game cannot be played.")
+            $("#start-game-feedback-paragraph").text("Appoint someone as Mister X, otherwise the game cannot be played.");
         }
     });
-
 }
 
 // FUNCTIONS ON THE GAME PAGE
@@ -188,7 +187,6 @@ function startGame() {
         isHost: $("#isHost").val()
     });
     request.then((response) => {
-        
     })
 }
 
@@ -254,20 +252,6 @@ function endGameSession(idEndGameButton) {
         event.preventDefault();
         useModal("Are you sure?", "You will end this session. The other players would have to leave the current session.", "Don't end", closeModalAction = () => {}, twoActions = true, otherButtonText = "End session", otherModalAction = endSession)
     });
-}
-
-
-function addIdToPage(elementId, sortId) {
-    switch (sortId) {
-        case "game":
-            let gameId = sessionStorage.getItem("gameId");
-            $(`#${elementId}`).val(gameId);
-            break;
-        case "user":
-            let userId = sessionStorage.getItem("userId");
-            $(`#${elementId}`).val(userId);
-            break;
-    }
 }
 
 // PAGE FUNCTIONS

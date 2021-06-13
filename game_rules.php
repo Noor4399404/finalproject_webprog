@@ -124,19 +124,14 @@ include __DIR__ . '/tpl/body_start.php';
     </div>
     <p><span class="transport_explained">Taxi button</span> <span class="transport_explained">Bus button</span> <span class="transport_explained">Underground button</span></p>
     <br><p>With these buttons it is possible to move on te board. You cannot always use every button. It depends on which station you are positioned. And be aware of how many buttons you have left. You do not have infinite buttons. </p>
-    <p>When you are sure you want to use the button, you can fix your position with the submit button.</p>
-    <div class="my-3">
-        <button type="button" style="width: 20%;" class="btn btn-success">Submit Move</button>
-    </div>
+
     <div class="misterX">
     </b><h3> Mister X</h3><br>
     <p>Mister X always makes the first move. This is not visible to the detectives. The means of transport is visible to the detectives.
-        Mister X has several special moves:<br>
+        Mister X has a special movbe:<br>
         <Br><b>Appearing</b>, The location of "Mister X"  is shown regularly: the third, eighth, thirteenth, eighteenth and the last move.<br>
-        
-        <Br><b>Black tickets</b>, Mister X may use his black tickets every time it is his turn instead of the normal tickets (also with a double move).<br>
-        The black ticket applies to every means of transport and therefore means a black day for the detectives, because when using the card they do not receive any information about the means of transport that Mister X used. The black ticket is also the only ticket that can be used to travel by boat.</p></div>
-    <br><p><b>Good Luck!</b></p>
+
+        <br><p><b>Good Luck!</b></p>
 </div>
 <div class="button_row">
     <a href="/WP21/finalproject_webprog/index.php"><button type="submit" id="go-to-game-button" class=" ready-game-button">I'm ready to play!</button></a>
