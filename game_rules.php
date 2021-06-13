@@ -133,7 +133,7 @@ include __DIR__ . '/tpl/body_start.php';
     <p>Mister X always makes the first move. This is not visible to the detectives. The means of transport is visible to the detectives.
         Mister X has several special moves:<br>
         <Br><b>Appearing</b>, The location of "Mister X"  is shown regularly: the third, eighth, thirteenth, eighteenth and the last move.<br>
-        <br><b>Double move</b>, Mister X has two double cards. When playing such a card, he can choose a combination of two different means of transport. This double card is counted as two individual moves and he will also gives two tickets. If mister X must appear in the first move, he must show up there. With the second move, he immediately disappears again.<Br>
+        
         <Br><b>Black tickets</b>, Mister X may use his black tickets every time it is his turn instead of the normal tickets (also with a double move).<br>
         The black ticket applies to every means of transport and therefore means a black day for the detectives, because when using the card they do not receive any information about the means of transport that Mister X used. The black ticket is also the only ticket that can be used to travel by boat.</p></div>
     <br><p><b>Good Luck!</b></p>
