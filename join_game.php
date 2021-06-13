@@ -11,9 +11,9 @@ $page_title = 'Webprogramming Final assignment';
 $navigation = array(
     'active' => 'Join Game',
     'items' => array(
-        'Home' => '/WP21/finalproject_webprog/index.php',
-        'Join Game' => '/WP21/finalproject_webprog/join_game_test.php',
-        'How To Play' => '/WP21/finalproject_webprog/game_rules.php'
+        'Home' => './index.php',
+        'Join Game' => './join_game_test.php',
+        'How To Play' => './game_rules.php'
     )
 );
 include __DIR__ . '/tpl/head.php';
