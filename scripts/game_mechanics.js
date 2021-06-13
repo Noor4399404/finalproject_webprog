@@ -19,8 +19,8 @@ class Game {
 
         this.clickSense = this.canvas.width * 0.004;
 
-        this.userId = window.sessionStorage['userId']
-        this.gameId = window.sessionStorage['gameId']
+        this.userId = window.sessionStorage['userId'];
+        this.gameId = window.sessionStorage['gameId'];
 
         this.misterXReveal = [18, 13, 8, 3];
 
@@ -53,7 +53,7 @@ class Game {
 
         if (this.canvas.width / devicePixelRatio / 2 > window.innerWidth / 3) {
             this.canvas.width = window.innerWidth / 3 * 2 * window.devicePixelRatio;
-            this.canvas.height = this.canvas.width / this.ratio
+            this.canvas.height = this.canvas.width / this.ratio;
         }
 
         this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
@@ -62,12 +62,12 @@ class Game {
         this.canvas.style.height = (this.canvas.height / devicePixelRatio) + "px";
 
         if (window.innerWidth < window.innerHeight || window.innerWidth < 991.98) {
-            document.getElementById("gamebody").style.flexDirection = "column"
-            document.getElementById("game-information").style.width = "75%"
+            document.getElementById("gamebody").style.flexDirection = "column";
+            document.getElementById("game-information").style.width = "75%";
         } else {
-            let widthGameInformation = (window.innerWidth - this.canvas.width / devicePixelRatio - 40)
+            let widthGameInformation = (window.innerWidth - this.canvas.width / devicePixelRatio - 40);
             document.getElementById("game-information").style.width = widthGameInformation + "px";
-            document.getElementById("gamebody").style.flexDirection = "row"
+            document.getElementById("gamebody").style.flexDirection = "row";
         }
     }
 
@@ -122,13 +122,13 @@ class Game {
         //adds icon to the canvas for every user
 
         for (let userIndex in this.sessionData["users"]) {
-            let user = this.sessionData["users"][userIndex]
+            let user = this.sessionData["users"][userIndex];
             let userId = user.id;
             let startLocation = user.location;
             let color = user.color;
 
             let canvas_positions = this.canvas_positions;
-            let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
+            let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`);
             if ((user.isMrX && userId == sessionStorage.getItem("userId")) || !user.isMrX) {
                 let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width);
                 let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width);
@@ -188,15 +188,15 @@ class Game {
 
     resizeUserIcons() {
         //resizes the user icons to match the canvas
-        let canvas_positions = this.canvas_positions
+        let canvas_positions = this.canvas_positions;
 
         for (let userIndex in this.sessionData["users"]) {
-            let user = this.sessionData["users"][userIndex]
+            let user = this.sessionData["users"][userIndex];
             let currentLocation = user["location"];
             let userId = user["id"];
             let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width);
             let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width);
-            $(`#userIconImage_${userId}`).css("top", y).css("left", x).css("width", (0.033 * this.canvas.width)).css("height", (0.033 * this.canvas.width))
+            $(`#userIconImage_${userId}`).css("top", y).css("left", x).css("width", (0.033 * this.canvas.width)).css("height", (0.033 * this.canvas.width));
         }
     }
 
@@ -237,7 +237,7 @@ class Game {
     showPossibleMoves(location, vehicle) {
         //shows the possible moves for the current location and selected vehicle
 
-        $(".showPossibleMoves").remove()
+        $(".showPossibleMoves").remove();
 
         for (let key in this.possibleMoves) {
             if (key == location) {
@@ -257,11 +257,11 @@ class Game {
             if (this.noCollision(location)) {
                 for (let coordinate in this.triggerLocations) {
                     if (coordinate == litupLocations[location]) {
-                        let icon = $(`<svg class="showPossibleMoves" id="show${coordinate}" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="${colour}"><g><rect fill="none" height="24" width="24"/></g><g><path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8 c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/></g></svg>`)
-                        let x = this.triggerLocations[coordinate]["x"] * this.canvas.width / devicePixelRatio + this.canvas_positions.left - (0.012 * this.canvas.width)
-                        let y = this.triggerLocations[coordinate]["y"] * this.canvas.height / devicePixelRatio + this.canvas_positions.top - (0.010 * this.canvas.height)
-                        $("body").append(icon)
-                        $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("width", (0.040 * this.canvas.width)).css("height", (0.040 * this.canvas.height))
+                        let icon = $(`<svg class="showPossibleMoves" id="show${coordinate}" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="${colour}"><g><rect fill="none" height="24" width="24"/></g><g><path d="M12,2C6.47,2,2,6.47,2,12c0,5.53,4.47,10,10,10s10-4.47,10-10C22,6.47,17.53,2,12,2z M12,20c-4.42,0-8-3.58-8-8 c0-4.42,3.58-8,8-8s8,3.58,8,8C20,16.42,16.42,20,12,20z"/></g></svg>`);
+                        let x = this.triggerLocations[coordinate]["x"] * this.canvas.width / devicePixelRatio + this.canvas_positions.left - (0.012 * this.canvas.width);
+                        let y = this.triggerLocations[coordinate]["y"] * this.canvas.height / devicePixelRatio + this.canvas_positions.top - (0.010 * this.canvas.height);
+                        $("body").append(icon);
+                        $(`#show${coordinate}`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("width", (0.040 * this.canvas.width)).css("height", (0.040 * this.canvas.height));
                     }
                 }
             }
@@ -286,14 +286,14 @@ class Game {
     noCollision(newLocation) {
         //tests for collision with other users when a user wants to move
 
-        let userLocations = []
+        let userLocations = [];
 
         if (this.isMrX) {
             return true;
         } else {
             for (let user in this.sessionData["users"]) {
                 if (this.sessionData["users"][user]["isMisterX"] == false) {
-                    userLocations.push(this.sessionData["users"][user]["location"])
+                    userLocations.push(this.sessionData["users"][user]["location"]);
                 }
             }
         }
@@ -324,7 +324,7 @@ class Game {
 
         let revealRounds;
         if (this.misterXReveal[this.misterXReveal.length - 1] == this.sessionData["round"]) {
-            this.misterXReveal.pop()
+            this.misterXReveal.pop();
             revealRounds = this.misterXReveal[this.misterXReveal.length - 1] - this.sessionData["round"];
         } else {
             revealRounds = this.misterXReveal[this.misterXReveal.length - 1] - this.sessionData["round"];
@@ -333,7 +333,7 @@ class Game {
 
         $("#reveal-number-info").text(`${revealRounds} rounds`);
 
-        let data = this.sessionData
+        let data = this.sessionData;
         let vehicleButtons = $('.vehicle_button_div > p');
         for (let user in data['users']) {
             if (data['users'][user]['id'] != window.sessionStorage.getItem("userId")) {
@@ -368,8 +368,8 @@ class Game {
                 let usedVehicles = this.sessionData["users"][user]["usedVehicles"];
                 if (usedVehicles.length != 0) {
                     let index = usedVehicles.length - 1;
-                    let lastUsedVehicle = usedVehicles[index]
-                    let tableElement = mrXTableElements[index]
+                    let lastUsedVehicle = usedVehicles[index];
+                    let tableElement = mrXTableElements[index];
                     switch (lastUsedVehicle) {
                         case "tax":
                             $(tableElement).html(`<div class="border-warning border vehicle_info_div">
@@ -379,7 +379,7 @@ class Game {
                                                     <circle cx="7.5" cy="14.5" r="1.5" />
                                                     <circle cx="16.5" cy="14.5" r="1.5" />
                                                 </svg>
-                                            </div>`)
+                                            </div>`);
                             break;
                         case "bus":
                             $(tableElement).html(`<div class="border-info border vehicle_info_div">
@@ -389,7 +389,7 @@ class Game {
                                                     <circle cx="8.5" cy="14.5" r="1.5" />
                                                     <circle cx="15.5" cy="14.5" r="1.5" />
                                                 </svg>
-                                            </div>`)
+                                            </div>`);
                             break;
                         case "und":
                             $(tableElement).html(`<div class="border-danger border vehicle_info_div">
@@ -397,7 +397,7 @@ class Game {
                                                     <path d="M0 0h24v24H0V0z" fill="none" />
                                                     <path d="M17.8 2.8C16 2.09 13.86 2 12 2s-4 .09-5.8.8C3.53 3.84 2 6.05 2 8.86V22h20V8.86c0-2.81-1.53-5.02-4.2-6.06zM9.17 20l1.5-1.5h2.66l1.5 1.5H9.17zm-2.16-6V9h10v5h-10zm9.49 2c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1zm-8-1c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM20 20h-3.5v-.38l-1.15-1.16c1.49-.17 2.65-1.42 2.65-2.96V9c0-2.63-3-3-6-3s-6 .37-6 3v6.5c0 1.54 1.16 2.79 2.65 2.96L7.5 19.62V20H4V8.86c0-2 1.01-3.45 2.93-4.2C8.41 4.08 10.32 4 12 4s3.59.08 5.07.66c1.92.75 2.93 2.2 2.93 4.2V20z" />
                                                 </svg>
-                                            </div>`)
+                                            </div>`);
                             break;
                     }
                 }
@@ -413,11 +413,11 @@ class Game {
                 let color = user.color;
 
                 let canvas_positions = this.canvas_positions;
-                let userIcon = $(`<svg class="userIconImage MisterXRevealIcon" id="MisterXRevealIcon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`)
-                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8
-                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6
-                $("body").append(userIcon)
-                $(`#MisterXRevealIcon`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30)
+                let userIcon = $(`<svg class="userIconImage MisterXRevealIcon" id="MisterXRevealIcon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`);
+                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
+                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
+                $("body").append(userIcon);
+                $(`#MisterXRevealIcon`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30);
             }
         }
     }
@@ -483,7 +483,7 @@ $(function () {
     var game = new Game();
     const canvas = document.getElementById("gameCanvas");
 
-    var selectedVehicle = "None"
+    var selectedVehicle = "None";
 
     let request_1 = $.post("scripts/get_session.php", {
         call_now: "True",
@@ -493,13 +493,13 @@ $(function () {
     let request_3 = $.post("scripts/get_possible_moves.php", { call_now: "True" });
     const fetchAsyncData = async () => {
         // Here you have access to all the information that has been requested. Doing this in one function will make sure code will not run if some information has not been fetched yet.
-        const res = await Promise.all([request_1, request_2, request_3])
+        const res = await Promise.all([request_1, request_2, request_3]);
 
         $("#game-main-element").removeClass("d-none");
         // When the game is loaded, the user should be able to interact with the website
 
         // code in the .done after the first request
-        game.sessionData = res[0]
+        game.sessionData = res[0];
         game.getHost();
         game.getMisterX();
 
@@ -508,7 +508,6 @@ $(function () {
         game.addUserIcon();
 
         //Shows the clickable areas on the game board 
-
         // setTimeout(function(){
         //     game.showTriggers();
         // }, 100);
@@ -537,17 +536,17 @@ $(function () {
 
 
                     for (let user in game.sessionData["users"]) {
-                        game.moveUserIcon(game.sessionData["users"][user])
+                        game.moveUserIcon(game.sessionData["users"][user]);
                     }
 
                     game.updateFillData(true);
 
-                    let showX = false
+                    let showX = false;
 
                     for (let user in game.sessionData["users"]) {
                         if (game.sessionData["users"][user]["myTurn"]) {
-                            let orderRound = game.sessionData["orderRound"]
-                            let indexUser = orderRound.indexOf(game.sessionData["users"][user]["id"])
+                            let orderRound = game.sessionData["orderRound"];
+                            let indexUser = orderRound.indexOf(game.sessionData["users"][user]["id"]);
                             if (indexUser != 0) {
                                 showX = true;
                             }
@@ -600,7 +599,7 @@ $(function () {
                                 break;
                         }
                         $("#make-move-div").fadeOut();
-                        game.updateFillData(false)
+                        game.updateFillData(false);
                        
                         $(".showPossibleMoves").remove();
 
@@ -615,12 +614,12 @@ $(function () {
                             type: 'POST'
                         });
                     } else {
-                        useModal("Not a valid move", "You're trying to make an invalid move, dummy", "close")
+                        useModal("Not a valid move", "You're trying to make an invalid move, dummy", "close");
                     }
                 }
             }
         } else {
-            useModal("Cannot make move", "You should select a vehicle type before making a move.", "close")
+            useModal("Cannot make move", "You should select a vehicle type before making a move.", "close");
         }
     });
 
