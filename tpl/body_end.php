@@ -18,8 +18,8 @@
                 <div class="col-md-6 mt-3 p-3">
                     <p class="footer_title">Useful links</p>
                     <ul>
-                        <li class="my-1"><a href="https://github.com/Noor4399404/finalproject_webprog">Github <span class="text-muted">- Our code</span></a></li>
-                        <li class="my-1"><a href="https://www.rug.nl/?lang=en">Groningen University <span class="text-muted">- Our University</span></a></li>
+                        <li class="my-1"><a target='_blank' href="https://github.com/Noor4399404/finalproject_webprog">Github <span class="text-muted">- Our code</span></a></li>
+                        <li class="my-1"><a target='_blank' href="https://www.rug.nl/?lang=en">Groningen University <span class="text-muted">- Our University</span></a></li>
                     </ul>
                 </div>
             </div>
