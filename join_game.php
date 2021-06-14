@@ -49,7 +49,7 @@ if (isset($_POST["host-game-id"])) {
         $gameSession = [
             "id" => $gameId,
             "users" => array(),
-            "userColors" => array("05dffc", "f78809", "f70909", "ac09f7", "e814cb"),
+            "userColors" => array("05dffc", "f78809", "f70909", "d1fc11", "e814cb"),
             "round" => 1,
             "startLocations" => [13, 26, 29, 34, 50, 53, 94, 103, 112, 117, 132, 138, 141, 155, 174, 197, 198],
             "gameStarted" => false,

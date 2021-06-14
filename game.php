@@ -162,14 +162,14 @@ $json_file = file_get_contents("data/trigger_locations.json");
 <div class="d-flex flex-column" id="game-main-element">
     <header id="game-header" class="d-flex flex-row p-2 align-items-center">
         <div class="col-md-6 d-flex justify-content-between">
-            <div class="border-light mx-1 border vehicle_info_div">
+            <div class="extra-game-information mx-1 vehicle_info_div">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
                     <path d="M0 0h24v24H0V0z" fill="none" />
                     <path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z" />
                 </svg>
                 <p id="reveal-number-info" class="mb-0" style="font-weight: 300;">3 rounds</p>
             </div>
-            <div class="border-light mx-1 border vehicle_info_div">
+            <div class="extra-game-information mx-1 vehicle_info_div">
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
                     <g>
                         <rect fill="none" height="24" width="24" />
@@ -180,7 +180,7 @@ $json_file = file_get_contents("data/trigger_locations.json");
                 </svg>
                 <p id="round-number-info" class="mb-0" style="font-weight: 300;">round 1</p>
             </div>
-            <div class="border-light mx-1 border vehicle_info_div">
+            <div class="extra-game-information mx-1 vehicle_info_div">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#ffffff">
                     <path d="M0 0h24v24H0z" fill="none" />
                     <path d="M12 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6-1.8C18 6.57 15.35 4 12 4s-6 2.57-6 6.2c0 2.34 1.95 5.44 6 9.14 4.05-3.7 6-6.8 6-9.14zM12 2c4.2 0 8 3.22 8 8.2 0 3.32-2.67 7.25-8 11.8-5.33-4.55-8-8.48-8-11.8C4 5.22 7.8 2 12 2z" />
@@ -245,7 +245,7 @@ $json_file = file_get_contents("data/trigger_locations.json");
                 </table>
             </div>
             <div class="d-flex flex-column">
-                <div style="overflow-y: scroll; height: 150px;">
+                <div style="overflow-y: scroll; height: 150px; border-bottom: 1px solid white;  border-top: 1px solid white;">
                     <table class="table" id="mrxtable">
                         <thead>
                             <th scope="col">
@@ -397,18 +397,6 @@ $json_file = file_get_contents("data/trigger_locations.json");
                             <tr>
                                 <th scope="row">
                                     22
-                                </th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    23
-                                </th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    24
                                 </th>
                                 <td></td>
                             </tr>

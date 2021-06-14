@@ -400,6 +400,10 @@ table td > p {
     font-size: 24px;
 }
 
+.extra-game-information {
+    border: 1px solid white;
+}
+
 #gamebody {
     flex-direction: column;
     justify-content: space-around;

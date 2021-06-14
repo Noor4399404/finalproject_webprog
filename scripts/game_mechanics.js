@@ -102,11 +102,13 @@ class Game {
             }
             if (data['users'][user]['id'] == window.sessionStorage.getItem("userId")) {
 
+                $(".extra-game-information svg").css("fill", `#${data['users'][user]['color']}`);
+
                 vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
                 vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
                 vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
 
-                $('#station').text('Current Location: ' + data['users'][user]['location']);
+                $('#station').text('your location: ' + data['users'][user]['location']);
 
                 if (data['users'][user]["myTurn"]) {
                     $("#make-move-div").fadeIn();
@@ -129,7 +131,7 @@ class Game {
 
             let canvas_positions = this.canvas_positions;
             let userIcon = $(`<svg class="userIconImage" id="userIconImage_${userId}" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`);
-            if ((user.isMrX && userId == sessionStorage.getItem("userId")) || !user.isMrX) {
+            if ((user.isMisterX && userId == sessionStorage.getItem("userId")) || !user.isMisterX) {
                 let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width / devicePixelRatio );
                 let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width / devicePixelRatio );
                 $("body").append(userIcon);
@@ -194,9 +196,9 @@ class Game {
             let user = this.sessionData["users"][userIndex];
             let currentLocation = user["location"];
             let userId = user["id"];
-            let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width);
-            let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width);
-            $(`#userIconImage_${userId}`).css("top", y).css("left", x).css("width", (0.033 * this.canvas.width)).css("height", (0.033 * this.canvas.width));
+            let x = this.triggerLocations[currentLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width / devicePixelRatio);
+            let y = this.triggerLocations[currentLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width / devicePixelRatio);
+            $(`#userIconImage_${userId}`).css("top", y).css("left", x).css("width", (0.033 * this.canvas.width / devicePixelRatio)).css("height", (0.033 * this.canvas.width / devicePixelRatio));
         }
     }
 
@@ -313,8 +315,8 @@ class Game {
         let newLocation = user.location;
 
         let canvas_positions = this.canvas_positions;
-        let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
-        let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
+        let x = this.triggerLocations[newLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width / devicePixelRatio);;
+        let y = this.triggerLocations[newLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width / devicePixelRatio);;
         $(`#userIconImage_${userId}`).css("top", y).css("left", x);
     }
 
@@ -347,7 +349,7 @@ class Game {
                 vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
                 vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
                 vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
-                $('#station').text('Current Location: ' + data['users'][user]['location']);
+                $('#station').text('your location: ' + data['users'][user]['location']);
 
                 if (data['users'][user]["myTurn"]) {
                     if (enableMoveButtons) {
@@ -414,10 +416,10 @@ class Game {
 
                 let canvas_positions = this.canvas_positions;
                 let userIcon = $(`<svg class="userIconImage MisterXRevealIcon" id="MisterXRevealIcon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px"><g><rect fill="none" height="24" width="24"/></g><g><g/><g><circle cx="12" cy="4" r="2"/><path d="M15.89,8.11C15.5,7.72,14.83,7,13.53,7c-0.21,0-1.42,0-2.54,0C8.24,6.99,6,4.75,6,2H4c0,3.16,2.11,5.84,5,6.71V22h2v-6h2 v6h2V10.05L18.95,14l1.41-1.41L15.89,8.11z"/></g></g></svg>`);
-                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - 8;
-                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - 6;
+                let x = this.triggerLocations[startLocation]["x"] * this.canvas.width / devicePixelRatio + canvas_positions.left - (0.008 * this.canvas.width / devicePixelRatio);;
+                let y = this.triggerLocations[startLocation]["y"] * this.canvas.height / devicePixelRatio + canvas_positions.top - (0.007 * this.canvas.width / devicePixelRatio);;
                 $("body").append(userIcon);
-                $(`#MisterXRevealIcon`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", 30).css("height", 30);
+                $(`#MisterXRevealIcon`).css("position", "absolute").css("top", y).css("left", x).css("z-index", 10).css("fill", `#${color}`).css("width", (0.033 * this.canvas.width / devicePixelRatio)).css("height", (0.033 * this.canvas.width / devicePixelRatio));
             }
         }
     }
