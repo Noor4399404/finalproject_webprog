@@ -14,7 +14,7 @@ include __DIR__ . '/tpl/body_start.php';
 <div class="instructions">
 <br><h2>These are the rules!</h2><br>
 
-    <p>In the center of london it is not difficult to hide in the traffic. If anyone wants to make himself untraceable here, it takes the best detectives of Scotland Yars detectives to perhaps still track him down. <br>One of the players is 'Mister X', who is hiding somewhere on his flight across London. He moves "invisibly" and only shows himself after covering a certain amount of cards. All the other players are Scotland Yard's detectives and try to track him down. </p>
+    <p>In the center of london it is not difficult to hide in the traffic. If anyone wants to make himself untraceable here, it takes the best detectives of Scotland Yard to perhaps still track him down. <br>One of the players is 'Mister X', who is hiding somewhere on his flight across London. He moves "invisibly" and only shows himself after covering a certain amount of cards. All the other players are Scotland Yard's detectives and try to track him down. </p>
 
     <p>Mister X tries to escape his would-be capturers in London by taxi, bus, underground and boat.
         You have to be a particularly clever detective to be able to catch him.</p>
