@@ -83,7 +83,7 @@ function displayJoinedUsers(usersJSON) {
             $("#list-joined-users").append(listItem);
         }
 
-        if (user.isMrX && !misterXAdded) {
+        if (user.isMisterX && !misterXAdded) {
             let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("mister X");
             $(`#joined-user-info-${userId}`).append(badgeElement);
             misterXAdded = true

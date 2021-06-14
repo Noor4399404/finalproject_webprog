@@ -13,6 +13,7 @@ $newUserInfo = json_decode($_POST["newUserInfo"], true);
 $activeGameSessionsFile = file_get_contents('../data/active_sessions.json', 'r');
 $activeGameSessions = json_decode($activeGameSessionsFile, true);
 
+
 foreach ($activeGameSessions as $key => $activeGameSession) {
     if ($activeGameSessions[$key]["id"] == $gameId) {
         $indexUserTurn = array_search($userId, $activeGameSessions[$key]["orderRound"]);
