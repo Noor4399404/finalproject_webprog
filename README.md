@@ -18,7 +18,7 @@ However, we encountered some problems when playing it on here. The json value th
  php -S 0.0.0.0:4000 
 ```
 
-The problem is less frequent when using the last options, but the json value will occasionally still have a value of `null`. You are unable to continue the game when the json file has a value of `null`. You are still able to host a new game after the json got a value of `null`.
+The problem is less frequent when using the last options, but the json value will occasionally still have a value of `null`. You are unable to continue the game when the json file has a value of `null`, however you are still able to create a new game.
 
-Good luck with playing!
+Good luck, and have fun playing!
 
