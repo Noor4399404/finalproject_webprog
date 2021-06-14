@@ -4,10 +4,10 @@ $page_title = 'Webprogramming Final assignment';
 $navigation = array(
     'active' => 'Game',
     'items' => array(
-        'Home' => '/WP21/finalproject_webprog/index.php',
-        'Game' => '/WP21/finalproject_webprog/game.php',
-        'How To Play' => '/WP21/finalproject_webprog/game_rules.php',
-        'Test_movement' => '/WP21/finalproject_webprog/test_movement.php'
+        'Home' => './index.php',
+        'Game' => './game.php',
+        'How To Play' => './game_rules.php',
+        'Test_movement' => './test_movement.php'
     )
 );
 include __DIR__ . '/tpl/head.php';
@@ -156,8 +156,7 @@ $json_file = file_get_contents("data/trigger_locations.json");
     </div>
 </div>
 <?php
-$session_data_json =  file_get_contents('../data/test_sessions.json', 'r');
-$session_data = json_decode($session_data_json, true);
+
 ?>
 
 <div class="d-flex flex-column" id="game-main-element">

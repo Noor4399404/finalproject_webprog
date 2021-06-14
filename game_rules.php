@@ -4,8 +4,8 @@ $page_title = 'Webprogramming Final assignment';
 $navigation = Array(
     'active' => 'How To Play',
     'items' => Array(
-        'Home' => '/WP21/finalproject_webprog/index.php',
-        'How To Play' => '/WP21/finalproject_webprog/game_rules.php',
+        'Home' => './index.php',
+        'How To Play' => './game_rules.php',
     )
 );
 include __DIR__ . '/tpl/head.php';
@@ -134,7 +134,7 @@ include __DIR__ . '/tpl/body_start.php';
         <br><p><b>Good Luck!</b></p>
 </div>
 <div class="button_row">
-    <a href="/WP21/finalproject_webprog/index.php"><button type="submit" id="go-to-game-button" class=" ready-game-button">I'm ready to play!</button></a>
+    <a href="./index.php"><button type="submit" id="go-to-game-button" class=" ready-game-button">I'm ready to play!</button></a>
 </div>
 <?php
 include __DIR__ . '/tpl/body_end.php';
