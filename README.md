@@ -6,7 +6,7 @@ Oscar, Björn, Dennis en Noor
 
 For this assignment we had to digitalise a modern game. 
 This game had to be played by two people and more. 
-We chose the game: Scotland Yard.
+We chose the game Scotland Yard.
 
 To play this game with multiple people, one person has to be the host.
 That person will copy the id number and give it to the other players.
