@@ -42,11 +42,6 @@ foreach ($activeGameSessions as $key => $activeGameSession) {
             // Mister X won the game by escaping for 23 rounds
         }
 
-        
-        
-
-
-        
 
         foreach ($activeGameSession["users"] as $index => $user) {
 
