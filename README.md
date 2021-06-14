@@ -1,30 +1,24 @@
-# finalproject_webprog
+# finalproject_webprog - Scotland Yard
 
-Scotland Yard
+_Oscar, Björn, Dennis en Noor_
 
-Oscar, Björn, Dennis en Noor 
+We have created an online game by creating an online version of the game Scotland Yard.
 
-For this assignment we had to digitalise a modern game. 
-This game had to be played by two people and more. 
-We chose the game Scotland Yard.
+To play this game with multiple people, one person has to be the host. That person will copy the id number and give it to the other players. These players will join the game with this id number. The host will choose who will be Mister X, and will then start the game. 
 
-To play this game with multiple people, one person has to be the host.
-That person will copy the id number and give it to the other players.
-These players will join the game with this id number.
-The host will choose who will be Mister X, and will then start the game. 
+The players are not able to see Mister X, only after a certain amount of moves. There need to be 4 or 5 players to start the game. The rules of the game are explained on our website.
 
-The players are not able to see Mister X, only after a certain amount of moves.
-There need to be 4 or 5 players to start the game.
-The rules of the game are explained on the page of the website called: "How to play".
-
-[jamboard](https://jamboard.google.com/d/18XGnU7UMGEoLgt4Z4ashobSDKwPqTfZuTl6qCHpKCDk/viewer)
-
-We have tried to put the game online: 
+We have uploaded the game to a webhosting server: 
 
 https://londondetectivegame.000webhostapp.com/
 
-But we encountered some problems when playing it on here.
-It is possible to play the game flawlessly on the localhost. 
+However, we encountered some problems when playing it on here. The json value that is used as our database, can have a value of `null`. We have not been able to track the cause of this problem. You can play the game on your localhost with MAMP or by using the following command (with this command you can also use other devices on your local network to visit the site and play the game):
+
+```
+ php -S 0.0.0.0:4000 
+```
+
+The problem is less frequent when using the last options, but the json value will occasionally still have a value of `null`. 
 
 Good luck with playing!
 
