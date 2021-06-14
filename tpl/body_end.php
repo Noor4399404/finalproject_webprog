@@ -1,4 +1,5 @@
         </div>
+        </div>
         <footer class="row wp-row p-3 d-flex flex-row mx-0 mt-auto" id="footer" style="width: 100vw; bottom:0;">
             <div class="col-md-4">
                 <a href="https://www.rug.nl/?lang=en">
