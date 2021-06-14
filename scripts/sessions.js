@@ -271,6 +271,7 @@ function waitingPageFunctions() {
     endGameSession("end-game-button");
     endGameSession("end-game-button-2"); 
     joinGame();
+    beginGame();
     hostActions("delete");
     hostActions("appointX");
     clickToCopy("#game-id-card", "#copy-game-id-info");
