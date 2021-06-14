@@ -79,17 +79,15 @@ function displayJoinedUsers(usersJSON) {
                     let deleteButton = $(`<button id="delete-user-button-${userId}" class="delete-user-button host-action-button"></button>`).html('<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
                     hostActionButtons.append(deleteButton);
                 } 
-            } 
-
+            }
             $("#list-joined-users").append(listItem);
         }
 
-        if (user.isMisterX && !misterXAdded) {
+        if (user.isMrX && !misterXAdded) {
             let badgeElement = $(`<span class="badge ml-2 pt-1 text-white bg-secondary"></span>`).text("mister X");
             $(`#joined-user-info-${userId}`).append(badgeElement);
             misterXAdded = true
         }
-        
     }
 
     for (let addedUserId of addedUsers) {
@@ -160,7 +158,6 @@ function clickToCopy(clickElementID, messageElementID) {
         $(messageElementID).removeClass("text-muted").addClass("text-success");
         $(messageElementID).text("The game ID has been copied to your clipboard.");
     });
-
 }
 
 function beginGame() {
