@@ -22,7 +22,7 @@ function p_print($array)
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.78/Build/Cesium/Cesium.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="./scripts/main.js"></script>
     <script src="./scripts/sessions.js"></script>
 </head>
