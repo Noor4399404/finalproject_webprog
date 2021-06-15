@@ -578,43 +578,48 @@ $(function () {
             for (let user in data["users"]) {
                 if (data["users"][user]["id"] == window.sessionStorage.getItem("userId")) {
                     if (game.isPossibleMove(data["users"][user]["location"], selectedVehicle, trigger)) {
-                        var usedVehicle = selectedVehicle;
-                        selectedVehicle = "None";
+                        if (game.noCollision(trigger)) {
+                            var usedVehicle = selectedVehicle;
+                            selectedVehicle = "None";
+                            
+                            data["users"][user]["location"] = trigger;
+                            game.moveUserIcon(data["users"][user]);
+
+                            let vehicleButtons = $('.vehicle_button_div > p');
+                            switch (usedVehicle) {
+                                case "tax":
+                                    game.sessionData["users"][user]["cardAmount"]["tax"] -= 1;
+                                    vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
+                                    break;
+                                case "bus":
+                                    game.sessionData["users"][user]["cardAmount"]["bus"] -= 1;
+                                    vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
+                                    break;
+            
+                                case "und":
+                                    game.sessionData["users"][user]["cardAmount"]["und"] -= 1;
+                                    vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
+                                    break;
+                            }
+                            $("#make-move-div").fadeOut();
+                            game.updateFillData(false);
                         
-                        data["users"][user]["location"] = trigger;
-                        game.moveUserIcon(data["users"][user]);
+                            $(".showPossibleMoves").remove();
 
-                        let vehicleButtons = $('.vehicle_button_div > p');
-                        switch (usedVehicle) {
-                            case "tax":
-                                game.sessionData["users"][user]["cardAmount"]["tax"] -= 1;
-                                vehicleButtons[0].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['tax'] + '</p>';
-                                break;
-                            case "bus":
-                                game.sessionData["users"][user]["cardAmount"]["bus"] -= 1;
-                                vehicleButtons[1].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['bus'] + '</p>';
-                                break;
-        
-                            case "und":
-                                game.sessionData["users"][user]["cardAmount"]["und"] -= 1;
-                                vehicleButtons[2].innerHTML = '<p class="mb-0 text-white">' + data['users'][user]['cardAmount']['und'] + '</p>';
-                                break;
+                            let userData = game.sessionData["users"][user];
+                            $.ajax({
+                                url: './scripts/make_move.php',
+                                data: {
+                                    gameId: window.sessionStorage.getItem("gameId"),
+                                    userId: window.sessionStorage.getItem("userId"),
+                                    newUserInfo: JSON.stringify(userData)
+                                },
+                                type: 'POST'
+                            });
+                        } else {
+                            useModal("Not a valid move", "You can't move to the same place as another player, dummy", "close");
                         }
-                        $("#make-move-div").fadeOut();
-                        game.updateFillData(false);
-                       
-                        $(".showPossibleMoves").remove();
-
-                        let userData = game.sessionData["users"][user];
-                        $.ajax({
-                            url: './scripts/make_move.php',
-                            data: {
-                                gameId: window.sessionStorage.getItem("gameId"),
-                                userId: window.sessionStorage.getItem("userId"),
-                                newUserInfo: JSON.stringify(userData)
-                            },
-                            type: 'POST'
-                        });
+                        
                     } else {
                         useModal("Not a valid move", "You're trying to make an invalid move, dummy", "close");
                     }
